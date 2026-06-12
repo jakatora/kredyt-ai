@@ -59,9 +59,10 @@ workflows:
       # Jeśli nazwałeś ją inaczej niż "codemagic" — podmień tutaj.
       app_store_connect: codemagic
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: pl.kredytai.app
+      # UWAGA: NIE używamy environment.ios_signing — kolidowałby z pre-validation
+      # (Codemagic szukałby istniejących profili PRZED odpaleniem skryptów).
+      # Zamiast tego: `app-store-connect fetch-signing-files --create` w stepach poniżej
+      # auto-tworzy Distribution cert + provisioning profile w runtime.
       vars:
         BUNDLE_ID: "pl.kredytai.app"
         XCODE_WORKSPACE: "mobile/ios/KredytAI.xcworkspace"
