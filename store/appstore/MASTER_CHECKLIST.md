@@ -34,7 +34,7 @@ KredytAI v1.0.0. Stan na 2026-06-09. Backend LIVE, ikona gotowa, metadane gotowe
 | iPad 12.9" fallback (2048×2732) ×4 | `store/appstore/screenshots-ipad-129/` | 12.9-inch iPad legacy | ✅ |
 | Marketing assets | `store/marketing/` | — (poza Apple Console) | ✅ |
 
-⚠️ **PRZED submit do App Review**: regeneruj screenshoty z poprawnym polskim tekstem (obecne mają fake-Polish: "8 bidow", "Vollation-le distione", "Zaniljone RRSO", "Klauzula absiwa" — Apple Guideline 2.3.3 / 4.0 odrzucenie). Do uploadu do TestFlight + setup'u w App Store Connect mogą iść tymczasowo.
+⚠️ **PRZED submit do App Review**: obecne mockupy w `screenshots-iphone-67/` + `screenshots-ipad-13/` to Canva AI-generated z **zniekształconym polskim tekstem** ("8 bidöw", "Vollation-le distione", "Klauzula absiwja" itd.) + potencjalne odrzucenie pod **Apple Guideline 2.3.3** ("screenshots muszą reprezentować rzeczywistą apkę"). **PLAN**: po Etapie 10 (TestFlight smoke test) bierzesz screenshoty z prawdziwej apki — Fastlane snapshot lub manual z iPhone'a. Pełny playbook: [SCREENSHOTS_POST_TESTFLIGHT.md](SCREENSHOTS_POST_TESTFLIGHT.md). Obecne mockupy mogą być wgrane tymczasowo do App Store Connect 6.9 slot żeby odblokować formularz, ale **wymień je na real-app captures PRZED Submit for Review**.
 
 ⚠️ **UWAGA — `supportsTablet: true` w `mobile/app.json`**: iPad screenshots SĄ wymagane (4 pliki w `screenshots-ipad-13/`). Wcześniej w tym checklist'u było napisane "NIE wymagane" — to BYŁO nieaktualne, teraz poprawione.
 

@@ -241,6 +241,8 @@ Pełne 3 opcje: [appstore/MASTER_CHECKLIST.md:62-92](appstore/MASTER_CHECKLIST.m
 
 **Typowy błąd**: "Screenshots dimensions should be: 1242×2688px or 1284×2778px" = uploadujesz do legacy 6.5 slotu zamiast nowego 6.9. Skroluj wyżej w sekcji Previews and Screenshots i wybierz tab **6.9 Display**.
 
+⚠️ **CONTENT WARNING — obecne mockupy mają zniekształcony polski tekst** ("8 bidöw", "Vollation-le distione", "Klauzula absiwja" itd. — Canva AI nie renderuje polskich znaków). Dimensje OK, ale **PRZED Submit for Apple Review** wymień je na real-app captures z TestFlight builda. Playbook: [appstore/SCREENSHOTS_POST_TESTFLIGHT.md](appstore/SCREENSHOTS_POST_TESTFLIGHT.md) (Fastlane snapshot lub manual). Obecne pliki możesz wgrać do App Store Connect TYMCZASOWO żeby odblokować formularz — Apple Reviewer ich nie zobaczy aż klikniesz Submit for Review.
+
 ### 1.15 Build IPA (Codemagic)
 
 Pełen flow: [appstore/CODEMAGIC_IOS_SETUP.md](appstore/CODEMAGIC_IOS_SETUP.md)
