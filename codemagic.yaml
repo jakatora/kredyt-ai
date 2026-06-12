@@ -94,6 +94,11 @@ workflows:
           cd mobile
           npx expo prebuild --platform ios --clean --no-install
 
+      - name: Update CocoaPods to latest
+        script: |
+          sudo gem install cocoapods --no-document
+          pod --version
+
       - name: Pod install
         script: |
           cd mobile/ios
