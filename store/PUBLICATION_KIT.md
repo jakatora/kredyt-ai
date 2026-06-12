@@ -70,71 +70,73 @@ Wszystkie dane do **copy-paste** w formularzach App Store Connect i Google Play 
 | B2B Distribution | No |
 | Educational Discount | No |
 
+> **⚠️ ZASADA APP STORE**: w metadanych App Store (Subtitle / Promotional / Description / What's New / Keywords) **nie używaj emoji** (Apple wzbudza flagę "spam-like" w reviewie). Bullet `•` jest OK. Reguła dotyczy obu lokalizacji PL i EN.
+
 ### 1.5 Localization PL — Promotional Text (170 znaków)
 
 ```
-🤖 AI analizuje umowę kredytową, wykrywa błędy banku i pokazuje konkretne kwoty do odzyskania. 30 sek, 49 zł.
+AI analizuje umowę kredytową, wykrywa błędy banku i pokazuje konkretne kwoty do odzyskania. 30 sekund, 49 zł.
 ```
 
 ### 1.6 Localization PL — Description (4000 znaków)
 
 ```
-🔍 KredytAI sprawdza Twoją umowę kredytową pod kątem polskiego prawa
+KredytAI sprawdza Twoją umowę kredytową pod kątem polskiego prawa.
 
 Wgraj zdjęcia, PDF lub wklej tekst umowy konsumenckiej, hipotecznej, samochodowej lub pożyczki. AI analizuje w 30 sekund i pokazuje:
 
-✓ Wszystkie wykryte naruszenia z paragrafami ustawy
-✓ Konkretne kwoty do odzyskania (recovery plan)
-✓ Orzecznictwo Sądu Najwyższego i TSUE
-✓ Komplet pism prawnych: reklamacja, sankcja kredytu darmowego, wniosek do Rzecznika Finansowego, zawiadomienie UOKiK
-✓ Tłumaczenie umowy prostym językiem (9 sekcji)
-✓ Q&A — zapytaj AI o swoją konkretną umowę
-✓ 30 dni dostępu do raportu
+- Wszystkie wykryte naruszenia z paragrafami ustawy
+- Konkretne kwoty do odzyskania (recovery plan)
+- Orzecznictwo Sądu Najwyższego i TSUE
+- Komplet pism prawnych: reklamacja, sankcja kredytu darmowego, wniosek do Rzecznika Finansowego, zawiadomienie UOKiK
+- Tłumaczenie umowy prostym językiem (9 sekcji)
+- Q&A — zapytaj AI o swoją konkretną umowę
+- 30 dni dostępu do raportu
 
-📊 CO WYKRYWAMY
+CO WYKRYWAMY
 
 • Zaniżone RRSO (najczęstszy błąd banków)
 • Klauzule abuzywne z rejestru UOKiK (62 sprawdzane wzorce)
 • Brak harmonogramu spłat (art. 30 ust. 1 pkt 10 ukk)
 • Brak informacji o prawie odstąpienia (art. 30 ust. 1 pkt 15)
 • Pozaodsetkowe koszty ponad limit MPKK (art. 36a)
-• Maksymalne odsetki przekraczające 2× (NBP + 3.5pp)
-• Klauzule frankowe / CHF (Kasler, Dziubak, Lexitor)
+• Maksymalne odsetki przekraczające 2x (NBP + 3.5pp)
+• Klauzule frankowe i CHF (Kasler, Dziubak, Lexitor)
 • Ukryte prowizje od ubezpieczyciela
 • Klauzule WIBOR/WIRON modyfikacyjne (BMR)
 • Pożyczkodawcy poza wykazem KNF
 
-💰 ILE MOŻESZ ODZYSKAĆ
+ILE MOŻESZ ODZYSKAĆ
 
 • Sankcja kredytu darmowego (art. 45 ust. 1 ukk) — zwrot wszystkich odsetek
 • Lexitor — proporcjonalny zwrot kosztów po wcześniejszej spłacie (TSUE C-383/18)
 • Nadwyżka ponad MPKK — zwrot z mocy prawa
-• Nieważność umowy CHF — pełen zwrot kapitału + odsetek
+• Nieważność umowy CHF — pełen zwrot kapitału i odsetek
 • UNWW — zwrot składek po przekroczeniu LTV
 
-📚 BAZA WIEDZY
+BAZA WIEDZY
 
 • 21 obowiązków informacyjnych art. 30 ukk
 • 16 triggerów sankcji kredytu darmowego
-• 31 wyroków SN/TSUE/SOKiK
+• 31 wyroków SN, TSUE i SOKiK
 • 68 klauzul abuzywnych UOKiK
 • 70 terminów prawnych w słowniku
-• Historia stóp NBP/WIBOR/WIRON 2010-2026
+• Historia stóp NBP, WIBOR i WIRON 2010-2026
 • Rekomendacje KNF S i T
 
-💳 CENA
+CENA
 
 49 zł za sprawdzenie jednej umowy. Bez subskrypcji. W cenie: pełna analiza, recovery plan, komplet pism, 30 dni dostępu.
 
-⚖️ DISCLAIMER
+DISCLAIMER
 
 KredytAI to AI-asystent informatyczny — NIE świadczy pomocy prawnej w rozumieniu Ustawy o radcach prawnych ani o adwokaturze. Generowane raporty i pisma są wstępną analizą, która wymaga weryfikacji przez prawnika w sprawach wątpliwych.
 
-📞 KONTAKT
+KONTAKT
 
 support@kredytai.app | https://jakatora.github.io/kredyt-ai-site/
 
-🇵🇱 Aplikacja w 100% w języku polskim. Knowledge base oparta na polskim prawie.
+Aplikacja w 100% w języku polskim. Knowledge base oparta na polskim prawie.
 ```
 
 ### 1.7 Localization PL — Keywords (100 znaków)
@@ -146,7 +148,7 @@ kredyt,umowa,RRSO,SKD,sankcja,reklamacja,UOKiK,bank,prawnik,frankowy,pożyczka,h
 ### 1.8 Localization PL — What's New (release notes v1.0.0)
 
 ```
-🎉 KredytAI — pierwsza wersja!
+KredytAI — pierwsza wersja.
 
 • Pełna analiza umowy AI w 30 sekund
 • 62 klauzule abuzywne UOKiK wykrywane
@@ -154,7 +156,7 @@ kredyt,umowa,RRSO,SKD,sankcja,reklamacja,UOKiK,bank,prawnik,frankowy,pożyczka,h
 • Komplet 4 pism prawnych
 • Słownik 70 terminów
 • Q&A o Twojej umowie
-• Polski + angielski
+• Polski i angielski
 
 Sprawdź swoją umowę za 49 zł.
 ```
@@ -173,7 +175,7 @@ Sprawdź swoją umowę za 49 zł.
 
 **Promotional (170):**
 ```
-🤖 AI analyzes Polish loan contract, detects bank errors, shows concrete refund amounts. 30 sec, 49 PLN.
+AI analyzes Polish loan contract, detects bank errors, shows concrete refund amounts. 30 seconds, 49 PLN.
 ```
 
 **Description (4000):** patrz [appstore/APP_STORE_METADATA.md:172-220](appstore/APP_STORE_METADATA.md#L172-L220)

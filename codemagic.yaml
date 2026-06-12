@@ -1,4 +1,5 @@
 workflows:
+  # ===== ANDROID — Play Store AAB =====
   android-build:
     name: KredytAI Android Build
     max_build_duration: 60
@@ -48,44 +49,80 @@ workflows:
         recipients:
           - jakatora68@gmail.com
 
+  # ===== iOS — App Store + TestFlight =====
   ios-build:
-    name: KredytAI iOS Build
+    name: KredytAI iOS — TestFlight
     max_build_duration: 90
     instance_type: mac_mini_m2
+    integrations:
+      # Nazwa integration utworzonej w Codemagic Teams → Personal → Integrations → App Store Connect.
+      # Jeśli nazwałeś ją inaczej niż "codemagic" — podmień tutaj.
+      app_store_connect: codemagic
     environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: pl.kredytai.app
       vars:
         BUNDLE_ID: "pl.kredytai.app"
         XCODE_WORKSPACE: "mobile/ios/KredytAI.xcworkspace"
         XCODE_SCHEME: "KredytAI"
-        APP_STORE_APP_ID: "$APP_STORE_APP_ID_KREDYTAI"
+        # Wpisz Apple ID aplikacji z App Store Connect (numer ~10 cyfr po utworzeniu New App)
+        APP_STORE_APPLE_ID: $APP_STORE_APPLE_ID
       node: 20
       xcode: latest
       cocoapods: default
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: pl.kredytai.app
     triggering:
       events:
         - push
       branch_patterns:
         - pattern: "main"
           include: true
+    cache:
+      cache_paths:
+        - $HOME/Library/Caches/CocoaPods
+        - $HOME/.npm
+        - $CM_BUILD_DIR/mobile/node_modules
     scripts:
       - name: Install mobile deps
         script: |
           cd mobile
           npm ci --no-audit --no-fund
+
       - name: Expo prebuild iOS
         script: |
           cd mobile
           npx expo prebuild --platform ios --clean --no-install
+
       - name: Pod install
         script: |
           cd mobile/ios
-          pod install
-      - name: Set Apple Team ID
+          pod install --repo-update
+
+      - name: Initialize keychain
+        script: keychain initialize
+
+      - name: Fetch signing files
         script: |
-          xcode-project use-profiles --warn-only --strict-match-identifier
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+
+      - name: Add certificates to keychain
+        script: keychain add-certificates
+
+      - name: Apply signing settings to Xcode project
+        script: xcode-project use-profiles
+
+      - name: Bump build number (latest TestFlight + 1)
+        script: |
+          cd $CM_BUILD_DIR/mobile/ios
+          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID" || echo "0")
+          LATEST_TESTFLIGHT_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" || echo "0")
+          BUILD_NUMBER=$(( ${LATEST_BUILD_NUMBER:-0} > ${LATEST_TESTFLIGHT_BUILD_NUMBER:-0} ? ${LATEST_BUILD_NUMBER:-0} : ${LATEST_TESTFLIGHT_BUILD_NUMBER:-0} ))
+          NEW_BUILD=$(( BUILD_NUMBER + 1 ))
+          echo "Bumping build number → $NEW_BUILD"
+          agvtool new-version -all $NEW_BUILD
+
       - name: Build IPA
         script: |
           cd mobile/ios
@@ -93,13 +130,26 @@ workflows:
             --workspace "$CM_BUILD_DIR/mobile/ios/KredytAI.xcworkspace" \
             --scheme "KredytAI" \
             --archive-flags "-destination 'generic/platform=iOS'"
+
     artifacts:
       - mobile/ios/build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
+      - mobile/ios/build/ios/archive/*.xcarchive
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+
     publishing:
       app_store_connect:
         auth: integration
+        # TestFlight: upload + internal testers
         submit_to_testflight: true
+        beta_groups:
+          - Internal Testers
+        # Submit to App Store dopiero gdy zaakceptujesz TestFlight build — zostaw false na start
+        submit_to_app_store: false
       email:
         recipients:
           - jakatora68@gmail.com
+        notify:
+          success: true
+          failure: true

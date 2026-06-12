@@ -53,68 +53,68 @@ AI sprawdza umowę kredytu
 
 ### Promotional Text (max 170 znaków — można zmieniać bez nowego review)
 ```
-🤖 AI analizuje umowę kredytową, wykrywa błędy banku i pokazuje konkretne kwoty do odzyskania. 30 sek, 49 zł.
+AI analizuje umowę kredytową, wykrywa błędy banku i pokazuje konkretne kwoty do odzyskania. 30 sekund, 49 zł.
 ```
 
 ### Description (max 4000 znaków)
 ```
-🔍 KredytAI sprawdza Twoją umowę kredytową pod kątem polskiego prawa
+KredytAI sprawdza Twoją umowę kredytową pod kątem polskiego prawa.
 
 Wgraj zdjęcia, PDF lub wklej tekst umowy konsumenckiej, hipotecznej, samochodowej lub pożyczki. AI analizuje w 30 sekund i pokazuje:
 
-✓ Wszystkie wykryte naruszenia z paragrafami ustawy
-✓ Konkretne kwoty do odzyskania (recovery plan)
-✓ Orzecznictwo Sądu Najwyższego i TSUE
-✓ Komplet pism prawnych: reklamacja, sankcja kredytu darmowego, wniosek do Rzecznika Finansowego, zawiadomienie UOKiK
-✓ Tłumaczenie umowy prostym językiem (9 sekcji)
-✓ Q&A — zapytaj AI o swoją konkretną umowę
-✓ 30 dni dostępu do raportu
+- Wszystkie wykryte naruszenia z paragrafami ustawy
+- Konkretne kwoty do odzyskania (recovery plan)
+- Orzecznictwo Sądu Najwyższego i TSUE
+- Komplet pism prawnych: reklamacja, sankcja kredytu darmowego, wniosek do Rzecznika Finansowego, zawiadomienie UOKiK
+- Tłumaczenie umowy prostym językiem (9 sekcji)
+- Q&A — zapytaj AI o swoją konkretną umowę
+- 30 dni dostępu do raportu
 
-📊 CO WYKRYWAMY
+CO WYKRYWAMY
 
 • Zaniżone RRSO (najczęstszy błąd banków)
 • Klauzule abuzywne z rejestru UOKiK (62 sprawdzane wzorce)
 • Brak harmonogramu spłat (art. 30 ust. 1 pkt 10 ukk)
 • Brak informacji o prawie odstąpienia (art. 30 ust. 1 pkt 15)
 • Pozaodsetkowe koszty ponad limit MPKK (art. 36a)
-• Maksymalne odsetki przekraczające 2× (NBP + 3.5pp)
-• Klauzule frankowe / CHF (Kasler, Dziubak, Lexitor)
+• Maksymalne odsetki przekraczające 2x (NBP + 3.5pp)
+• Klauzule frankowe i CHF (Kasler, Dziubak, Lexitor)
 • Ukryte prowizje od ubezpieczyciela (ustawa o dystrybucji ubezpieczeń)
 • Klauzule WIBOR/WIRON modyfikacyjne (BMR)
 • Pożyczkodawcy poza wykazem KNF
 
-💰 ILE MOŻESZ ODZYSKAĆ
+ILE MOŻESZ ODZYSKAĆ
 
 Aplikacja pokazuje konkretne ścieżki prawne:
 • Sankcja kredytu darmowego (art. 45 ust. 1 ukk) — zwrot wszystkich odsetek
 • Lexitor — proporcjonalny zwrot kosztów po wcześniejszej spłacie (TSUE C-383/18)
 • Nadwyżka ponad MPKK — zwrot z mocy prawa
-• Nieważność umowy CHF — pełen zwrot kapitału + odsetek
+• Nieważność umowy CHF — pełen zwrot kapitału i odsetek
 • UNWW — zwrot składek po przekroczeniu LTV
 
-📚 BAZA WIEDZY
+BAZA WIEDZY
 
 • 21 obowiązków informacyjnych art. 30 ukk
 • 16 triggerów sankcji kredytu darmowego z statystyką sukcesu w sądach
-• 31 wyroków SN/TSUE/SOKiK
+• 31 wyroków SN, TSUE i SOKiK
 • 68 klauzul abuzywnych UOKiK
 • 70 terminów prawnych w słowniku
-• Historia stóp NBP/WIBOR/WIRON 2010-2026
+• Historia stóp NBP, WIBOR i WIRON 2010-2026
 • Rekomendacje KNF S i T
 
-💳 CENA
+CENA
 
 49 zł za sprawdzenie jednej umowy. Bez subskrypcji. W cenie: pełna analiza, recovery plan, komplet pism, 30 dni dostępu.
 
-⚖️ DISCLAIMER
+DISCLAIMER
 
 KredytAI to AI-asystent informatyczny — NIE świadczy pomocy prawnej w rozumieniu Ustawy o radcach prawnych ani o adwokaturze. Generowane raporty i pisma są wstępną analizą, która wymaga weryfikacji przez prawnika w sprawach wątpliwych. W razie wątpliwości skonsultuj się z adwokatem.
 
-📞 KONTAKT
+KONTAKT
 
 support@kredytai.app | https://jakatora.github.io/kredyt-ai-site/
 
-🇵🇱 Aplikacja w 100% w języku polskim. Knowledge base oparta na polskim prawie.
+Aplikacja w 100% w języku polskim. Knowledge base oparta na polskim prawie.
 ```
 
 ### Keywords (max 100 znaków, comma-separated, bez spacji po przecinku)
@@ -126,7 +126,7 @@ kredyt,umowa,RRSO,SKD,sankcja,reklamacja,UOKiK,bank,prawnik,frankowy,pożyczka,h
 
 ### What's New (release notes — wersja 1.0.0)
 ```
-🎉 KredytAI — pierwsza wersja!
+KredytAI — pierwsza wersja.
 
 • Pełna analiza umowy AI w 30 sekund
 • 62 klauzule abuzywne UOKiK wykrywane
@@ -134,7 +134,7 @@ kredyt,umowa,RRSO,SKD,sankcja,reklamacja,UOKiK,bank,prawnik,frankowy,pożyczka,h
 • Komplet 4 pism prawnych
 • Słownik 70 terminów
 • Q&A o Twojej umowie
-• Polski + angielski
+• Polski i angielski
 
 Sprawdź swoją umowę za 49 zł.
 ```
@@ -165,24 +165,24 @@ AI checks your loan contract
 
 ### Promotional Text (max 170)
 ```
-🤖 AI analyzes Polish loan contract, detects bank errors, shows concrete refund amounts. 30 sec, 49 PLN.
+AI analyzes Polish loan contract, detects bank errors, shows concrete refund amounts. 30 seconds, 49 PLN.
 ```
 
 ### Description (max 4000)
 ```
-🔍 KredytAI analyzes your Polish loan contract for legal compliance
+KredytAI analyzes your Polish loan contract for legal compliance.
 
-Upload photos, PDF or paste consumer / mortgage / auto / payday loan contract. AI analyzes in 30 seconds and shows:
+Upload photos, PDF or paste consumer, mortgage, auto or payday loan contract. AI analyzes in 30 seconds and shows:
 
-✓ All detected violations with statute references
-✓ Concrete refund amounts (recovery plan)
-✓ Supreme Court and EU CJEU case law
-✓ Complete legal letter pack: complaint, free credit sanction declaration, Financial Ombudsman application, UOKiK notice
-✓ Plain-language translation of contract (9 sections)
-✓ Q&A — ask AI about your specific contract
-✓ 30 days report access
+- All detected violations with statute references
+- Concrete refund amounts (recovery plan)
+- Supreme Court and EU CJEU case law
+- Complete legal letter pack: complaint, free credit sanction declaration, Financial Ombudsman application, UOKiK notice
+- Plain-language translation of contract (9 sections)
+- Q&A — ask AI about your specific contract
+- 30 days report access
 
-📊 WHAT WE DETECT
+WHAT WE DETECT
 
 • Understated APR (most common bank error)
 • Abusive clauses from UOKiK registry (62 patterns checked)
@@ -195,28 +195,28 @@ Upload photos, PDF or paste consumer / mortgage / auto / payday loan contract. A
 • WIBOR/WIRON modification clauses (BMR)
 • Unlicensed lenders (KNF registry check)
 
-💰 RECOVERY PATHS
+RECOVERY PATHS
 
 App shows concrete legal recovery routes:
 • Free Credit Sanction (PL Consumer Credit Act art. 45) — full interest refund
 • Lexitor — proportional cost refund on early repayment (EU CJEU C-383/18)
 • MPKK overflow — refund by law
-• CHF mortgage invalidation — full capital + interest refund
+• CHF mortgage invalidation — full capital and interest refund
 • UNWW — insurance refund after LTV threshold
 
-💳 PRICE
+PRICE
 
 49 PLN per contract check. No subscription. Includes: full analysis, recovery plan, letter pack, 30-day access.
 
-⚖️ DISCLAIMER
+DISCLAIMER
 
 KredytAI is an AI assistant — does NOT provide legal advice. Generated reports and letters are preliminary analysis requiring lawyer verification in case of doubt.
 
-📞 CONTACT
+CONTACT
 
 support@kredytai.app
 
-🇵🇱 App in Polish, knowledge base based on Polish law.
+App in Polish, knowledge base based on Polish law.
 ```
 
 ### Keywords EN
@@ -226,7 +226,7 @@ loan,contract,APR,bank,refund,legal,Poland,AI,Polish,credit,attorney,UOKiK
 
 ### What's New EN
 ```
-🎉 KredytAI v1.0 launch!
+KredytAI v1.0 launch.
 
 • Full AI contract analysis in 30 seconds
 • 62 abusive clauses detected
@@ -234,7 +234,7 @@ loan,contract,APR,bank,refund,legal,Poland,AI,Polish,credit,attorney,UOKiK
 • 4 legal letter templates
 • 70-term glossary
 • Q&A about your contract
-• Polish + English
+• Polish and English
 
 Check your loan for 49 PLN.
 ```
