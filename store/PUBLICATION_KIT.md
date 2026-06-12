@@ -224,14 +224,22 @@ Pełne 3 opcje: [appstore/MASTER_CHECKLIST.md:62-92](appstore/MASTER_CHECKLIST.m
 
 ⚠️ **TODO przed submitem**: utwórz demo account w backendzie z prepaid credits (skrypt curl w [appstore/APP_REVIEW_NOTES.md:157-164](appstore/APP_REVIEW_NOTES.md#L157-L164))
 
-### 1.14 Assety graficzne (App Store)
+### 1.14 Assety graficzne (App Store) — slot mapping
 
-| Asset | Plik | Status |
-|---|---|---|
-| App icon 1024×1024 | [store/icon-1024.png](icon-1024.png) | ✅ |
-| iPhone 6.7" screenshots ×5 (1290×2796) | [store/appstore/screenshots-iphone-67/](appstore/screenshots-iphone-67/) | ✅ Raport, Upload, Recovery, Explain, Chat |
-| iPhone 6.5" screenshots | — | ⏳ auto-resize z 6.7" w Apple Console |
-| iPad 13" screenshots ×4 (2064×2752) | [store/appstore/screenshots-ipad-13/](appstore/screenshots-ipad-13/) | ✅ Raport, Upload, Recovery, Explain |
+⚠️ **WAŻNE — który slot dla którego pliku** (Apple od kwietnia 2025):
+
+| Slot w App Store Connect | Wymagane? | Akceptowane rozmiary | Plik z naszego repo |
+|---|---|---|---|
+| **6.9-inch Display** (iPhone 17/16/15 Pro Max) | ✅ **REQUIRED** | 1290×2796 lub 1320×2868 | [screenshots-iphone-67/](appstore/screenshots-iphone-67/) (1290×2796, 5 plików) |
+| 6.5-inch Display (iPhone 13/12/11 Pro Max, XS Max) | legacy fallback | 1284×2778 lub 1242×2688 | [screenshots-iphone-65/](appstore/screenshots-iphone-65/) (1284×2778, 5 plików) lub [screenshots-iphone-65-alt/](appstore/screenshots-iphone-65-alt/) (1242×2688) |
+| 6.3-inch Display (iPhone 17, 16 Pro, 15 Pro) | optional | 1179×2556 lub 1206×2622 | — |
+| 6.1-inch Display (iPhone 14, 13, 12, X, XS) | optional | 1170×2532 / 1125×2436 / 1080×2340 | — |
+| **13-inch iPad** (iPad Pro M4, iPad Air 13") | ✅ **REQUIRED** (bo `supportsTablet: true`) | 2064×2752 lub 2048×2732 | [screenshots-ipad-13/](appstore/screenshots-ipad-13/) (2064×2752, 4 pliki) lub [screenshots-ipad-129/](appstore/screenshots-ipad-129/) (2048×2732) |
+| App icon | ✅ REQUIRED | 1024×1024 (no alpha) | [store/icon-1024.png](icon-1024.png) |
+
+**Praktyka uploadu**: wystarczy uploadować do 6.9-inch Display + 13-inch iPad — Apple auto-scale'uje na mniejsze sloty. Jeśli App Store Connect upiera się przy 6.5-inch slot (np. bo deployment target za niski), użyj backup folderów `screenshots-iphone-65/`.
+
+**Typowy błąd**: "Screenshots dimensions should be: 1242×2688px or 1284×2778px" = uploadujesz do legacy 6.5 slotu zamiast nowego 6.9. Skroluj wyżej w sekcji Previews and Screenshots i wybierz tab **6.9 Display**.
 
 ### 1.15 Build IPA (Codemagic)
 
@@ -385,11 +393,14 @@ Utwórz **Managed Product** (one-time):
 
 ### Screenshots
 
-| Stores | Folder | Liczba | Format |
-|---|---|---|---|
-| iPhone 6.7" | [store/appstore/screenshots-iphone-67/](appstore/screenshots-iphone-67/) | 5 | 1290×2796 |
-| iPad 13" | [store/appstore/screenshots-ipad-13/](appstore/screenshots-ipad-13/) | 4 | 2064×2752 |
-| Android phone | [store/screenshots/](screenshots/) | 3 | 1080×1920 |
+| Stores | Folder | Liczba | Format | Slot w UI |
+|---|---|---|---|---|
+| iPhone 6.9" (primary) | [store/appstore/screenshots-iphone-67/](appstore/screenshots-iphone-67/) | 5 | 1290×2796 | **6.9-inch Display** |
+| iPhone 6.5" fallback | [store/appstore/screenshots-iphone-65/](appstore/screenshots-iphone-65/) | 5 | 1284×2778 | 6.5-inch Display (jeśli wymagane) |
+| iPhone 6.5" oldest | [store/appstore/screenshots-iphone-65-alt/](appstore/screenshots-iphone-65-alt/) | 5 | 1242×2688 | 6.5-inch Display (najstarsze) |
+| iPad 13" (primary) | [store/appstore/screenshots-ipad-13/](appstore/screenshots-ipad-13/) | 4 | 2064×2752 | **13-inch iPad** |
+| iPad 12.9" fallback | [store/appstore/screenshots-ipad-129/](appstore/screenshots-ipad-129/) | 4 | 2048×2732 | 12.9-inch iPad legacy |
+| Android phone | [store/screenshots/](screenshots/) | 3 | 1080×1920 | Play Console phone screenshots |
 
 ### Build
 

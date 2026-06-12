@@ -22,15 +22,21 @@ KredytAI v1.0.0. Stan na 2026-06-09. Backend LIVE, ikona gotowa, metadane gotowe
   - [ ] Subtitle: "AI sprawdza umowę kredytu"
   - [ ] Category: Finance (Primary), Productivity (Secondary)
 
-## Faza 3 — Assety graficzne (GOTOWE ✓)
+## Faza 3 — Assety graficzne (GOTOWE ✓ z zastrzeżeniem)
 
-| Asset | Plik | Status |
-|-------|------|--------|
-| App icon 1024×1024 | `store/icon-1024.png` | ✅ |
-| iPhone 6.7" screenshots | `store/appstore/screenshots-iphone-67/` | ✅ 3 z 10 max |
-| iPhone 6.5" screenshots | — | ⏳ użyj te same (auto-resize w Apple Console) |
-| iPad screenshots | — | NIE wymagane (supportsTablet=false) |
-| Marketing assets | `store/marketing/` | ✅ (do social, nie wymagane przez Apple) |
+| Asset | Plik | Slot | Status |
+|-------|------|------|--------|
+| App icon 1024×1024 | `store/icon-1024.png` | App Information → App Icon | ✅ |
+| iPhone screenshots (1290×2796) ×5 | `store/appstore/screenshots-iphone-67/` | **6.9-inch Display (REQUIRED)** | ✅ wymiary OK, ⚠️ polski tekst do regeneracji |
+| iPhone 6.5" fallback (1284×2778) ×5 | `store/appstore/screenshots-iphone-65/` | 6.5-inch Display (legacy) | ✅ |
+| iPhone 6.5" oldest (1242×2688) ×5 | `store/appstore/screenshots-iphone-65-alt/` | 6.5-inch Display (najstarsze) | ✅ |
+| iPad screenshots (2064×2752) ×4 | `store/appstore/screenshots-ipad-13/` | **13-inch iPad (REQUIRED — `supportsTablet: true`)** | ✅ wymiary OK, ⚠️ polski tekst do regeneracji |
+| iPad 12.9" fallback (2048×2732) ×4 | `store/appstore/screenshots-ipad-129/` | 12.9-inch iPad legacy | ✅ |
+| Marketing assets | `store/marketing/` | — (poza Apple Console) | ✅ |
+
+⚠️ **PRZED submit do App Review**: regeneruj screenshoty z poprawnym polskim tekstem (obecne mają fake-Polish: "8 bidow", "Vollation-le distione", "Zaniljone RRSO", "Klauzula absiwa" — Apple Guideline 2.3.3 / 4.0 odrzucenie). Do uploadu do TestFlight + setup'u w App Store Connect mogą iść tymczasowo.
+
+⚠️ **UWAGA — `supportsTablet: true` w `mobile/app.json`**: iPad screenshots SĄ wymagane (4 pliki w `screenshots-ipad-13/`). Wcześniej w tym checklist'u było napisane "NIE wymagane" — to BYŁO nieaktualne, teraz poprawione.
 
 ## Faza 4 — Metadata (PL + EN)
 
