@@ -63,12 +63,12 @@ workflows:
       # (Codemagic szukałby istniejących profili PRZED odpaleniem skryptów).
       # Zamiast tego: `app-store-connect fetch-signing-files --create` w stepach poniżej
       # auto-tworzy Distribution cert + provisioning profile w runtime.
+      groups:
+        - app_store  # zawiera APP_STORE_APPLE_ID + CERTIFICATE_PRIVATE_KEY
       vars:
         BUNDLE_ID: "pl.kredytai.app"
         XCODE_WORKSPACE: "mobile/ios/KredytAI.xcworkspace"
         XCODE_SCHEME: "KredytAI"
-        # Wpisz Apple ID aplikacji z App Store Connect (numer ~10 cyfr po utworzeniu New App)
-        APP_STORE_APPLE_ID: $APP_STORE_APPLE_ID
       node: 20
       xcode: latest
       cocoapods: default
@@ -109,8 +109,16 @@ workflows:
 
       - name: Fetch signing files
         script: |
+          echo "DEBUG: CERTIFICATE_PRIVATE_KEY length=${#CERTIFICATE_PRIVATE_KEY}"
+          echo "DEBUG: APP_STORE_APPLE_ID=$APP_STORE_APPLE_ID"
+          echo "DEBUG: BUNDLE_ID=$BUNDLE_ID"
+          # Write key to a file to bypass any env-var passing issues
+          echo "$CERTIFICATE_PRIVATE_KEY" > /tmp/codemagic_cert_key.pem
+          chmod 600 /tmp/codemagic_cert_key.pem
+          echo "DEBUG: PEM file size=$(wc -c < /tmp/codemagic_cert_key.pem)"
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
             --type IOS_APP_STORE \
+            --certificate-key=@file:/tmp/codemagic_cert_key.pem \
             --create
 
       - name: Add certificates to keychain
