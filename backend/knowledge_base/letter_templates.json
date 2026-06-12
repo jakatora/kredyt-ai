@@ -1,0 +1,91 @@
+{
+  "version": "2026.05.28",
+  "templates": {
+    "reklamacja": {
+      "title": "Reklamacja do banku/pożyczkodawcy",
+      "addressee_label": "Bank / Pożyczkodawca",
+      "subject": "Reklamacja dotycząca umowy kredytu nr {{contract_number}}",
+      "legal_basis": "art. 2 ust. 1 ustawy z dnia 5 sierpnia 2015 r. o rozpatrywaniu reklamacji przez podmioty rynku finansowego i o Rzeczniku Finansowym",
+      "response_term_days": 30,
+      "consequence_if_no_response": "Reklamację uważa się za rozpatrzoną zgodnie z wolą klienta (art. 8 ww. ustawy)",
+      "sections": [
+        "header_dane_konsumenta",
+        "header_dane_banku",
+        "intro_podstawa_prawna",
+        "stan_faktyczny_umowa",
+        "lista_naruszen",
+        "zadania",
+        "outro_termin_odpowiedzi",
+        "podpis",
+        "zalaczniki"
+      ]
+    },
+    "skd": {
+      "title": "Oświadczenie o skorzystaniu z sankcji kredytu darmowego",
+      "addressee_label": "Bank / Pożyczkodawca",
+      "subject": "Oświadczenie o skorzystaniu z sankcji kredytu darmowego — umowa nr {{contract_number}}",
+      "legal_basis": "art. 45 ust. 1 ustawy z dnia 12 maja 2011 r. o kredycie konsumenckim",
+      "important_note": "Oświadczenie wywołuje skutek z dniem doręczenia bankowi. Musi być złożone w okresie obowiązywania umowy oraz w terminie roku od dnia jej wykonania (art. 45 ust. 5 ukk).",
+      "sections": [
+        "header_dane_konsumenta",
+        "header_dane_banku",
+        "intro_oswiadczenie",
+        "lista_naruszen_z_paragrafami",
+        "skutki_oswiadczenia",
+        "zadania_konkretne",
+        "podpis",
+        "zalaczniki"
+      ],
+      "kluczowe_zadania": [
+        "Zaprzestanie naliczania odsetek i kosztów od dnia doręczenia oświadczenia",
+        "Zwrot wszystkich pobranych dotąd odsetek, prowizji i opłat dodatkowych",
+        "Aktualizacja harmonogramu obejmującego wyłącznie kapitał (bez kosztów)",
+        "Wycofanie zgłoszenia do BIK w zakresie odsetek (gdy dotyczy)"
+      ]
+    },
+    "rzecznik_finansowy": {
+      "title": "Wniosek o przeprowadzenie postępowania interwencyjnego",
+      "addressee_label": "Rzecznik Finansowy",
+      "addressee_address": "Biuro Rzecznika Finansowego\nul. Nowogrodzka 47A\n00-695 Warszawa",
+      "subject": "Wniosek o postępowanie interwencyjne — spór z {{lender_name}}",
+      "legal_basis": "art. 17 ustawy o rozpatrywaniu reklamacji oraz Rzeczniku Finansowym",
+      "important_note": "Wniosek można złożyć dopiero PO otrzymaniu odpowiedzi banku na reklamację (lub po upływie 30 dni bez odpowiedzi).",
+      "required_attachments": [
+        "Kopia umowy kredytu",
+        "Kopia reklamacji złożonej do banku",
+        "Kopia odpowiedzi banku (jeśli była) lub potwierdzenie nadania reklamacji + dowód braku odpowiedzi w 30 dni",
+        "Inne dokumenty (np. korespondencja, harmonogram, dowody nadpłat)"
+      ],
+      "sections": [
+        "header_dane_wnioskodawcy",
+        "header_rzecznik",
+        "wskazanie_podmiotu_rynku_finansowego",
+        "stan_faktyczny",
+        "tresc_reklamacji_i_odpowiedz",
+        "zadanie_wnioskodawcy",
+        "uzasadnienie_prawne",
+        "podpis",
+        "zalaczniki"
+      ]
+    },
+    "uokik": {
+      "title": "Zawiadomienie o stosowaniu praktyk naruszających zbiorowe interesy konsumentów",
+      "addressee_label": "Prezes UOKiK",
+      "addressee_address": "Urząd Ochrony Konkurencji i Konsumentów\nPl. Powstańców Warszawy 1\n00-950 Warszawa",
+      "subject": "Zawiadomienie o stosowaniu klauzul abuzywnych przez {{lender_name}}",
+      "legal_basis": "art. 99 ust. 1 ustawy o ochronie konkurencji i konsumentów",
+      "purpose": "UOKiK może wszcząć postępowanie administracyjne i nałożyć karę pieniężną na podmiot stosujący klauzule abuzywne (uznane za niewiążące dla wszystkich konsumentów tego banku)",
+      "sections": [
+        "header_dane_zawiadamiajacego",
+        "header_uokik",
+        "wskazanie_przedsiebiorcy",
+        "opis_praktyki",
+        "lista_klauzul_z_rejestru",
+        "wniosek_o_wszczecie_postepowania",
+        "podpis",
+        "zalaczniki"
+      ]
+    }
+  },
+  "common_disclaimer": "Pismo wygenerowane przez aplikację KredytAI na podstawie analizy AI. Treść została przygotowana automatycznie — przed wysłaniem zalecamy weryfikację przez prawnika. KredytAI nie ponosi odpowiedzialności za skutki prawne wynikłe z użycia pisma."
+}

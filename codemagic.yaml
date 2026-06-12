@@ -1,0 +1,105 @@
+workflows:
+  android-build:
+    name: KredytAI Android Build
+    max_build_duration: 60
+    instance_type: linux_x2
+    environment:
+      vars:
+        PACKAGE_NAME: "pl.kredytai.app"
+        GOOGLE_PLAY_TRACK: "internal"
+      node: 20
+      java: 17
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $HOME/.npm
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+          include: true
+    scripts:
+      - name: Install mobile deps
+        script: |
+          cd mobile
+          npm ci --no-audit --no-fund
+      - name: Expo prebuild Android
+        script: |
+          cd mobile
+          npx expo prebuild --platform android --clean --no-install
+      - name: Setup keystore
+        script: |
+          echo $CM_KEYSTORE | base64 --decode > $CM_BUILD_DIR/mobile/android/app/upload-keystore.jks
+          cat > $CM_BUILD_DIR/mobile/android/key.properties <<EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_PASSWORD
+          keyAlias=$CM_KEY_ALIAS
+          storeFile=upload-keystore.jks
+          EOF
+      - name: Gradle build AAB
+        script: |
+          cd mobile/android
+          ./gradlew bundleRelease --no-daemon
+    artifacts:
+      - mobile/android/app/build/outputs/bundle/release/*.aab
+    publishing:
+      email:
+        recipients:
+          - jakatora68@gmail.com
+
+  ios-build:
+    name: KredytAI iOS Build
+    max_build_duration: 90
+    instance_type: mac_mini_m2
+    environment:
+      vars:
+        BUNDLE_ID: "pl.kredytai.app"
+        XCODE_WORKSPACE: "mobile/ios/KredytAI.xcworkspace"
+        XCODE_SCHEME: "KredytAI"
+        APP_STORE_APP_ID: "$APP_STORE_APP_ID_KREDYTAI"
+      node: 20
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: pl.kredytai.app
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "main"
+          include: true
+    scripts:
+      - name: Install mobile deps
+        script: |
+          cd mobile
+          npm ci --no-audit --no-fund
+      - name: Expo prebuild iOS
+        script: |
+          cd mobile
+          npx expo prebuild --platform ios --clean --no-install
+      - name: Pod install
+        script: |
+          cd mobile/ios
+          pod install
+      - name: Set Apple Team ID
+        script: |
+          xcode-project use-profiles --warn-only --strict-match-identifier
+      - name: Build IPA
+        script: |
+          cd mobile/ios
+          xcode-project build-ipa \
+            --workspace "$CM_BUILD_DIR/mobile/ios/KredytAI.xcworkspace" \
+            --scheme "KredytAI" \
+            --archive-flags "-destination 'generic/platform=iOS'"
+    artifacts:
+      - mobile/ios/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+      email:
+        recipients:
+          - jakatora68@gmail.com

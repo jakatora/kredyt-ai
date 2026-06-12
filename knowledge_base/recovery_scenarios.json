@@ -1,0 +1,127 @@
+{
+  "version": "2026.05.29",
+  "description": "Ścieżki odzyskania pieniędzy od banku po wykryciu naruszeń. Per scenariusz: formuła kalkulacji + czas + szansa wygranej + koszt postępowania.",
+  "scenarios": [
+    {
+      "id": "skd-pelna",
+      "name": "Sankcja kredytu darmowego (pełna)",
+      "legal_basis": "art. 45 ust. 1 ustawy o kredycie konsumenckim",
+      "triggers": ["skd-rrso-zanizone", "skd-brak-harmonogramu", "skd-brak-prawa-odstapienia", "skd-brak-wczesniejszej-splaty", "skd-niejasna-stopa-oproc", "skd-ukryte-koszty", "skd-brak-oproc-przeterminowanego", "skd-brak-kwoty-kredytu", "skd-brak-okresu-umowy", "skd-rrso-doliczone-koszty", "insurance-not-in-rrso", "insurance-undisclosed-commission", "variable-rate-no-reference"],
+      "formula_description": "Bank zwraca WSZYSTKIE odsetki + prowizje + ubezpieczenia + opłaty pobrane dotąd ORAZ kredyt staje się nieoprocentowany na przyszłość. Konsument oddaje tylko kapitał.",
+      "formula_pseudocode": "recovery = sum(installments_paid) - capital_repaid + future_interest_avoided",
+      "applies_to_loan_types": ["konsumencki", "samochodowy", "ratalny", "pożyczka"],
+      "time_to_resolution_weeks": [4, 26],
+      "court_required": "Tylko jeśli bank odmówi",
+      "success_rate_court_pct": 85,
+      "consumer_cost_pln": [0, 5000],
+      "consumer_cost_note": "Reklamacja jest bezpłatna. Jeśli bank odmówi i trzeba do sądu — opłata sądowa 5% wartości przedmiotu sporu (max 200k zł), prawnik 2-10k zł.",
+      "steps": [
+        "Wysłać oświadczenie o SKD (pismo z aplikacji) listem poleconym",
+        "Bank ma 30 dni na odpowiedź",
+        "Jeśli odmowa → reklamacja → Rzecznik Finansowy → pozew",
+        "Sąd zwykle 6-18 miesięcy"
+      ]
+    },
+    {
+      "id": "skd-czesciowa",
+      "name": "Sankcja kredytu darmowego (częściowa — od daty oświadczenia)",
+      "legal_basis": "art. 45 ust. 1 ukk w interpretacji niektórych sądów",
+      "triggers": ["skd-brak-oproc-przeterminowanego", "skd-niejasna-stopa-oproc"],
+      "formula_description": "Część sądów interpretuje że SKD działa tylko na przyszłość — od dnia oświadczenia. Zwrot odsetek pobranych od tego dnia + zerowe odsetki w przyszłości.",
+      "formula_pseudocode": "recovery = future_interest_avoided (od daty oświadczenia do końca umowy)",
+      "applies_to_loan_types": ["konsumencki", "samochodowy", "ratalny", "pożyczka"],
+      "time_to_resolution_weeks": [4, 13],
+      "success_rate_court_pct": 70
+    },
+    {
+      "id": "lexitor-proporcjonalny-zwrot",
+      "name": "Proporcjonalny zwrot kosztów po wcześniejszej spłacie (TSUE Lexitor)",
+      "legal_basis": "art. 49 ukk + wyrok TSUE C-383/18 (Lexitor)",
+      "triggers": ["uokik-prowizja-od-wcześniejszej-spłaty-pełna"],
+      "formula_description": "Jeśli kredyt spłacono wcześniej, bank musi proporcjonalnie zwrócić WSZYSTKIE koszty (prowizje, ubezpieczenia, opłaty) — nie tylko odsetki.",
+      "formula_pseudocode": "recovery = total_fees * (months_saved / total_months)",
+      "applies_to_loan_types": ["konsumencki", "samochodowy", "ratalny", "hipoteczny"],
+      "applies_when": "early_repayment_done OR early_repayment_planned",
+      "time_to_resolution_weeks": [2, 12],
+      "success_rate_court_pct": 92,
+      "consumer_cost_pln": [0, 500],
+      "steps": [
+        "Reklamacja do banku z powołaniem na Lexitor",
+        "Bank zwykle szybko zwraca po wskazaniu wyroku TSUE",
+        "Jeśli odmowa → Rzecznik Finansowy (zwykle bez sądu)"
+      ]
+    },
+    {
+      "id": "mpkk-nadwyzka",
+      "name": "Zwrot nadwyżki ponad MPKK",
+      "legal_basis": "art. 36a ust. 3 ukk",
+      "triggers": ["skd-pozaodsetkowe-ponad-mpkk"],
+      "formula_description": "Pozaodsetkowe koszty ponad ustawowy limit są nieważne. Konsument oddaje tylko do limitu MPKK.",
+      "formula_pseudocode": "recovery = total_fees - mpkk_limit",
+      "applies_to_loan_types": ["konsumencki", "pożyczka"],
+      "time_to_resolution_weeks": [4, 16],
+      "success_rate_court_pct": 95,
+      "consumer_cost_pln": [0, 300]
+    },
+    {
+      "id": "max-odsetki-nadwyzka",
+      "name": "Zwrot nadwyżki ponad odsetki maksymalne",
+      "legal_basis": "art. 359 § 2[1] kc (kapitałowe) / art. 481 § 2[1] kc (za opóźnienie)",
+      "triggers": ["max-interest-breach", "max-late-interest-breach"],
+      "formula_description": "Klauzula odsetek wyższych niż ustawowe jest w części nadwyżki nieważna. Nadpłaty podlegają zwrotowi (art. 410 kc).",
+      "formula_pseudocode": "recovery = sum(interest_paid_per_installment - (capital_balance * max_rate/12))",
+      "applies_to_loan_types": ["konsumencki", "hipoteczny", "samochodowy", "ratalny", "pożyczka"],
+      "time_to_resolution_weeks": [8, 26],
+      "success_rate_court_pct": 88,
+      "consumer_cost_pln": [200, 3000]
+    },
+    {
+      "id": "chf-niewaznosc",
+      "name": "Nieważność umowy CHF/EUR (frankowcy)",
+      "legal_basis": "art. 385[1] kc + TSUE C-260/18 Dziubak + SN III CZP 25/22",
+      "triggers": ["uokik-chf-tabela-bank", "uokik-chf-spread", "uokik-przewalutowanie-wedlug-banku", "uokik-zwiazek-walut-pln-eur"],
+      "formula_description": "Po stwierdzeniu nieważności umowy bank zwraca WSZYSTKIE wpłaty (kapitał + odsetki + prowizje + spread). Konsument oddaje tylko nominalny kapitał (bez przeliczeń CHF).",
+      "formula_pseudocode": "recovery = sum(all_paid_pln) - principal_pln",
+      "applies_to_loan_types": ["hipoteczny"],
+      "time_to_resolution_weeks": [52, 156],
+      "success_rate_court_pct": 95,
+      "consumer_cost_pln": [3000, 30000],
+      "consumer_cost_note": "Opłata sądowa 1000 zł (max), prawnik frankowy 5-15 tys + success fee 10-15% odzyskanej kwoty.",
+      "steps": [
+        "Skonsultować z kancelarią frankową (zwykle bezpłatna ocena)",
+        "Wezwanie do zapłaty / reklamacja",
+        "Pozew o nieważność umowy",
+        "1-3 instancje, średnio 18-30 miesięcy"
+      ]
+    },
+    {
+      "id": "unww-zwrot",
+      "name": "Zwrot składek UNWW po przekroczeniu LTV target",
+      "legal_basis": "Decyzja UOKiK DDK 19/2014",
+      "triggers": ["uokik-ubezpieczenie-niskiego-wkladu-utrata"],
+      "formula_description": "Po osiągnięciu LTV ≤ 80% (lub umownego targetu) bank musi zaprzestać pobierania składek UNWW. Pobrane wstecz podlegają zwrotowi.",
+      "formula_pseudocode": "recovery = sum(unww_premiums_paid_after_ltv_threshold)",
+      "applies_to_loan_types": ["hipoteczny"],
+      "time_to_resolution_weeks": [4, 16],
+      "success_rate_court_pct": 80,
+      "consumer_cost_pln": [0, 1000]
+    },
+    {
+      "id": "klauzule-abuzywne-zwrot-kosztow",
+      "name": "Zwrot kosztów wynikłych z klauzul abuzywnych",
+      "legal_basis": "art. 385[1] kc + orzecznictwo TSUE",
+      "triggers": ["uokik-koszty-monitow-nadmierne", "uokik-windykacja-firma-zewnetrzna", "uokik-koszty-windykacji-nieprzejrzyste", "uokik-prowizja-od-wnioskow", "uokik-przesylanie-papierowe-oplata", "uokik-vat-wzlot-prowizji"],
+      "formula_description": "Klauzula abuzywna nie wiąże konsumenta z mocy prawa. Wszystkie pobrane na jej podstawie opłaty podlegają zwrotowi (art. 410 kc).",
+      "formula_pseudocode": "recovery = sum(fees_charged_under_abusive_clause)",
+      "applies_to_loan_types": ["konsumencki", "hipoteczny", "samochodowy", "ratalny", "pożyczka"],
+      "time_to_resolution_weeks": [4, 26],
+      "success_rate_court_pct": 75
+    }
+  ],
+  "ranking_logic": {
+    "by_amount_desc": "Sortowanie ścieżek po max kwocie do odzyskania",
+    "by_roi": "(recovery_estimate / consumer_cost_avg) / time_to_resolution_weeks_avg",
+    "by_success_rate": "success_rate_court_pct * recovery_estimate"
+  },
+  "general_disclaimer": "Kwoty to oszacowania na bazie standardowej interpretacji prawa. Rzeczywisty wynik zależy od konkretnego sądu, stanu faktycznego i jakości reprezentacji prawnej. Konsultacja z prawnikiem zalecana w sprawach > 10 000 zł."
+}

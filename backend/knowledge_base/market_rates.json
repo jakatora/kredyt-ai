@@ -1,0 +1,39 @@
+{
+  "version": "2026.05.30",
+  "description": "Średnie RRSO na rynku PL per typ kredytu i rok. Źródła: raporty NBP, KNF, Związek Banków Polskich, agregatory porównywarek (Money.pl, Bankier.pl). Aktualizacja kwartalna.",
+  "_note": "Dane orientacyjne — RRSO konkretnej oferty zależy od BIK, wkładu własnego, ubezpieczeń. Aplikacja używa do porównania 'Twoja umowa vs średnia rynkowa'.",
+  "averages": {
+    "konsumencki": {
+      "2024": { "rrso_avg_pct": 18.5, "rrso_min_pct": 12, "rrso_max_pct": 28, "sample": "Top 10 banków, kredyt 20k zł / 36 mc" },
+      "2025": { "rrso_avg_pct": 16.2, "rrso_min_pct": 10.5, "rrso_max_pct": 25 },
+      "2026": { "rrso_avg_pct": 13.8, "rrso_min_pct": 9.5, "rrso_max_pct": 22 }
+    },
+    "hipoteczny": {
+      "2024": { "rrso_avg_pct": 8.4, "rrso_min_pct": 6.8, "rrso_max_pct": 11 },
+      "2025": { "rrso_avg_pct": 7.6, "rrso_min_pct": 6.2, "rrso_max_pct": 10 },
+      "2026": { "rrso_avg_pct": 6.9, "rrso_min_pct": 5.4, "rrso_max_pct": 9.5 }
+    },
+    "samochodowy": {
+      "2024": { "rrso_avg_pct": 12.5, "rrso_min_pct": 8, "rrso_max_pct": 18 },
+      "2025": { "rrso_avg_pct": 11.2, "rrso_min_pct": 7.5, "rrso_max_pct": 16 },
+      "2026": { "rrso_avg_pct": 9.8, "rrso_min_pct": 6.5, "rrso_max_pct": 14 }
+    },
+    "ratalny": {
+      "2024": { "rrso_avg_pct": 22.0, "rrso_min_pct": 0, "rrso_max_pct": 35, "note": "0% RRSO promocyjne często" },
+      "2025": { "rrso_avg_pct": 19.5, "rrso_min_pct": 0, "rrso_max_pct": 32 },
+      "2026": { "rrso_avg_pct": 17.0, "rrso_min_pct": 0, "rrso_max_pct": 28 }
+    },
+    "pożyczka": {
+      "2024": { "rrso_avg_pct": 75.0, "rrso_min_pct": 35, "rrso_max_pct": 250, "note": "Pożyczki chwilówki — często blisko limitu MPKK" },
+      "2025": { "rrso_avg_pct": 68.0, "rrso_min_pct": 32, "rrso_max_pct": 220 },
+      "2026": { "rrso_avg_pct": 62.0, "rrso_min_pct": 28, "rrso_max_pct": 200 }
+    }
+  },
+  "comparison_thresholds": {
+    "great_deal_pct_below_avg": 15,
+    "fair_deal_pct_around_avg": 10,
+    "expensive_pct_above_avg": 20,
+    "very_expensive_pct_above_avg": 40
+  },
+  "max_legal_rrso_note": "Ustawowy limit MPKK + maks. odsetki kapitałowe + RRSO formuła z załącznika 4 ukk — każda umowa musi mieścić się w tych granicach. Aplikacja sprawdza dokładnie te limity."
+}

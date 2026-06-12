@@ -1,0 +1,104 @@
+{
+  "version": "2026.05.29",
+  "description": "Klauzule abuzywne znane z orzecznictwa dla konkretnych banków. Bazowane na decyzjach UOKiK, SOKiK i rejestru klauzul niedozwolonych.",
+  "patterns": [
+    {
+      "bank_aliases": ["mBank", "BRE Bank"],
+      "clauses": [
+        {
+          "id": "mbank-chf-tabela",
+          "title": "mBank — kurs CHF z tabeli banku (2007-2011)",
+          "pattern_regex": "(mBank|BRE)[\\s\\S]{0,300}?(tabel|kurs)[\\s\\S]{0,200}?CHF",
+          "verdict": "Klauzula uznana za abuzywną m.in. wyrokiem SOKiK XVII AmC 426/09 — wpis nr 5743 w rejestrze UOKiK",
+          "success_rate_court_pct": 85,
+          "case_law": ["SOKiK XVII AmC 426/09", "SN III CZP 30/18"]
+        }
+      ]
+    },
+    {
+      "bank_aliases": ["Bank Millennium", "Millennium"],
+      "clauses": [
+        {
+          "id": "millennium-chf-spread",
+          "title": "Bank Millennium — spread walutowy bez wskazania mechanizmu",
+          "pattern_regex": "(Millennium)[\\s\\S]{0,300}?spread",
+          "verdict": "Decyzja Prezesa UOKiK RŁO 8/2019 — naruszenie zbiorowych interesów konsumentów",
+          "success_rate_court_pct": 80
+        }
+      ]
+    },
+    {
+      "bank_aliases": ["Getin Noble Bank", "Getin", "VeloBank"],
+      "clauses": [
+        {
+          "id": "getin-przewalutowanie",
+          "title": "Getin Noble — przewalutowanie po kursie ustalanym przez bank",
+          "pattern_regex": "(Getin|Velo)[\\s\\S]{0,300}?przewalutow",
+          "verdict": "Liczne wyroki SN (m.in. II CSKP 415/22) potwierdzają abuzywność klauzul Getin",
+          "success_rate_court_pct": 88
+        }
+      ]
+    },
+    {
+      "bank_aliases": ["PKO BP", "PKO Bank Polski"],
+      "clauses": [
+        {
+          "id": "pko-mix-2008",
+          "title": "PKO BP MIX 2008 — klauzula indeksacyjna",
+          "pattern_regex": "(PKO|MIX)[\\s\\S]{0,300}?CHF",
+          "verdict": "Wpis w rejestrze klauzul niedozwolonych UOKiK nr 3178/2010",
+          "success_rate_court_pct": 78
+        }
+      ]
+    },
+    {
+      "bank_aliases": ["Provident Polska", "Provident"],
+      "clauses": [
+        {
+          "id": "provident-doreczyciel",
+          "title": "Provident — opłata za 'doręczyciela' / obsługę w domu",
+          "pattern_regex": "(doręczyciel|home\\s+collection|obs[lł]uga\\s+(w\\s+)?domu)",
+          "verdict": "Opłata za doręczyciela jako ukryta prowizja — sprawa C-377/14 Radlinger + decyzje UOKiK",
+          "success_rate_court_pct": 70,
+          "skd_implication": true
+        }
+      ]
+    },
+    {
+      "bank_aliases": ["Alior Bank", "Alior"],
+      "clauses": [
+        {
+          "id": "alior-pakiet-bezpieczenstwa",
+          "title": "Alior — Pakiet Bezpieczeństwa jako warunek udzielenia kredytu",
+          "pattern_regex": "(pakiet|ubezpiecz)[\\s\\S]{0,100}?(bezpiecze[nń]stw|spoko)[\\s\\S]{0,200}?(warunek|obowi)",
+          "verdict": "Wiązanie obligatoryjnego ubezpieczenia z kredytem — narusza wolność wyboru ubezpieczyciela (ustawa o dystrybucji ubezpieczeń)",
+          "success_rate_court_pct": 65
+        }
+      ]
+    },
+    {
+      "bank_aliases": ["Santander Bank Polska", "Santander", "BZ WBK"],
+      "clauses": [
+        {
+          "id": "santander-chf-bzwbk",
+          "title": "BZ WBK / Santander — denominacja CHF z kursami banku",
+          "pattern_regex": "(BZ\\s*WBK|Santander)[\\s\\S]{0,300}?(denominow|CHF)",
+          "verdict": "Wyrok SN II CSKP 415/22 i kolejne — denominacja po kursach banku abuzywna",
+          "success_rate_court_pct": 82
+        }
+      ]
+    },
+    {
+      "bank_aliases": ["Bank Pekao", "Pekao SA"],
+      "clauses": [
+        {
+          "id": "pekao-zmiana-oproc-administracyjnie",
+          "title": "Pekao — zmiana oprocentowania decyzją wewnętrzną banku",
+          "pattern_regex": "(Pekao)[\\s\\S]{0,300}?(decyzj|administracyj)[\\s\\S]{0,150}?(bank|zarząd)",
+          "verdict": "Klauzula umożliwiająca jednostronną zmianę oprocentowania bez obiektywnych przesłanek = abuzywna",
+          "success_rate_court_pct": 75
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "version": "2026.05.29",
+  "legal_ref": "art. 45 ust. 1 ustawy o kredycie konsumenckim",
+  "description": "Naruszenia uzasadniające sankcję kredytu darmowego. Konsument składa pisemne oświadczenie — kredyt staje się nieoprocentowany (zwrot tylko kapitału w terminach umowy).",
+  "limit_temporal": "Sankcja obowiązuje przez rok od dnia wykonania umowy (art. 45 ust. 5 ukk).",
+  "_notes": "success_rate_court_pct — orientacyjna szansa wygranej w sądzie pierwszej instancji, oparta na publicznie dostępnym orzecznictwie (Lex, Orzeczenia.ms.gov.pl, raporty kancelarii). Aktualizacja kwartalna.",
+  "triggers": [
+    {
+      "id": "skd-rrso-zanizone",
+      "trigger": "Zaniżone RRSO w umowie (różnica > 0.05pp vs prawidłowe wyliczenie)",
+      "severity": "critical",
+      "art_ref": "art. 30 ust. 1 pkt 8 ukk",
+      "evidence_required": ["recalc_rrso", "declared_rrso", "all_costs_listed"],
+      "skd_eligible": true,
+      "case_law": "Wyrok SN III CSK 159/14; uchwała SN III CZP 92/22",
+      "success_rate_court_pct": 87,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-brak-harmonogramu",
+      "trigger": "Brak szczegółowego harmonogramu spłat (rata po racie, kapitał + odsetki + koszty)",
+      "severity": "critical",
+      "art_ref": "art. 30 ust. 1 pkt 10 ukk",
+      "skd_eligible": true,
+      "success_rate_court_pct": 82,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-brak-prawa-odstapienia",
+      "trigger": "Brak informacji o prawie odstąpienia w 14 dni lub brak wzoru formularza",
+      "severity": "critical",
+      "art_ref": "art. 30 ust. 1 pkt 15 ukk",
+      "skd_eligible": true,
+      "success_rate_court_pct": 90,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-brak-wczesniejszej-splaty",
+      "trigger": "Brak informacji o prawie wcześniejszej spłaty + proporcjonalnym zwrocie prowizji",
+      "severity": "critical",
+      "art_ref": "art. 30 ust. 1 pkt 16 ukk + wyrok TSUE C-383/18 (Lexitor)",
+      "skd_eligible": true,
+      "note": "Po Lexitor proporcjonalny zwrot dotyczy wszystkich kosztów, nie tylko odsetek",
+      "success_rate_court_pct": 92,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-pozaodsetkowe-ponad-mpkk",
+      "trigger": "Pozaodsetkowe koszty kredytu przekraczają MPKK (art. 36a)",
+      "severity": "critical",
+      "art_ref": "art. 36a ust. 3 ukk",
+      "skd_eligible": true,
+      "note": "Konsument zwraca tylko do limitu MPKK",
+      "success_rate_court_pct": 95,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-niejasna-stopa-oproc",
+      "trigger": "Niejasne, nieprecyzyjne określenie stopy oprocentowania kredytu (brak wskazania indeksu, marży, zmienności)",
+      "severity": "high",
+      "art_ref": "art. 30 ust. 1 pkt 7 ukk",
+      "skd_eligible": true,
+      "success_rate_court_pct": 70,
+      "detection_confidence": "medium"
+    },
+    {
+      "id": "skd-ukryte-koszty",
+      "trigger": "Koszty kredytu (ubezpieczenia, prowizje) ukryte poza umową — np. w regulaminie do którego umowa się tylko odsyła",
+      "severity": "high",
+      "art_ref": "art. 30 ust. 1 pkt 11 ukk",
+      "skd_eligible": true,
+      "success_rate_court_pct": 75,
+      "detection_confidence": "medium"
+    },
+    {
+      "id": "skd-brak-oproc-przeterminowanego",
+      "trigger": "Brak informacji o rocznej stopie oprocentowania zadłużenia przeterminowanego",
+      "severity": "high",
+      "art_ref": "art. 30 ust. 1 pkt 12 ukk",
+      "skd_eligible": true,
+      "success_rate_court_pct": 80,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-brak-kwoty-kredytu",
+      "trigger": "Brak jasno wskazanej całkowitej kwoty kredytu",
+      "severity": "critical",
+      "art_ref": "art. 30 ust. 1 pkt 5 ukk",
+      "skd_eligible": true,
+      "success_rate_court_pct": 88,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-brak-okresu-umowy",
+      "trigger": "Brak czasu obowiązywania umowy",
+      "severity": "high",
+      "art_ref": "art. 30 ust. 1 pkt 4 ukk",
+      "skd_eligible": true,
+      "success_rate_court_pct": 78,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-rrso-doliczone-koszty",
+      "trigger": "RRSO nie uwzględnia wszystkich kosztów (np. obligatoryjne ubezpieczenie pominięte w wyliczeniu)",
+      "severity": "critical",
+      "art_ref": "art. 30 ust. 1 pkt 8 ukk + załącznik 4",
+      "skd_eligible": true,
+      "case_law": "TSUE C-377/14 Radlinger",
+      "success_rate_court_pct": 85,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-niedopuszczalna-forma",
+      "trigger": "Umowa zawarta bez formy pisemnej (SMS, kliknięcie internet bez podpisu kwalifikowanego)",
+      "severity": "critical",
+      "art_ref": "art. 29 ust. 1 ukk",
+      "skd_eligible": true,
+      "case_law": "SN I NSNc 56/21",
+      "success_rate_court_pct": 90,
+      "detection_confidence": "medium"
+    },
+    {
+      "id": "skd-zalacznik-nr-3-brak",
+      "trigger": "Brak załącznika nr 3 (wzór odstąpienia) — sam tekst informacyjny nie wystarcza",
+      "severity": "critical",
+      "art_ref": "art. 30 ust. 1 pkt 15 ukk + załącznik 3",
+      "skd_eligible": true,
+      "success_rate_court_pct": 86,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-prowizja-poza-rrso",
+      "trigger": "Prowizja jest, ale nie wliczona w wyliczenie RRSO",
+      "severity": "critical",
+      "art_ref": "art. 30 ust. 1 pkt 8 ukk + załącznik 4",
+      "skd_eligible": true,
+      "success_rate_court_pct": 88,
+      "detection_confidence": "high"
+    },
+    {
+      "id": "skd-bnpl-bez-formularza",
+      "trigger": "BNPL/zapłać później bez formularza informacyjnego z RRSO",
+      "severity": "critical",
+      "art_ref": "art. 14 + art. 30 ukk",
+      "skd_eligible": true,
+      "case_law": "Decyzja UOKiK DDK 32/2024",
+      "success_rate_court_pct": 82,
+      "detection_confidence": "high"
+    }
+  ],
+  "procedure_for_consumer": {
+    "step_1": "Złożyć pisemne oświadczenie do kredytodawcy (wzór generowany przez aplikację).",
+    "step_2": "Oświadczenie wywołuje skutek prawny natychmiast — od dnia doręczenia bank nie nalicza już odsetek i kosztów.",
+    "step_3": "Bank musi zwrócić pobrane do tej pory odsetki + prowizje + ewent. ubezpieczenia.",
+    "step_4": "Jeśli bank odmawia → reklamacja → Rzecznik Finansowy → sąd cywilny."
+  }
+}

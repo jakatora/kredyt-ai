@@ -1,0 +1,29 @@
+{
+  "version": "2026.05.29",
+  "source": "Ustawa z dnia 12 maja 2011 r. o kredycie konsumenckim (Dz.U. 2011 nr 126 poz. 715 z późn. zm.) — stan na 2026-05-29",
+  "note": "Lista obowiązków informacyjnych z art. 30 ukk. Brak wymaganej informacji może uzasadniać sankcję kredytu darmowego (art. 45 ust. 1 ukk).",
+  "important_upcoming_change": "Od 20 listopada 2026 r. wchodzi nowa ustawa o kredycie konsumenckim (implementacja dyrektywy CCD2 — 2023/2225). Główne zmiany: zniesienie obecnego limitu kwotowego 255 550 zł, gradacja SKD (pełna vs połowa odsetek), rozbudowana ocena zdolności kredytowej. Aplikacja będzie aktualizowana — sprawdź wersję KB w raporcie.",
+  "obligations": [
+    { "id": "ukk-30-1-1", "article": "art. 30 ust. 1 pkt 1", "name": "Imię, nazwisko i adres konsumenta", "check": "Dane osobowe konsumenta muszą być jednoznaczne", "skd_risk": "high", "missing_means": "Brak identyfikacji konsumenta narusza obowiązki informacyjne" },
+    { "id": "ukk-30-1-2", "article": "art. 30 ust. 1 pkt 2", "name": "Imię, nazwisko (nazwa) i adres kredytodawcy", "check": "Dane pełne kredytodawcy i ewentualnego pośrednika", "skd_risk": "high" },
+    { "id": "ukk-30-1-3", "article": "art. 30 ust. 1 pkt 3", "name": "Rodzaj kredytu", "check": "Wskazanie rodzaju (np. konsumencki, hipoteczny, ratalny)", "skd_risk": "medium" },
+    { "id": "ukk-30-1-4", "article": "art. 30 ust. 1 pkt 4", "name": "Czas obowiązywania umowy", "check": "Okres trwania umowy", "skd_risk": "high" },
+    { "id": "ukk-30-1-5", "article": "art. 30 ust. 1 pkt 5", "name": "Całkowita kwota kredytu", "check": "Kwota udostępniona konsumentowi", "skd_risk": "critical" },
+    { "id": "ukk-30-1-6", "article": "art. 30 ust. 1 pkt 6", "name": "Terminy i sposób wypłaty kredytu", "check": "Kiedy i jak kredytodawca wypłaca kapitał", "skd_risk": "medium" },
+    { "id": "ukk-30-1-7", "article": "art. 30 ust. 1 pkt 7", "name": "Stopa oprocentowania kredytu", "check": "Wartość, zmienność, okresy, indeks (np. WIBOR), marża", "skd_risk": "critical" },
+    { "id": "ukk-30-1-8", "article": "art. 30 ust. 1 pkt 8", "name": "RRSO i całkowita kwota do zapłaty", "check": "Rzeczywista roczna stopa oprocentowania + suma kapitału, odsetek i kosztów", "skd_risk": "critical", "missing_means": "Brak RRSO lub jego zaniżenie = klasyczna podstawa SKD (najczęstsze orzecznictwo)" },
+    { "id": "ukk-30-1-9", "article": "art. 30 ust. 1 pkt 9", "name": "Zasady i terminy spłaty", "check": "Wysokość rat, częstotliwość, sposób zapłaty", "skd_risk": "critical" },
+    { "id": "ukk-30-1-10", "article": "art. 30 ust. 1 pkt 10", "name": "Tabela kolejnych rat (harmonogram)", "check": "Harmonogram spłat z podziałem kapitał/odsetki/inne koszty per rata", "skd_risk": "critical", "missing_means": "Brak szczegółowego harmonogramu = SKD potwierdzony orzecznictwem (m.in. SN)" },
+    { "id": "ukk-30-1-11", "article": "art. 30 ust. 1 pkt 11", "name": "Informacja o innych kosztach", "check": "Prowizje, opłaty, koszty notarialne, ubezpieczenia — wszystkie szczegółowo", "skd_risk": "high" },
+    { "id": "ukk-30-1-12", "article": "art. 30 ust. 1 pkt 12", "name": "Roczna stopa oprocentowania zadłużenia przeterminowanego", "check": "Procent + sposób ewentualnej zmiany", "skd_risk": "high" },
+    { "id": "ukk-30-1-13", "article": "art. 30 ust. 1 pkt 13", "name": "Skutki braku spłaty", "check": "Konsekwencje opóźnień, windykacja, wpis BIK", "skd_risk": "medium" },
+    { "id": "ukk-30-1-14", "article": "art. 30 ust. 1 pkt 14", "name": "Wymagane zabezpieczenia i ubezpieczenia", "check": "Lista zabezpieczeń + opcjonalność", "skd_risk": "medium" },
+    { "id": "ukk-30-1-15", "article": "art. 30 ust. 1 pkt 15", "name": "Prawo do odstąpienia od umowy", "check": "Informacja o 14-dniowym prawie odstąpienia + termin, sposób, skutki, wzór formularza", "skd_risk": "critical", "missing_means": "Brak informacji o prawie odstąpienia lub brak wzoru = SKD" },
+    { "id": "ukk-30-1-16", "article": "art. 30 ust. 1 pkt 16", "name": "Prawo wcześniejszej spłaty", "check": "Warunki, koszty, proporcjonalny zwrot prowizji (orzeczenie TSUE Lexitor)", "skd_risk": "critical", "missing_means": "Brak info o wcześniejszej spłacie lub o proporcjonalnym zwrocie kosztów = SKD" },
+    { "id": "ukk-30-1-17", "article": "art. 30 ust. 1 pkt 17", "name": "Tryb wypowiedzenia umowy", "check": "Sposób, terminy, skutki wypowiedzenia", "skd_risk": "medium" },
+    { "id": "ukk-30-1-18", "article": "art. 30 ust. 1 pkt 18", "name": "Możliwość polubownego rozwiązywania sporów", "check": "Pozasądowe rozstrzyganie + organy (Rzecznik Finansowy, arbiter bankowy)", "skd_risk": "medium" },
+    { "id": "ukk-30-1-19", "article": "art. 30 ust. 1 pkt 19", "name": "Organ nadzoru", "check": "Wskazanie KNF jako organu nadzoru", "skd_risk": "low" },
+    { "id": "ukk-30-1-20", "article": "art. 30 ust. 1 pkt 20", "name": "Skutki niedotrzymania warunków przez kredytodawcę", "check": "", "skd_risk": "low" },
+    { "id": "ukk-30-1-21", "article": "art. 30 ust. 1 pkt 21", "name": "Informacja o BIK i przetwarzaniu danych osobowych", "check": "RODO + zgody marketingowe opcjonalne", "skd_risk": "medium" }
+  ]
+}

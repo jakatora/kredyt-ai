@@ -1,0 +1,92 @@
+{
+  "version": "2026.05.29",
+  "description": "Kluczowe wymogi Rekomendacji KNF dla banków przy udzielaniu kredytów. Naruszenia nie generują automatycznie SKD, ale mogą uzasadniać skargi do KNF i roszczenia odszkodowawcze.",
+  "source": "https://www.knf.gov.pl/dla_rynku/regulacje_i_praktyka/rekomendacje_i_wytyczne",
+  "recommendations": {
+    "S": {
+      "title": "Rekomendacja S — Dobre praktyki w zakresie zarządzania ekspozycjami kredytowymi zabezpieczonymi hipotecznie",
+      "version_year": 2024,
+      "applies_to": ["hipoteczny"],
+      "key_requirements": [
+        {
+          "id": "rekomS-LTV-80",
+          "rule": "Maksymalny LTV (Loan-to-Value) dla kredytów hipotecznych: 80% dla kredytów PLN (90% z ubezpieczeniem niskiego wkładu)",
+          "field_check": "loan_to_value_pct",
+          "max": 80,
+          "with_unww_max": 90,
+          "violation_severity": "high"
+        },
+        {
+          "id": "rekomS-DSTI-40",
+          "rule": "Maksymalny DSTI (Debt Service to Income) — 40% dochodu netto miesięcznego",
+          "field_check": "dsti_pct",
+          "max": 40,
+          "violation_severity": "high"
+        },
+        {
+          "id": "rekomS-zdolnosc-bufor-25",
+          "rule": "Test zdolności kredytowej z buforem stopy +2,5pp (bank musi przeliczyć ratę przy oprocentowaniu wyższym o 2,5pp)",
+          "field_check": "stress_test_buffer_pp",
+          "required_min": 2.5,
+          "violation_severity": "high"
+        },
+        {
+          "id": "rekomS-okres-max-35",
+          "rule": "Maksymalny okres kredytowania: 35 lat (zalecany), 30 lat liczone do zdolności kredytowej",
+          "field_check": "repayment_months",
+          "max_months": 420,
+          "violation_severity": "medium"
+        },
+        {
+          "id": "rekomS-walutowy-zakaz",
+          "rule": "Zakaz udzielania kredytów walutowych (CHF/EUR/USD) gospodarstwom domowym uzyskującym dochody w PLN",
+          "violation_severity": "critical",
+          "skd_implication": false,
+          "case_law": ["Rekomendacja S 2014/2024"]
+        }
+      ]
+    },
+    "T": {
+      "title": "Rekomendacja T — Dobre praktyki w zakresie zarządzania ryzykiem detalicznych ekspozycji kredytowych",
+      "version_year": 2023,
+      "applies_to": ["konsumencki", "samochodowy", "ratalny"],
+      "key_requirements": [
+        {
+          "id": "rekomT-DTI-50",
+          "rule": "Wskaźnik DtI (Debt-to-Income) zalecany max 50% miesięcznego dochodu netto na obsługę wszystkich zobowiązań",
+          "field_check": "dti_pct",
+          "max": 50,
+          "violation_severity": "high"
+        },
+        {
+          "id": "rekomT-ocena-zdolnosci-dokumenty",
+          "rule": "Ocena zdolności kredytowej musi opierać się na udokumentowanych dochodach (np. PIT, RMUA), nie na deklaracji ustnej",
+          "violation_severity": "high"
+        },
+        {
+          "id": "rekomT-bik-weryfikacja",
+          "rule": "Obowiązkowa weryfikacja klienta w BIK przed udzieleniem kredytu",
+          "violation_severity": "medium"
+        },
+        {
+          "id": "rekomT-ryzyko-stress-test",
+          "rule": "Test wytrzymałości na +5pp wzrost stóp dla konsumenckich (mniejszy bufor niż hipoteki, bo krótszy okres)",
+          "field_check": "stress_test_buffer_pp",
+          "required_min": 5,
+          "violation_severity": "medium"
+        },
+        {
+          "id": "rekomT-elastyczna-restrukturyzacja",
+          "rule": "Bank musi mieć procedurę elastycznej restrukturyzacji dla klientów w trudnej sytuacji (np. utrata pracy)",
+          "violation_severity": "low"
+        }
+      ]
+    }
+  },
+  "consumer_action_if_violation": [
+    "Skarga do KNF — formularz na knf.gov.pl",
+    "Reklamacja do banku (powołanie się na konkretną rekomendację)",
+    "Wniosek do Rzecznika Finansowego",
+    "Pozew o nieważność umowy (jeśli zdolność kredytowa była ewidentnie nieadekwatna i bank mimo to udzielił kredytu — bezpośrednio wpływa na ważność)"
+  ]
+}

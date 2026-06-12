@@ -1,0 +1,602 @@
+{
+  "version": "2026.05.28",
+  "source": "Wyciąg z rejestru klauzul niedozwolonych UOKiK (rejestr.uokik.gov.pl) + orzecznictwo SOKiK/SN/TSUE",
+  "note": "MVP corpus: 30 najczęstszych klauzul abuzywnych w umowach kredytowych. Pattern matching = pierwsza warstwa wykrywania; Claude reasoner potwierdza kontekst.",
+  "clauses": [
+    {
+      "id": "uokik-chf-tabela-bank",
+      "category": "hipoteczny_chf",
+      "title": "Indeksacja po kursie ustalanym przez bank (tabela bankowa)",
+      "keywords": ["kurs", "tabela kursów", "ustala bank", "bank kupna", "bank sprzedaży"],
+      "pattern_regex": "kurs\\w*\\s+(sprzeda\\w*|kupna|zakupu)[\\s\\S]{0,200}?(tabel\\w*|wedl\\w*|stosuj\\w*|publik\\w*)[\\s\\S]{0,80}?bank",
+      "verdict": "abuzywna — bank arbitralnie ustala kurs, jednostronnie kształtuje zobowiązanie",
+      "legal_action": "Możliwa nieważność umowy lub odfrankowanie (przewalutowanie po kursie z dnia umowy). Skonsultować z kancelarią frankową.",
+      "source_url": "https://rejestr.uokik.gov.pl/szukaj.php?text=tabela+kurs%C3%B3w"
+    },
+    {
+      "id": "uokik-chf-spread",
+      "category": "hipoteczny_chf",
+      "title": "Spread walutowy bez wskazania mechanizmu",
+      "keywords": ["spread", "różnica kursowa"],
+      "pattern_regex": "spread[\\s\\S]{0,150}?(usta|okre|wedl)",
+      "verdict": "abuzywna — spread to ukryta opłata, klauzula bez transparentności",
+      "legal_action": "Roszczenie o zwrot spreadu (3 lata przedawnienie)"
+    },
+    {
+      "id": "uokik-zmiana-oproc-bez-przeslanek",
+      "category": "konsumencki",
+      "title": "Bank może zmienić oprocentowanie według własnego uznania",
+      "keywords": ["bank może", "wedle uznania", "według wewnętrznego cennika", "kierując się"],
+      "pattern_regex": "(bank|kredytodawca)\\s+(mo[ż]e|jest uprawniony)\\s+(zmieni[ćc]|podwy[żz]szy[ćc])[\\s\\S]{0,200}?(oprocentowani|stop[ęe])",
+      "verdict": "abuzywna — bank musi mieć konkretne, obiektywne przesłanki zmiany",
+      "legal_action": "Reklamacja + ewentualnie pozew o zwrot nadpłat"
+    },
+    {
+      "id": "uokik-jednostronna-zmiana-tabeli-oplat",
+      "category": "konsumencki",
+      "title": "Bank zmienia tabelę opłat jednostronnie",
+      "keywords": ["tabela opłat", "może zmienić", "obowiązuje aktualna"],
+      "pattern_regex": "(tabela|cennik)\\s+(opłat|prowizji)[\\s\\S]{0,200}?(zmiana|zmieni|zmienić)[\\s\\S]{0,80}?(bank|kredytodawca)",
+      "verdict": "abuzywna — brak zdefiniowanych warunków zmiany",
+      "legal_action": "Klauzula niewiążąca (art. 385[1] kc); reklamacja"
+    },
+    {
+      "id": "uokik-prowizja-za-rozpatrzenie-reklamacji",
+      "category": "konsumencki",
+      "title": "Opłata za rozpatrzenie reklamacji",
+      "keywords": ["opłata za reklamację", "koszty rozpatrzenia"],
+      "pattern_regex": "opłat[ay]?\\s+(za|związan[ay])\\s+rozpatr",
+      "verdict": "abuzywna i sprzeczna z ustawą — rozpatrzenie reklamacji jest obowiązkiem ustawowym (bezpłatnym)",
+      "legal_action": "Reklamacja + Rzecznik Finansowy"
+    },
+    {
+      "id": "uokik-wypowiedzenie-niedokladnie-okreslone",
+      "category": "konsumencki",
+      "title": "Bank wypowiada umowę w przypadku 'utraty zdolności kredytowej' bez definicji",
+      "keywords": ["utrata zdolności", "pogorszenie sytuacji finansowej"],
+      "pattern_regex": "(utrat[ay]?|pogorszeni[ae])\\s+(zdolnoci?|sytuacji)[\\s\\S]{0,200}?(wypowi|rozwi)",
+      "verdict": "abuzywna — niejasne kryteria umożliwiają arbitralność",
+      "legal_action": "Klauzula niewiążąca, w razie wypowiedzenia — pozew o uznanie za bezskuteczne"
+    },
+    {
+      "id": "uokik-ubezpieczenie-obligatoryjne",
+      "category": "konsumencki",
+      "title": "Obowiązkowe ubezpieczenie tylko w wybranym przez bank towarzystwie",
+      "keywords": ["ubezpieczenie", "w towarzystwie", "wskazanym przez bank"],
+      "pattern_regex": "ubezpieczeni[ea][\\s\\S]{0,200}?(towarzystwi[ue]|firm[ie])[\\s\\S]{0,100}?(bank|kredytodawc)",
+      "verdict": "abuzywna — narusza wolność wyboru ubezpieczyciela",
+      "legal_action": "Możliwość zmiany ubezpieczyciela; zwrot składek pobranych nadmiernie"
+    },
+    {
+      "id": "uokik-przewalutowanie-wedlug-banku",
+      "category": "hipoteczny_chf",
+      "title": "Przewalutowanie kredytu po kursie ustalanym przez bank",
+      "keywords": ["przewalutowanie", "kurs", "ustala bank"],
+      "pattern_regex": "przewalutowani[ea][\\s\\S]{0,200}?(kurs|kursy)[\\s\\S]{0,100}?bank",
+      "verdict": "abuzywna — arbitralne kształtowanie zobowiązania",
+      "legal_action": "Frankowicze: pozew o nieważność/odfrankowanie"
+    },
+    {
+      "id": "uokik-obowiazkowa-karta-debetowa",
+      "category": "konsumencki",
+      "title": "Obowiązek posiadania karty debetowej z opłatą",
+      "keywords": ["karta debetowa", "obowiązek", "opłata"],
+      "pattern_regex": "(karta|kart[ay])\\s+(debetow[ay]|kredytow[ay])[\\s\\S]{0,150}?obowi[ąa]zk",
+      "verdict": "abuzywna — wiązanie produktów (tying)",
+      "legal_action": "Reklamacja"
+    },
+    {
+      "id": "uokik-prowizja-od-wcześniejszej-spłaty-pełna",
+      "category": "konsumencki",
+      "title": "Pełna prowizja od wcześniejszej spłaty bez proporcjonalnego pomniejszenia",
+      "keywords": ["wcześniejsza spłata", "prowizja", "pełna"],
+      "pattern_regex": "wcze[śs]niejsz[ay]?\\s+sp[łl]at[ay]?[\\s\\S]{0,200}?prowizj",
+      "verdict": "sprzeczna z art. 49 ukk + wyrok TSUE Lexitor (C-383/18)",
+      "legal_action": "Żądanie zwrotu proporcjonalnej części prowizji"
+    },
+    {
+      "id": "uokik-koszty-windykacji-nieprzejrzyste",
+      "category": "konsumencki",
+      "title": "Koszty windykacji bez taryfikatora",
+      "keywords": ["koszty windykacji", "ryczałt", "obciąża dłużnika"],
+      "pattern_regex": "(koszty?|opłat[ay]?)\\s+(windykac|monit|upomni)[\\s\\S]{0,150}?(rycza[łl]t|wedl|bank)",
+      "verdict": "abuzywna gdy brak konkretnych kwot lub gdy nadmierne",
+      "legal_action": "Reklamacja, ograniczenie do rzeczywistych kosztów"
+    },
+    {
+      "id": "uokik-jurysdykcja-tylko-warszawa",
+      "category": "konsumencki",
+      "title": "Wyłączna jurysdykcja sądu w Warszawie",
+      "keywords": ["sąd właściwy", "Warszawa"],
+      "pattern_regex": "s[ąa]d[\\s\\S]{0,100}?wła[śs]ciwy[\\s\\S]{0,200}?warszaw",
+      "verdict": "abuzywna — utrudnia konsumentowi dochodzenie roszczeń",
+      "legal_action": "Pozew można złożyć w miejscu zamieszkania konsumenta"
+    },
+    {
+      "id": "uokik-przedawnienie-skrocone",
+      "category": "konsumencki",
+      "title": "Skrócenie terminu przedawnienia roszczeń konsumenta",
+      "keywords": ["przedawnienie", "termin", "1 rok"],
+      "pattern_regex": "przedawnieni[ea][\\s\\S]{0,150}?(skr[óo]c|1\\s+rok|6\\s+miesi)",
+      "verdict": "abuzywna i sprzeczna z art. 119 kc",
+      "legal_action": "Klauzula niewiążąca z mocy prawa"
+    },
+    {
+      "id": "uokik-zrzecnie-roszczen",
+      "category": "konsumencki",
+      "title": "Zrzeczenie się roszczeń konsumenta",
+      "keywords": ["zrzeka się", "rezygnuje z roszczeń"],
+      "pattern_regex": "(zrzeka|rezygnuje|wy[łl][ąa]cza)[\\s\\S]{0,150}?roszcze[ńn]",
+      "verdict": "abuzywna — narusza ochronę konsumenta",
+      "legal_action": "Bezwzględnie nieważna"
+    },
+    {
+      "id": "uokik-wibor-procedura-zastapienia",
+      "category": "wibor_wiron",
+      "title": "Brak procedury zastąpienia wskaźnika referencyjnego (WIBOR→WIRON)",
+      "keywords": ["WIBOR", "WIRON", "wskaźnik referencyjny", "zastąpienie"],
+      "pattern_regex": "WIBOR[\\s\\S]{0,300}?(zastapi|zastąp|zmieni|kontynuacj)|WIRON",
+      "verdict": "Po reformie wskaźników referencyjnych (BMR), umowa musi precyzyjnie określać procedurę zastąpienia WIBOR przez WIRON. Brak fallback clause = klauzula abuzywna (TSUE C-700/19 Lombard, decyzje KE w sprawie BMR).",
+      "legal_action": "Pozew o nieważność klauzuli oprocentowania. Po nieważności bank może żądać tylko kwoty kapitału (sankcja podobna do darmowego kredytu).",
+      "source_url": "https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX:32016R1011"
+    },
+    {
+      "id": "uokik-wibor-bank-ustala-tabela",
+      "category": "wibor_wiron",
+      "title": "WIBOR/WIRON ustalany według tabeli banku",
+      "keywords": ["WIBOR", "wskaźnik", "tabela banku", "ustala bank"],
+      "pattern_regex": "(WIBOR|WIRON|wska[zź]nik)[\\s\\S]{0,200}?(tabel\\w*|wedl\\w*|ustal\\w*)[\\s\\S]{0,80}?bank",
+      "verdict": "Wskaźnik WIBOR/WIRON jest publikowany przez administratora (GPW Benchmark, NBP) — bank nie może go modyfikować ani publikować po swojemu.",
+      "legal_action": "Klauzula bezwzględnie sprzeczna z BMR. Reklamacja + pozew."
+    },
+    {
+      "id": "uokik-marza-zmiany-bez-przeslanek",
+      "category": "wibor_wiron",
+      "title": "Bank zmienia marżę bez wskazania kryteriów",
+      "keywords": ["marża", "zmiana marży", "bank może"],
+      "pattern_regex": "marż[ay]?[\\s\\S]{0,200}?(zmieni|podwy[żz]szy)[\\s\\S]{0,150}?(bank|kredytodawc)",
+      "verdict": "Marża ustalona w umowie jest niezmienialna w trakcie trwania kredytu (z wyjątkiem WIBOR/WIRON który zmienia się sam). Klauzula umożliwiająca zmianę marży jest abuzywna.",
+      "legal_action": "Reklamacja + roszczenie o utrzymanie marży z dnia podpisania umowy"
+    },
+    {
+      "id": "uokik-restrukturyzacja-tylko-bank",
+      "category": "konsumencki",
+      "title": "Restrukturyzacja na warunkach narzuconych przez bank",
+      "keywords": ["restrukturyzacja", "wakacje kredytowe", "bank decyduje"],
+      "pattern_regex": "(restrukturyzac|wakacj[ie]?\\s+kredytow)[\\s\\S]{0,200}?(bank|kredytodawc)\\s+(decyduje|wedle|wedlug|moze odm)",
+      "verdict": "Ustawa o pomocy dla kredytobiorców 2022 (i jej kolejne przedłużenia) daje konsumentowi prawo do wakacji kredytowych — bank nie może odmówić jeśli spełnione warunki ustawowe.",
+      "legal_action": "Skarga do KNF + Rzecznik Finansowy + ewentualnie pozew"
+    },
+    {
+      "id": "uokik-cesja-bez-zgody",
+      "category": "konsumencki",
+      "title": "Cesja wierzytelności na firmę windykacyjną bez zgody konsumenta",
+      "keywords": ["cesja", "wierzytelność", "firma windykacyjna", "bez zgody"],
+      "pattern_regex": "(cesj[ai]|przelew)[\\s\\S]{0,200}?(wierzytelno|d[lł]ug)[\\s\\S]{0,200}?(bez\\s+zgody|zastrzega)",
+      "verdict": "Cesja wierzytelności konsumenckich na firmę windykacyjną wymaga osobnej zgody konsumenta (orzecznictwo SN). Klauzula generalnej zgody w umowie kredytu = abuzywna.",
+      "legal_action": "Sprzeciw wobec cesji + ewentualnie roszczenie o ochronę danych osobowych (RODO)"
+    },
+    {
+      "id": "uokik-natychmiastowa-wymagalnosc",
+      "category": "konsumencki",
+      "title": "Natychmiastowa wymagalność całego kredytu po jednej opóźnionej racie",
+      "keywords": ["natychmiastowa wymagalność", "wypowiedzenie", "jednej raty"],
+      "pattern_regex": "natychmiastow[ay]?\\s+wymagaln[oa][sś][cć][\\s\\S]{0,200}?(jednej|pierwszej|kt[óo]rejkolwiek)\\s+rat",
+      "verdict": "Wypowiedzenie umowy kredytu po jednej opóźnionej racie jest rażąco nieproporcjonalne. Banki muszą stosować procedurę monitów + minimum 14 dni na nadrobienie zaległości (art. 75c Prawa bankowego dla hipotek).",
+      "legal_action": "W razie wypowiedzenia: pozew o uznanie za bezskuteczne + przywrócenie umowy"
+    },
+    {
+      "id": "uokik-pelnomocnictwo-szerokie",
+      "category": "konsumencki",
+      "title": "Szerokie nieodwoływalne pełnomocnictwo na rzecz banku",
+      "keywords": ["pełnomocnictwo", "nieodwoływalne", "bank", "imieniem"],
+      "pattern_regex": "pe[lł]nomocni\\w*[\\s\\S]{0,200}?(nieodwo[lł]a|bezwarunko)[\\s\\S]{0,150}?bank",
+      "verdict": "Nieodwoływalne pełnomocnictwo do dysponowania rachunkiem/zabezpieczeniami narusza dobre obyczaje i interesy konsumenta.",
+      "legal_action": "Pisemne odwołanie pełnomocnictwa + reklamacja"
+    },
+    {
+      "id": "uokik-niejasne-warunki-promocji",
+      "category": "konsumencki",
+      "title": "Promocyjne oprocentowanie z niejasnymi warunkami utraty",
+      "keywords": ["promocyjne", "oprocentowanie", "utrata"],
+      "pattern_regex": "promocyjn[eyo]?\\s+oprocentowani[ea][\\s\\S]{0,200}?(utrata|utraci|cofniety)",
+      "verdict": "abuzywna gdy warunki utraty są nieprecyzyjne",
+      "legal_action": "Reklamacja, żądanie utrzymania oprocentowania"
+    },
+    {
+      "id": "uokik-wymagalnosc-bik-wpis",
+      "category": "konsumencki",
+      "title": "Automatyczny wpis do BIK przy minimalnym opóźnieniu",
+      "keywords": ["BIK", "wpis", "opóźnienie"],
+      "pattern_regex": "BIK[\\s\\S]{0,200}?(wpisuje|automatycznie)[\\s\\S]{0,100}?(opó[zź]nienie|dzie[nń])",
+      "verdict": "Wpis do BIK wymaga prowadzonej windykacji, nie może być automatyczny po 1-dniowym opóźnieniu",
+      "legal_action": "Reklamacja + wniosek o usunięcie wpisu w BIK"
+    },
+    {
+      "id": "uokik-koszty-monitow-nadmierne",
+      "category": "konsumencki",
+      "title": "Nadmierne opłaty za monity (>50 zł)",
+      "keywords": ["monit", "wezwanie", "opłata"],
+      "pattern_regex": "(monit|wezwani[ae])[\\s\\S]{0,200}?(50|100|150|200|250|300)\\s*zł",
+      "verdict": "Opłata za monit musi odzwierciedlać rzeczywisty koszt — nie więcej niż 30-40 zł według orzecznictwa SOKiK",
+      "legal_action": "Reklamacja, ograniczenie do uzasadnionych kosztów"
+    },
+    {
+      "id": "uokik-windykacja-firma-zewnetrzna",
+      "category": "konsumencki",
+      "title": "Obciążenie kosztami windykacji firmy zewnętrznej bez podstawy",
+      "keywords": ["windykacja", "firma zewnętrzna", "obciążenie"],
+      "pattern_regex": "(windykacj|inkaso)[\\s\\S]{0,200}?(firm[ay]?\\s+zewn|outsourc)[\\s\\S]{0,150}?(obci[ąa][żz]a|pokrywa)",
+      "verdict": "Wybór firmy windykacyjnej to decyzja banku, nie konsumenta — nie może być na nim koszt",
+      "legal_action": "Reklamacja"
+    },
+    {
+      "id": "uokik-haslo-bankowosci-przejecie",
+      "category": "konsumencki",
+      "title": "Bank zastrzega dostęp do hasła bankowości elektronicznej konsumenta",
+      "keywords": ["hasło", "bankowość elektroniczna", "dostęp"],
+      "pattern_regex": "has[lł]o[\\s\\S]{0,200}?(bankow|elektronic)[\\s\\S]{0,150}?(bank|przekaz|przeka[zż])",
+      "verdict": "Klauzula bezwzględnie sprzeczna z PSD2 — silne uwierzytelnienie klienta jest jego prywatnym uprawnieniem"
+    },
+    {
+      "id": "uokik-zmiana-regulaminu-automatyczna",
+      "category": "konsumencki",
+      "title": "Milcząca zgoda na zmianę regulaminu",
+      "keywords": ["regulamin", "zmiana", "milcząca", "domniemana"],
+      "pattern_regex": "(zmian|aktualiz)[\\s\\S]{0,150}?regulaminu[\\s\\S]{0,200}?(milcz|domnieman|zaakceptow|brak\\s+sprzeciw)",
+      "verdict": "Zmiana warunków umowy wymaga aktywnej zgody konsumenta (TSUE C-26/13 Kasler)",
+      "legal_action": "Roszczenie o utrzymanie pierwotnych warunków"
+    },
+    {
+      "id": "uokik-prowizja-od-wnioskow",
+      "category": "konsumencki",
+      "title": "Opłaty za wnioski/zaświadczenia z banku",
+      "keywords": ["zaświadczenie", "wniosek", "opłata"],
+      "pattern_regex": "(za[sś]wiadczeni|wniosek)[\\s\\S]{0,150}?(opłat|prowizj)[\\s\\S]{0,100}?(\\d+\\s*z[lł])",
+      "verdict": "Opłata za standardowe zaświadczenie nie może być nadmierna; konsument ma prawo do informacji o kredycie bezpłatnie",
+      "legal_action": "Reklamacja"
+    },
+    {
+      "id": "uokik-zmiana-rachunku-bez-zgody",
+      "category": "konsumencki",
+      "title": "Bank może zmienić rachunek spłaty bez zgody konsumenta",
+      "keywords": ["rachunek", "spłata", "zmiana"],
+      "pattern_regex": "rachunek\\s+(spłaty|do\\s+sp[lł]at)[\\s\\S]{0,200}?(zmien|zmian)[\\s\\S]{0,150}?bank",
+      "verdict": "Rachunek spłaty jest elementem essentialia negotii — zmiana wymaga aneksu",
+      "legal_action": "Reklamacja"
+    },
+    {
+      "id": "uokik-podanie-danych-osob-trzecich",
+      "category": "konsumencki",
+      "title": "Bank może żądać danych osobowych osób bliskich/poręczycieli bez podstawy",
+      "keywords": ["dane osobowe", "rodziny", "bliskich"],
+      "pattern_regex": "dan[ey]?\\s+osob[oa]w[ey]?\\s+(rodzin|blisk|poręczyciel)[\\s\\S]{0,200}?(bez|niezale[zż]n)",
+      "verdict": "Naruszenie RODO — zbieranie danych osób trzecich wymaga ich zgody",
+      "legal_action": "Skarga do PUODO"
+    },
+    {
+      "id": "uokik-marketingowe-zgody-domyslne",
+      "category": "konsumencki",
+      "title": "Zgody marketingowe ukryte w głównej umowie",
+      "keywords": ["zgoda", "marketingowe", "domyślnie"],
+      "pattern_regex": "(zgod[ay]?)[\\s\\S]{0,150}?(marketing|handlow)[\\s\\S]{0,200}?(domy[sś]l|wł[aą]czon)",
+      "verdict": "Zgody marketingowe muszą być osobne, aktywne i opcjonalne (RODO + ustawa o świadczeniu usług drogą elektroniczną)",
+      "legal_action": "Odwołanie zgody + skarga do PUODO/UOKiK"
+    },
+    {
+      "id": "uokik-pelna-prowizja-przy-odmowie",
+      "category": "konsumencki",
+      "title": "Pełna prowizja zatrzymana mimo odmowy udzielenia kredytu",
+      "keywords": ["prowizja", "odmowa", "zatrzymuje"],
+      "pattern_regex": "prowizj[ai]?[\\s\\S]{0,200}?(odmow|nie\\s+udzieli|niewypłac)[\\s\\S]{0,150}?(zatrzym|pobier|niezwra)",
+      "verdict": "Prowizja jest wynagrodzeniem za udzielenie kredytu — przy odmowie podlega zwrotowi",
+      "legal_action": "Pozew o zwrot prowizji"
+    },
+    {
+      "id": "uokik-przesylanie-papierowe-oplata",
+      "category": "konsumencki",
+      "title": "Opłata za papierową korespondencję jako kara",
+      "keywords": ["korespondencja", "papierowa", "opłata"],
+      "pattern_regex": "(papierow|listownie)[\\s\\S]{0,150}?(opłat|prowizj)[\\s\\S]{0,100}?\\d+\\s*z[lł]",
+      "verdict": "Konsument ma prawo wyboru kanału komunikacji; opłata za papierową nie może być karna"
+    },
+    {
+      "id": "uokik-windykacja-osoby-bliskie",
+      "category": "konsumencki",
+      "title": "Kontakt windykacyjny z osobami bliskimi konsumenta",
+      "keywords": ["kontakt", "osoby bliskie", "windykacja"],
+      "pattern_regex": "(windyk|kontakt)[\\s\\S]{0,200}?(osob[ay]?\\s+blisk|rodzin|s[ąa]siedz)",
+      "verdict": "Naruszenie RODO + tajemnicy bankowej — windykator nie może informować osób trzecich o długu",
+      "legal_action": "Skarga do PUODO + ewentualnie KNF"
+    },
+    {
+      "id": "uokik-skup-wierzytelnosci-rabat",
+      "category": "konsumencki",
+      "title": "Bank sprzedaje dług z rabatem, dłużnik nie ma korzyści",
+      "keywords": ["cesja", "sprzedaż wierzytelności", "rabat"],
+      "pattern_regex": "(sprzeda|cesj|przelew)[\\s\\S]{0,150}?wierzytelno[sś][cć][\\s\\S]{0,300}?(rabat|dyskont|cena\\s+znacznie)",
+      "verdict": "Po cesji wierzytelności na firmę za 20% wartości, firma żąda 100% — w sądach wygrywa argument 'ograniczenie roszczenia do ceny zakupu'"
+    },
+    {
+      "id": "uokik-wypowiedzenie-ubytek-zabezpieczenia",
+      "category": "hipoteczny",
+      "title": "Wypowiedzenie przy 'ubytku wartości zabezpieczenia'",
+      "keywords": ["zabezpieczenie", "ubytek wartości", "wypowiedzenie"],
+      "pattern_regex": "(ubytek|spadek)[\\s\\S]{0,150}?warto[sś]ci[\\s\\S]{0,200}?zabezpieczeni[ea][\\s\\S]{0,150}?wypowi",
+      "verdict": "Ubytek wartości nieruchomości to ryzyko banku — nie może być podstawą wypowiedzenia (Rekomendacja S KNF)"
+    },
+    {
+      "id": "uokik-dodatkowe-koszty-niezdefiniowane",
+      "category": "konsumencki",
+      "title": "Klauzula o 'dodatkowych kosztach' bez ich wyliczenia",
+      "keywords": ["dodatkowe koszty", "inne opłaty"],
+      "pattern_regex": "(dodatkow[ey]?|inne)\\s+(koszt|opłat|prowizj)[\\s\\S]{0,150}?(mog[ąa]|nie\\s+wymienion|zgodnie)",
+      "verdict": "Wszystkie koszty kredytu muszą być wyliczone w umowie (art. 30 ust. 1 pkt 11 ukk)",
+      "skd_implication": true
+    },
+    {
+      "id": "uokik-zabezpieczenie-weksel-pelnomocnictwo",
+      "category": "konsumencki",
+      "title": "Weksel in blanco z pełnomocnictwem do wypełnienia przez bank",
+      "keywords": ["weksel", "in blanco", "pełnomocnictwo"],
+      "pattern_regex": "weksel\\s+in\\s+blanco[\\s\\S]{0,200}?(pe[lł]nomocnic|wype[lł]ni)[\\s\\S]{0,150}?bank",
+      "verdict": "Decyzja UOKiK DDK 1/2018 — weksel in blanco z pełnomocnictwem do wypełnienia jest abuzywny w kredytach konsumenckich",
+      "legal_action": "Roszczenie o zwrot weksla + ochrona przed wpisem do KRD"
+    },
+    {
+      "id": "uokik-ubezpieczenie-niskiego-wkladu-utrata",
+      "category": "hipoteczny",
+      "title": "Ubezpieczenie niskiego wkładu własnego — koszty stale konsumenta",
+      "keywords": ["niski wkład", "ubezpieczenie", "UNWW"],
+      "pattern_regex": "(UNWW|niskiego\\s+wkładu|nisk[ie]?\\s+wk[lł]ad)[\\s\\S]{0,300}?(stale|do\\s+ko[nń]ca|przez\\s+ca[lł]y)",
+      "verdict": "UNWW po osiągnięciu wymaganego wkładu powinno wygasać — utrzymywanie do końca kredytu = abuzywne (decyzja UOKiK DDK 19/2014)",
+      "legal_action": "Zwrot składek UNWW po przekroczeniu progu LTV"
+    },
+    {
+      "id": "uokik-natychmiastowa-egzekucja-pelnomocnictwo",
+      "category": "konsumencki",
+      "title": "Pełnomocnictwo do natychmiastowej egzekucji (bez sądu)",
+      "keywords": ["egzekucja", "pełnomocnictwo", "bez sądu"],
+      "pattern_regex": "(natychmiastow|bezsporn)[\\s\\S]{0,200}?(egzekucj|wypowiedz)[\\s\\S]{0,150}?(pe[lł]nomocnic|notarialn)",
+      "verdict": "Sprzeczne z konstytucyjnym prawem do sądu — bank musi wystąpić o nakaz zapłaty",
+      "legal_action": "Zarzut nadużycia prawa"
+    },
+    {
+      "id": "uokik-przedstawicielstwo-okreslone",
+      "category": "konsumencki",
+      "title": "Bank uznaje przedstawiciela handlowego za swojego pracownika tylko w określonym zakresie",
+      "keywords": ["pośrednik", "przedstawiciel", "umowa"],
+      "pattern_regex": "(po[sś]rednik|przedstawiciel)[\\s\\S]{0,200}?(nie\\s+jest|nie\\s+ponosi|nie\\s+reprezent)",
+      "verdict": "Bank odpowiada za działania swoich pośredników (art. 5 ust. 1 ustawy o pośrednictwie kredytowym)"
+    },
+    {
+      "id": "uokik-data-podpisu-jednostronnie",
+      "category": "konsumencki",
+      "title": "Bank wypełnia datę zawarcia umowy po podpisie konsumenta",
+      "keywords": ["data umowy", "wpisuje", "bank"],
+      "pattern_regex": "data\\s+(umowy|zawarcia)[\\s\\S]{0,200}?(wpisuje|wprowadza|wype[lł]ni)\\s+bank",
+      "verdict": "Konsument musi znać dokładną datę zawarcia umowy — ma to wpływ na terminy odstąpienia, RRSO, SKD"
+    },
+    {
+      "id": "uokik-trojakie-tlumaczenie",
+      "category": "konsumencki",
+      "title": "Klauzula z trojakim/wieloznacznym tłumaczeniem",
+      "keywords": ["w zależności", "według interpretacji"],
+      "pattern_regex": "(zgodnie\\s+z\\s+interpretacj|wedl[uu]g\\s+rozumieni)[\\s\\S]{0,200}?bank",
+      "verdict": "Niejasne klauzule interpretowane na korzyść konsumenta (in dubio contra proferentem, art. 385 § 2 kc)"
+    },
+    {
+      "id": "uokik-akceptacja-elektronicznych-zgodne",
+      "category": "konsumencki",
+      "title": "Domniemana akceptacja elektronicznych wyciągów / komunikatów",
+      "keywords": ["wyciąg", "elektroniczny", "akceptacja"],
+      "pattern_regex": "(elektronic|cyfrow|email)[\\s\\S]{0,200}?(akcept|wyrazi|wpisa)[\\s\\S]{0,150}?(domy[sś]l|automatyc)",
+      "verdict": "Konsument ma prawo wyboru kanału (papier vs elektroniczny) — domniemana akceptacja narusza ustawę"
+    },
+    {
+      "id": "uokik-tytul-egzekucyjny-przedterminowy",
+      "category": "hipoteczny",
+      "title": "Bankowy Tytuł Egzekucyjny (BTE) — niedopuszczalny po 2016",
+      "keywords": ["BTE", "tytuł egzekucyjny", "klauzula wykonalności"],
+      "pattern_regex": "(BTE|bankow[ay]?\\s+tytu[lł]\\s+egzekucyjn)",
+      "verdict": "TK 14/13 — BTE niezgodny z konstytucją; w umowach po 2016 nieważny ex lege"
+    },
+    {
+      "id": "uokik-vat-wzlot-prowizji",
+      "category": "konsumencki",
+      "title": "Doliczanie VAT do prowizji konsumenckiej",
+      "keywords": ["VAT", "prowizja", "konsumencka"],
+      "pattern_regex": "VAT[\\s\\S]{0,100}?(prowizj[ai]?|opłat)",
+      "verdict": "Usługi kredytowe dla konsumenta są zwolnione z VAT (art. 43 ust. 1 pkt 38 ustawy VAT) — doliczanie VAT to wprowadzanie w błąd"
+    },
+    {
+      "id": "uokik-niska-wartosc-rzeczywista-zabezpieczenia",
+      "category": "samochodowy",
+      "title": "Bank niedoszacowuje wartość zabezpieczenia samochodu",
+      "keywords": ["samochód", "wartość", "zabezpieczenie"],
+      "pattern_regex": "(samoch[oó]d|pojazd)[\\s\\S]{0,200}?warto[sś][cć][\\s\\S]{0,150}?(bank|wedl[uu]g)\\s+(ustal|wycen)",
+      "verdict": "Wycena samochodu musi być oparta na rynkowych źródłach (Eurotax, AAA), nie arbitralnie przez bank"
+    },
+    {
+      "id": "uokik-wlasciwosc-sadu-bank",
+      "category": "konsumencki",
+      "title": "Sąd właściwy dla siedziby banku zamiast konsumenta",
+      "keywords": ["sąd właściwy", "siedziba banku"],
+      "pattern_regex": "s[ąa]d[\\s\\S]{0,200}?w[lł][aą][sś]ciw[ay]?[\\s\\S]{0,200}?(siedzib|miejsc[ae])\\s+banku",
+      "verdict": "Pozew można złożyć w miejscu zamieszkania konsumenta (art. 372 kpc)",
+      "legal_action": "Wniosek o przekazanie sprawy do właściwego sądu konsumenta"
+    },
+    {
+      "id": "uokik-zwiazek-walut-pln-eur",
+      "category": "hipoteczny",
+      "title": "Kredyt indeksowany do EUR z klauzulami CHF-pochodnymi",
+      "keywords": ["EUR", "indeksacja", "tabela"],
+      "pattern_regex": "EUR[\\s\\S]{0,200}?(tabel\\w*|wedl[uu]g)[\\s\\S]{0,150}?bank",
+      "verdict": "Analogiczne do CHF — klauzule abuzywne (TSUE C-269/19 Banca B)"
+    },
+    {
+      "id": "uokik-kontrola-w-domu-konsumenta",
+      "category": "konsumencki",
+      "title": "Bank/pośrednik ma prawo kontroli w domu konsumenta",
+      "keywords": ["kontrola", "dom konsumenta", "wizyta"],
+      "pattern_regex": "(wizyt[ay]?|kontrol)[\\s\\S]{0,200}?(dom|mieszkani|adres)[\\s\\S]{0,150}?(bank|przedstawiciel)",
+      "verdict": "Naruszenie prywatności + RODO — kontrola możliwa tylko przy windykacji sądowej"
+    },
+    {
+      "id": "uokik-bnpl-ukryty-koszt",
+      "category": "bnpl",
+      "title": "BNPL 'zapłać później' bez ujawnienia RRSO",
+      "keywords": ["BNPL", "zapłać później", "Klarna", "PayU", "Allegro Pay"],
+      "pattern_regex": "(BNPL|kup\\s+teraz|zapłać?\\s+później|Klarna|PayU|Allegro\\s+Pay|raty\\s+0%)",
+      "verdict": "Pożyczka BNPL też podlega ustawie o kredycie konsumenckim. Musi być RRSO, prawo odstąpienia, harmonogram. Promocyjne 0% nie zwalnia z obowiązków informacyjnych."
+    },
+    {
+      "id": "uokik-fintech-rolowanie",
+      "category": "fintech",
+      "title": "Automatyczne rolowanie chwilówki na kolejny okres",
+      "keywords": ["rolowanie", "przedłużenie", "automatyczne", "chwilówka"],
+      "pattern_regex": "(rolowani|przed[lł]u[zż]eni|odnowieni)[\\s\\S]{0,200}?(automatyczn|bez\\s+zgody|domy[sś]l)",
+      "verdict": "Automatyczne przedłużanie pożyczki = nowa umowa = nowe obowiązki informacyjne. Bez aktywnej zgody konsumenta — abuzywne.",
+      "skd_implication": true
+    },
+    {
+      "id": "uokik-natychmiastowa-wymagalnosc-chwilówka",
+      "category": "fintech",
+      "title": "Natychmiastowa wymagalność całej pożyczki przy 1 dniu opóźnienia",
+      "keywords": ["chwilówka", "1 dzień", "natychmiastowa wymagalność"],
+      "pattern_regex": "(natychmiastow|cała\\s+kwota)[\\s\\S]{0,200}?(1|jeden|jednego|jedn[ąy])\\s+(dnia|dzie[nń])",
+      "verdict": "Rażąco nieproporcjonalne. Wymagana procedura monitów + minimum 14 dni na nadrobienie."
+    },
+    {
+      "id": "uokik-prowizja-przygotowawcza-osobno",
+      "category": "konsumencki",
+      "title": "Prowizja przygotowawcza ukryta jako 'opłata za rozpatrzenie wniosku'",
+      "keywords": ["opłata", "rozpatrzenie wniosku", "przygotowawcza"],
+      "pattern_regex": "op[lł]at[ay]?\\s+za\\s+(rozpatrzeni|przyjęci|z[lł]o[zż]eni)[\\s\\S]{0,150}?wniosk",
+      "verdict": "Wszystkie opłaty za czynności bankowe MUSZĄ być w MPKK i RRSO. Ukrywanie 'opłat technicznych' = naruszenie obowiązków informacyjnych.",
+      "skd_implication": true
+    },
+    {
+      "id": "uokik-zakaz-zmiany-pracodawcy",
+      "category": "konsumencki",
+      "title": "Zakaz zmiany pracodawcy bez zgody banku",
+      "keywords": ["pracodawca", "zmiana", "zgoda banku"],
+      "pattern_regex": "(zmian[ay]?\\s+pracodawc|zatrudnieni)[\\s\\S]{0,200}?(zgod[ay]?\\s+banku|powiadomi[cć])",
+      "verdict": "Konstytucyjne prawo do wolności pracy. Bank nie może ograniczać Twoich decyzji życiowych. Abuzywne."
+    },
+    {
+      "id": "uokik-zakaz-wakacji-kredytowych",
+      "category": "hipoteczny",
+      "title": "Bank odmawia ustawowych wakacji kredytowych",
+      "keywords": ["wakacje kredytowe", "odmowa", "odmawia"],
+      "pattern_regex": "wakacj[ie]?\\s+kredytow[ay]?[\\s\\S]{0,300}?(odmow|odmawia|nie\\s+stosuje)",
+      "verdict": "Ustawa o pomocy dla kredytobiorców (2022 z późn. zm.) — bank NIE może odmówić jeśli spełnione warunki ustawowe. Klauzula bezskuteczna."
+    },
+    {
+      "id": "uokik-koszty-przeglądu-okresowego",
+      "category": "konsumencki",
+      "title": "Opłaty za 'przegląd ryzyka' / 'monitoring umowy'",
+      "keywords": ["przegląd", "monitoring", "opłata roczna"],
+      "pattern_regex": "(przegl[ąa]d|monitoring)[\\s\\S]{0,150}?(ryzyk|umow)[\\s\\S]{0,100}?op[lł]at",
+      "verdict": "Bank monitoruje kredyt w swoim interesie, nie konsumenta. Opłaty za to abuzywne (decyzje UOKiK 2020-2023)."
+    },
+    {
+      "id": "uokik-jednostronne-wypowiedzenie-bez-uzasadnienia",
+      "category": "konsumencki",
+      "title": "Wypowiedzenie umowy bez podania konkretnej przyczyny",
+      "keywords": ["wypowiedzenie", "bez przyczyny", "uznaniowo"],
+      "pattern_regex": "wypowiedz[ie][\\s\\S]{0,200}?(bez\\s+podawania|wedl[uu]g\\s+uznania)",
+      "verdict": "Wypowiedzenie musi mieć obiektywną, sprawdzalną przyczynę określoną w umowie. Generalne klauzule abuzywne."
+    },
+    {
+      "id": "uokik-przeniesienie-koszt-na-konsumenta",
+      "category": "konsumencki",
+      "title": "Przeniesienie kosztów ryzyka działalności banku na konsumenta",
+      "keywords": ["koszty wyniku", "ryzyko walutowe", "koszt finansowania"],
+      "pattern_regex": "(koszty?|ryzyk)[\\s\\S]{0,200}?(finansowani|wyniku|walutow)[\\s\\S]{0,200}?(pokrywa|obci[ąa][żz]a|przenosi)\\s+(konsument|klient|kredytobiorca)",
+      "verdict": "Koszty prowadzenia działalności bankowej to ryzyko biznesowe banku. Nieuczciwe przenoszenie na konsumenta = abuzywne."
+    },
+    {
+      "id": "uokik-haslo-w-sms",
+      "category": "fintech",
+      "title": "Pożyczka aktywowana przez SMS z hasłem",
+      "keywords": ["SMS", "hasło", "potwierdzenie"],
+      "pattern_regex": "SMS[\\s\\S]{0,200}?(has[lł]o|kod|aktywuj)[\\s\\S]{0,200}?(wystarcz|po[zż]yczka)",
+      "verdict": "Umowa kredytu MUSI być w formie pisemnej (art. 29 ust. 1 ukk). SMS-owe potwierdzenie nie spełnia wymogu formy. Możliwa nieważność."
+    },
+    {
+      "id": "uokik-ograniczenie-instancji",
+      "category": "konsumencki",
+      "title": "Ograniczenie prawa do odwołania (II instancji)",
+      "keywords": ["instancja", "apelacja", "ostateczna decyzja"],
+      "pattern_regex": "(instancj|apelacj)[\\s\\S]{0,200}?(wy[lł][ąa]cz|brak|ograniczeni)",
+      "verdict": "Prawo do dwuinstancyjności jest konstytucyjnym prawem (art. 78 Konstytucji RP). Klauzula bezskuteczna."
+    },
+    {
+      "id": "uokik-prowizja-od-wyplaty",
+      "category": "fintech",
+      "title": "Prowizja za WYPŁATĘ środków (a nie tylko za udzielenie)",
+      "keywords": ["prowizja", "wypłata", "uruchomienie"],
+      "pattern_regex": "prowizj[ai]?\\s+(za|od)\\s+(wyp[lł]at|uruchomieni)",
+      "verdict": "Podwójna prowizja (za udzielenie + za wypłatę) tej samej czynności. Często powyżej limitu MPKK.",
+      "skd_implication": true
+    },
+    {
+      "id": "uokik-zmiana-warunkow-aneksem",
+      "category": "konsumencki",
+      "title": "Bank zastrzega prawo do narzucenia aneksu zmieniającego warunki",
+      "keywords": ["aneks", "obowiązek zawarcia", "wezwanie"],
+      "pattern_regex": "(aneks)[\\s\\S]{0,200}?(obowi[ąa]zek|musi|nale[zż]y)\\s+(zawrzeć|podpisać)",
+      "verdict": "Aneks zmienia umowę = wymaga AKTYWNEJ ZGODY obu stron. Klauzula 'musisz podpisać aneks' = abuzywna."
+    },
+    {
+      "id": "uokik-zgoda-na-marketing-warunkiem",
+      "category": "konsumencki",
+      "title": "Zgoda marketingowa warunkiem udzielenia kredytu",
+      "keywords": ["zgoda marketingowa", "warunek", "udzielenie"],
+      "pattern_regex": "(zgod[ay]?)[\\s\\S]{0,150}?(marketing|handlow)[\\s\\S]{0,200}?(warunek|wymagan|niezb[ęe]dn)",
+      "verdict": "RODO art. 7 ust. 4 — zgoda musi być dobrowolna. Uzależnienie usługi od marketingu = naruszenie + klauzula abuzywna."
+    },
+    {
+      "id": "uokik-dane-biometria",
+      "category": "fintech",
+      "title": "Wymóg podania danych biometrycznych (twarz, odcisk palca)",
+      "keywords": ["biometria", "skan twarzy", "Selfie", "odcisk palca"],
+      "pattern_regex": "(biometri|selfie|skan\\s+twarzy|odcisk\\s+palca)[\\s\\S]{0,200}?(wymagan|obowi[ąa]zkow|niezb)",
+      "verdict": "Dane biometryczne to dane wrażliwe (RODO art. 9). Wymagana wyraźna zgoda + cel + proporcjonalność. Bank musi mieć ALTERNATYWNĄ metodę weryfikacji.",
+      "legal_action": "Skarga do PUODO + reklamacja"
+    },
+    {
+      "id": "uokik-pelnomocnictwo-do-egzekucji",
+      "category": "konsumencki",
+      "title": "Pełnomocnictwo do złożenia oświadczenia o poddaniu się egzekucji",
+      "keywords": ["pełnomocnictwo", "egzekucja", "oświadczenie"],
+      "pattern_regex": "pe[lł]nomocnic\\w*[\\s\\S]{0,200}?(o[sś]wiadczen|poddan)[\\s\\S]{0,150}?egzekucj",
+      "verdict": "Oświadczenie o poddaniu się egzekucji to akt notarialny dotyczący Twojego majątku. Pełnomocnictwo dla banku do jego złożenia = bezskuteczne (po wyroku TK K 14/13)."
+    },
+    {
+      "id": "uokik-zakaz-cesji-na-konsumenta",
+      "category": "konsumencki",
+      "title": "Zakaz przeniesienia praw konsumenta na inną osobę",
+      "keywords": ["przeniesienie", "konsument", "zakaz"],
+      "pattern_regex": "(przeniesieni|cesj[ai])[\\s\\S]{0,200}?(praw|umow)[\\s\\S]{0,150}?(konsument|kredytobiorc)[\\s\\S]{0,100}?(zakaz|wymaga\\s+zgody\\s+banku)",
+      "verdict": "Asymetryczne ograniczenie (bank może cedować, konsument nie) = abuzywne. Konsument może cedować np. polise ubezpieczeniową ze swojej strony."
+    },
+    {
+      "id": "uokik-wymagany-rachunek-w-banku",
+      "category": "konsumencki",
+      "title": "Wymóg prowadzenia rachunku w tym samym banku",
+      "keywords": ["rachunek", "konto", "wymóg", "ten sam bank"],
+      "pattern_regex": "(wymaga|obowi[ąa]zek|konieczno[sś][cć])[\\s\\S]{0,200}?(rachunek|konto)[\\s\\S]{0,200}?(naszym|tym|tutejszym)\\s+banku",
+      "verdict": "Wiązanie produktów (tying) — narusza wolność wyboru. UOKiK kilkukrotnie karał banki za tę praktykę. Klauzula nieskuteczna."
+    },
+    {
+      "id": "uokik-jurysdykcja-niemiec-zagranica",
+      "category": "konsumencki",
+      "title": "Spór rozstrzygany przed sądem zagranicznym (np. niemieckim)",
+      "keywords": ["sąd zagraniczny", "Niemcy", "jurysdykcja", "prawo obce"],
+      "pattern_regex": "(s[ąa]d[\\s\\S]{0,100}?(niemieck|szwajc|brytyjsk|austriack))|(prawo\\s+(niemieck|brytyjsk))",
+      "verdict": "Konsument zawsze może być pozwany w państwie swojego zamieszkania (Rozporządzenie Bruksela I bis). Klauzula prorogacyjna sprzeczna z prawem UE."
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "version": "2026.05.29",
+  "source": "Wykaz Komisji Nadzoru Finansowego (knf.gov.pl/podmioty/Podmioty_sektora_bankowego). Banki krajowe + oddziały banków zagranicznych + IKK + IKE.",
+  "note": "MVP corpus: top 60 najczęściej spotykanych pożyczkodawców. Pełen rejestr KNF ma ~600 wpisów (z banki spółdzielcze).",
+  "categories": {
+    "bank_krajowy": "Bank krajowy (KNF supervised, ustawa Prawo bankowe)",
+    "oddzial_banku_zagranicznego": "Oddział banku zagranicznego (KNF supervised)",
+    "skok": "Spółdzielcza kasa oszczędnościowo-kredytowa (KNF supervised)",
+    "instytucja_pozyczkowa": "Instytucja pożyczkowa (rejestr KNF wg ustawy o kredycie konsumenckim)",
+    "parabank_nielicencjonowany": "Niezarejestrowany — działalność niezgodna z prawem (art. 178 ustawy Prawo bankowe — kara do 10 lat)"
+  },
+  "lenders": [
+    { "name": "PKO Bank Polski", "aliases": ["PKO BP", "PKO Polski"], "category": "bank_krajowy", "knf_id": "1010" },
+    { "name": "Bank Pekao", "aliases": ["Pekao SA", "Pekao S.A."], "category": "bank_krajowy" },
+    { "name": "Santander Bank Polska", "aliases": ["Santander", "BZ WBK"], "category": "bank_krajowy" },
+    { "name": "ING Bank Śląski", "aliases": ["ING"], "category": "bank_krajowy" },
+    { "name": "mBank", "aliases": ["mBank S.A.", "BRE Bank"], "category": "bank_krajowy" },
+    { "name": "Bank Millennium", "aliases": ["Millennium"], "category": "bank_krajowy" },
+    { "name": "Alior Bank", "aliases": [], "category": "bank_krajowy" },
+    { "name": "BNP Paribas Bank Polska", "aliases": ["BNP", "BNP Paribas"], "category": "bank_krajowy" },
+    { "name": "Credit Agricole Bank Polska", "aliases": ["Credit Agricole"], "category": "bank_krajowy" },
+    { "name": "Citi Handlowy", "aliases": ["Citibank"], "category": "bank_krajowy" },
+    { "name": "Nest Bank", "aliases": [], "category": "bank_krajowy" },
+    { "name": "Velo Bank", "aliases": ["VeloBank", "Getin Noble"], "category": "bank_krajowy" },
+    { "name": "BOŚ Bank", "aliases": ["Bank Ochrony Środowiska"], "category": "bank_krajowy" },
+    { "name": "Bank Pocztowy", "aliases": [], "category": "bank_krajowy" },
+    { "name": "Plus Bank", "aliases": [], "category": "bank_krajowy" },
+    { "name": "Toyota Bank Polska", "aliases": [], "category": "bank_krajowy" },
+    { "name": "Volkswagen Bank Polska", "aliases": ["VW Bank"], "category": "bank_krajowy" },
+    { "name": "Inbank", "aliases": [], "category": "oddzial_banku_zagranicznego" },
+    { "name": "Revolut Bank", "aliases": ["Revolut"], "category": "oddzial_banku_zagranicznego" },
+    { "name": "N26 Bank", "aliases": ["N26"], "category": "oddzial_banku_zagranicznego" },
+
+    { "name": "Provident Polska", "aliases": ["Provident"], "category": "instytucja_pozyczkowa" },
+    { "name": "Vivus Finance", "aliases": ["Vivus"], "category": "instytucja_pozyczkowa" },
+    { "name": "Wonga", "aliases": [], "category": "instytucja_pozyczkowa" },
+    { "name": "Aasa Polska", "aliases": ["Aasa"], "category": "instytucja_pozyczkowa" },
+    { "name": "Hapi Pożyczki", "aliases": ["Hapi"], "category": "instytucja_pozyczkowa" },
+    { "name": "Net Credit", "aliases": ["NetCredit", "Soho Credit"], "category": "instytucja_pozyczkowa" },
+    { "name": "Vega Finance", "aliases": [], "category": "instytucja_pozyczkowa" },
+    { "name": "Smartney", "aliases": [], "category": "instytucja_pozyczkowa" },
+    { "name": "Kuki.pl", "aliases": ["Kuki"], "category": "instytucja_pozyczkowa" },
+    { "name": "MoneyMan", "aliases": [], "category": "instytucja_pozyczkowa" },
+    { "name": "Eurocent", "aliases": [], "category": "instytucja_pozyczkowa" },
+    { "name": "Profi Credit", "aliases": ["ProfiCredit"], "category": "instytucja_pozyczkowa" },
+    { "name": "Bocian Pożyczki", "aliases": ["Bocian"], "category": "instytucja_pozyczkowa" },
+    { "name": "Ferratum", "aliases": [], "category": "instytucja_pozyczkowa" },
+    { "name": "Solven", "aliases": [], "category": "instytucja_pozyczkowa" },
+
+    { "name": "Krakowski Bank Spółdzielczy", "aliases": ["KBS"], "category": "bank_krajowy" },
+    { "name": "Bank Spółdzielczy w Brodnicy", "aliases": [], "category": "bank_krajowy" },
+    { "name": "KIR Polska", "aliases": [], "category": "bank_krajowy" }
+  ],
+  "known_unlicensed_warning": [
+    "Pożyczkodawcy z domenami z .ru/.ua/.tk/.ml — często phishing parabank",
+    "Reklamy 'pożyczka bez BIK bez sprawdzania' często bez licencji KNF",
+    "Pożyczki przez Telegram/WhatsApp bez umowy = praktycznie zawsze nielegalne"
+  ],
+  "knf_search_url": "https://www.knf.gov.pl/podmioty/Podmioty_rynku_finansowego",
+  "consumer_action_if_unlicensed": [
+    "Zgłoszenie do KNF (z.knf.gov.pl/uzytkownik/zglos_naduzycie)",
+    "Zawiadomienie do UOKiK",
+    "Zawiadomienie do prokuratury (art. 178 ust. Prawa bankowego — kara do 10 lat)",
+    "Pozew o zwrot wszystkich kosztów (art. 410 kc + nieważność umowy)"
+  ]
+}

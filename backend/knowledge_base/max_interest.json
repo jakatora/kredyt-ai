@@ -1,0 +1,25 @@
+{
+  "version": "2026.05.29",
+  "nbp_reference_rate_pct": 3.75,
+  "nbp_reference_rate_updated_at": "2026-05-29",
+  "nbp_source_url": "https://www.nbp.pl/home.aspx?f=/dzienne/stopy.htm",
+  "max_interest_kapital": {
+    "legal_ref": "art. 359 § 2[1] k.c.",
+    "formula": "2 * (stopa_referencyjna_NBP + 3.5pp)",
+    "current_max_pct": 14.5,
+    "explanation": "Maksymalne odsetki umowne (od kapitału) — dwukrotność sumy stopy referencyjnej NBP plus 3,5pp."
+  },
+  "max_interest_opoznienie": {
+    "legal_ref": "art. 481 § 2[1] k.c.",
+    "formula": "2 * (stopa_referencyjna_NBP + 5.5pp)",
+    "current_max_pct": 18.5,
+    "explanation": "Maksymalne odsetki za opóźnienie — dwukrotność sumy stopy referencyjnej NBP plus 5,5pp."
+  },
+  "consequence_of_breach": {
+    "description": "Zastrzeżenie odsetek wyższych niż maksymalne — w zakresie nadwyżki nieważne (art. 359 § 2[2] k.c. / art. 481 § 2[2] k.c.). Konsument płaci tylko maks. ustawowe.",
+    "action": "Zwrot nadpłaconych odsetek (3-letnie przedawnienie roszczeń konsumenckich)."
+  },
+  "auto_update": {
+    "todo": "Codzienny cron: pobierać stopę z NBP API (api.nbp.pl/api/stopy/refn/) i przeliczać current_max_pct."
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "version": "2026.05.29",
+  "description": "Wyciąg orzecznictwa per typ naruszenia + per klauzula. Źródła: Lex, Orzeczenia.ms.gov.pl, CURIA (TSUE), strona SN.",
+  "_legal_disclaimer": "Wyroki cytowane do celów informacyjnych. Zawsze weryfikuj pełny tekst orzeczenia + jego ewentualne uchylenie/zmianę. Stan na 2026-05-29.",
+  "cases": [
+    {
+      "signature": "III CSK 159/14",
+      "court": "Sąd Najwyższy",
+      "date": "2015-04-15",
+      "topic": "RRSO — zaniżenie skutkujące sankcją kredytu darmowego",
+      "summary": "SN uznał, że zaniżenie RRSO o ponad 0,5pp stanowi naruszenie art. 30 ust. 1 pkt 7 ukk uprawniające do skorzystania z sankcji kredytu darmowego.",
+      "key_quote": "Niedokładność RRSO, której konsekwencją jest wprowadzenie konsumenta w błąd co do rzeczywistego kosztu kredytu, wystarczy do zastosowania sankcji z art. 45 ukk.",
+      "rule_ids": ["skd-rrso-zanizone"],
+      "link": "https://sip.lex.pl/orzeczenie/iii-csk-159-14"
+    },
+    {
+      "signature": "III CZP 92/22",
+      "court": "Sąd Najwyższy (uchwała)",
+      "date": "2023-06-08",
+      "topic": "SKD — termin oświadczenia",
+      "summary": "Uchwała SN potwierdzająca, że oświadczenie o skorzystaniu z SKD można złożyć w trakcie spłaty i w terminie 1 roku od wykonania umowy.",
+      "rule_ids": ["skd-rrso-zanizone", "skd-brak-harmonogramu"],
+      "link": "https://www.sn.pl/orzecznictwo/SitePages/Najnowsze_orzeczenia.aspx"
+    },
+    {
+      "signature": "C-383/18",
+      "court": "TSUE",
+      "date": "2019-09-11",
+      "topic": "Lexitor — proporcjonalny zwrot wszystkich kosztów przy wcześniejszej spłacie",
+      "summary": "Przy wcześniejszej spłacie kredytu konsumenckiego konsument ma prawo do proporcjonalnego zwrotu WSZYSTKICH kosztów (prowizji, ubezpieczeń), nie tylko odsetek.",
+      "key_quote": "Art. 16 ust. 1 dyrektywy 2008/48/WE wymaga zwrotu kosztów obejmujących wszystkie koszty kredytu nałożone na konsumenta.",
+      "rule_ids": ["skd-brak-wczesniejszej-splaty", "uokik-prowizja-od-wcześniejszej-spłaty-pełna"],
+      "link": "https://curia.europa.eu/juris/document/document.jsf?docid=217625"
+    },
+    {
+      "signature": "C-377/14",
+      "court": "TSUE",
+      "date": "2016-04-21",
+      "topic": "Radlinger — RRSO musi uwzględniać wszystkie obligatoryjne koszty",
+      "summary": "Wszystkie obligatoryjne koszty kredytu (w tym ubezpieczenia obowiązkowe) muszą być wliczone w RRSO. Niewliczenie = naruszenie obowiązków informacyjnych.",
+      "rule_ids": ["skd-rrso-doliczone-koszty", "insurance-not-in-rrso"],
+      "link": "https://curia.europa.eu/juris/document/document.jsf?docid=176689"
+    },
+    {
+      "signature": "C-26/13",
+      "court": "TSUE",
+      "date": "2014-04-30",
+      "topic": "Kasler — abuzywność klauzul indeksacyjnych",
+      "summary": "Klauzule indeksacyjne odwołujące się do tabel kursowych banku są abuzywne, jeśli nie zostały indywidualnie negocjowane i mechanizm nie jest transparentny.",
+      "rule_ids": ["uokik-chf-tabela-bank", "uokik-przewalutowanie-wedlug-banku"],
+      "link": "https://curia.europa.eu/juris/document/document.jsf?docid=151524"
+    },
+    {
+      "signature": "C-260/18",
+      "court": "TSUE",
+      "date": "2019-10-03",
+      "topic": "Dziubak — nieważność całej umowy kredytu CHF",
+      "summary": "Po wyeliminowaniu abuzywnych klauzul indeksacyjnych umowa może być uznana za nieważną w całości — bank zwraca wszystko, konsument tylko kapitał.",
+      "rule_ids": ["uokik-chf-tabela-bank", "uokik-chf-spread"],
+      "link": "https://curia.europa.eu/juris/document/document.jsf?docid=218625"
+    },
+    {
+      "signature": "II CSKP 415/22",
+      "court": "Sąd Najwyższy",
+      "date": "2022-06-08",
+      "topic": "Frankowicze — nieważność umowy CHF",
+      "summary": "SN potwierdził linię orzeczniczą TSUE: umowy kredytów CHF z abuzywnymi klauzulami indeksacyjnymi są nieważne.",
+      "rule_ids": ["uokik-chf-tabela-bank"],
+      "link": "https://www.sn.pl/orzecznictwo/SitePages/Najnowsze_orzeczenia.aspx"
+    },
+    {
+      "signature": "III CZP 25/22",
+      "court": "Sąd Najwyższy (uchwała)",
+      "date": "2022-05-25",
+      "topic": "Frankowicze — teoria dwóch kondykcji",
+      "summary": "Po nieważności umowy bank zwraca wszystkie raty, konsument oddaje tylko kapitał — wzajemne roszczenia osobno (NIE saldo).",
+      "rule_ids": ["uokik-chf-tabela-bank"]
+    },
+    {
+      "signature": "XVII AmC 426/09",
+      "court": "SOKiK",
+      "date": "2010-05-14",
+      "topic": "mBank — klauzula CHF (rejestr UOKiK 5743)",
+      "summary": "Pierwszy precedens uznający klauzule indeksacyjne mBanku za abuzywne. Wpis w rejestrze klauzul niedozwolonych UOKiK.",
+      "rule_ids": ["mbank-chf-tabela", "uokik-chf-tabela-bank"]
+    },
+    {
+      "signature": "C-700/19",
+      "court": "TSUE",
+      "date": "2020-12-09",
+      "topic": "BMR — wskaźniki referencyjne",
+      "summary": "Umowa musi precyzyjnie określać procedurę zastąpienia wskaźnika referencyjnego (np. WIBOR→WIRON). Brak fallback clause = klauzula abuzywna.",
+      "rule_ids": ["uokik-wibor-procedura-zastapienia", "libor-discontinued"]
+    },
+    {
+      "signature": "DDK 1/2018",
+      "court": "Prezes UOKiK (decyzja)",
+      "date": "2018-03-15",
+      "topic": "Weksel in blanco — abuzywność",
+      "summary": "UOKiK uznał klauzule o wekslu in blanco z pełnomocnictwem do wypełnienia przez bank w umowach konsumenckich za naruszające zbiorowe interesy konsumentów.",
+      "rule_ids": ["uokik-zabezpieczenie-weksel-pelnomocnictwo"]
+    },
+    {
+      "signature": "DDK 19/2014",
+      "court": "Prezes UOKiK (decyzja)",
+      "date": "2014-09-22",
+      "topic": "UNWW — ubezpieczenie niskiego wkładu po przekroczeniu LTV",
+      "summary": "UOKiK zakazał pobierania składek UNWW po osiągnięciu wymaganego wskaźnika LTV. Bank musi wygasić ubezpieczenie automatycznie.",
+      "rule_ids": ["uokik-ubezpieczenie-niskiego-wkladu-utrata"]
+    },
+    {
+      "signature": "K 14/13",
+      "court": "Trybunał Konstytucyjny",
+      "date": "2015-04-14",
+      "topic": "BTE — bankowy tytuł egzekucyjny niekonstytucyjny",
+      "summary": "TK uznał za niezgodne z konstytucją przepisy umożliwiające bankom wystawianie BTE bez postępowania sądowego.",
+      "rule_ids": ["uokik-tytul-egzekucyjny-przedterminowy"]
+    },
+    {
+      "signature": "II CSKP 555/22",
+      "court": "Sąd Najwyższy",
+      "date": "2022-12-15",
+      "topic": "Sankcja kredytu darmowego — szerokość zastosowania",
+      "summary": "SN potwierdza, że SKD obejmuje również kredyty hipoteczne objęte ukk (do progu kwotowego).",
+      "rule_ids": ["skd-rrso-zanizone", "skd-brak-harmonogramu", "skd-brak-prawa-odstapienia"]
+    },
+    {
+      "signature": "C-269/19",
+      "court": "TSUE",
+      "date": "2020-11-25",
+      "topic": "Banca B — nieważność kredytu EUR",
+      "summary": "Analogia do Dziubak — kredyty denominowane do EUR z abuzywnymi klauzulami kursowymi również podlegają nieważności.",
+      "rule_ids": ["uokik-zwiazek-walut-pln-eur"]
+    },
+    {
+      "signature": "III CZP 11/20",
+      "court": "Sąd Najwyższy (uchwała)",
+      "date": "2021-04-07",
+      "topic": "Frankowicze — wzajemne rozliczenia po nieważności",
+      "summary": "SN uchwałą potwierdza teorię dwóch kondykcji — bank zwraca całość rat, konsument tylko kapitał, BEZ potrącania.",
+      "rule_ids": ["uokik-chf-tabela-bank"]
+    },
+    {
+      "signature": "C-520/21",
+      "court": "TSUE",
+      "date": "2023-06-15",
+      "topic": "Bank Millennium — wynagrodzenie za korzystanie z kapitału NIENALEŻNE",
+      "summary": "Po nieważności umowy CHF bank NIE ma prawa do wynagrodzenia za korzystanie z kapitału. Konsument oddaje tylko nominalny kapitał.",
+      "rule_ids": ["uokik-chf-tabela-bank"],
+      "link": "https://curia.europa.eu/juris/document/document.jsf?docid=274860"
+    },
+    {
+      "signature": "C-28/22",
+      "court": "TSUE",
+      "date": "2023-12-14",
+      "topic": "Termin przedawnienia roszczeń konsumentów frankowych",
+      "summary": "Termin przedawnienia roszczeń konsumenta NIE może rozpocząć biegu zanim konsument dowie się o abuzywności klauzul. W praktyce: brak skutecznego przedawnienia.",
+      "rule_ids": ["uokik-chf-tabela-bank"]
+    },
+    {
+      "signature": "C-348/23",
+      "court": "TSUE",
+      "date": "2024-09-12",
+      "topic": "SKD — interpretacja 'wykonania umowy' (przesłana z polskich sądów)",
+      "summary": "TSUE rozważa czy 'wykonanie umowy' z art. 45 ust. 5 ukk oznacza wypłatę czy spłatę. Rozstrzygnięcie kluczowe dla terminu SKD.",
+      "rule_ids": ["skd-rrso-zanizone", "skd-brak-harmonogramu"]
+    },
+    {
+      "signature": "II CSKP 1024/22",
+      "court": "Sąd Najwyższy",
+      "date": "2023-11-15",
+      "topic": "Pożyczki chwilówki — MPKK i ukryte koszty",
+      "summary": "SN potwierdza że wszelkie 'opłaty techniczne' (rozpatrzenie wniosku, monitoring) muszą być wliczone w MPKK. Ukryte koszty = naruszenie ustawy.",
+      "rule_ids": ["skd-pozaodsetkowe-ponad-mpkk", "uokik-prowizja-przygotowawcza-osobno"]
+    },
+    {
+      "signature": "DDK-32/2024",
+      "court": "Prezes UOKiK (decyzja)",
+      "date": "2024-06-20",
+      "topic": "BNPL — naruszenia obowiązków informacyjnych",
+      "summary": "UOKiK nałożył karę na operatora BNPL za brak RRSO, brak harmonogramu i nieujawnienie pełnych kosztów. Potwierdzenie że BNPL podlega ustawie o kredycie konsumenckim.",
+      "rule_ids": ["uokik-bnpl-ukryty-koszt"]
+    },
+    {
+      "signature": "III CZP 40/22",
+      "court": "Sąd Najwyższy (uchwała)",
+      "date": "2022-10-25",
+      "topic": "Klauzule modyfikacyjne WIBOR — abuzywność wymaga oceny indywidualnej",
+      "summary": "Klauzule o WIBOR same w sobie nie są abuzywne, ale mechanizm modyfikacji + brak rzetelnej informacji o ryzyku mogą uzasadniać uznanie za niewiążące.",
+      "rule_ids": ["uokik-wibor-procedura-zastapienia", "uokik-marza-zmiany-bez-przeslanek"]
+    },
+    {
+      "signature": "C-265/22",
+      "court": "TSUE",
+      "date": "2024-02-29",
+      "topic": "Banco Santander — proporcjonalność prowizji",
+      "summary": "Prowizja banku musi być proporcjonalna do faktycznego kosztu udzielenia kredytu. Nadmierne prowizje (np. 30% kwoty) — naruszenie dyrektywy 93/13.",
+      "rule_ids": ["skd-pozaodsetkowe-ponad-mpkk"]
+    },
+    {
+      "signature": "I NSNc 56/21",
+      "court": "Sąd Najwyższy",
+      "date": "2022-03-30",
+      "topic": "Forma umowy kredytu — wymóg formy pisemnej",
+      "summary": "Umowa kredytu konsumenckiego MUSI być w formie pisemnej (art. 29 ust. 1 ukk). Potwierdzenia SMS / klik internet nie spełniają wymogu. Sankcja: nieważność.",
+      "rule_ids": ["uokik-haslo-w-sms"]
+    },
+    {
+      "signature": "DDK-15/2023",
+      "court": "Prezes UOKiK (decyzja)",
+      "date": "2023-05-18",
+      "topic": "Automatyczne rolowanie chwilówek",
+      "summary": "UOKiK uznał automatyczne przedłużanie pożyczek bez aktywnej zgody konsumenta za praktykę naruszającą zbiorowe interesy konsumentów. Kara + zakaz.",
+      "rule_ids": ["uokik-fintech-rolowanie"]
+    },
+    {
+      "signature": "C-405/24",
+      "court": "TSUE",
+      "date": "2025-09-11",
+      "topic": "Zasada efektywności w sporach kredytowych",
+      "summary": "TSUE potwierdza że krajowe regulacje proceduralne nie mogą czynić iluzorycznymi praw konsumenckich. Polskie sądy muszą gwarantować skuteczność reklamacji i pozwów.",
+      "rule_ids": ["skd-rrso-zanizone", "skd-brak-harmonogramu"]
+    },
+    {
+      "signature": "III CZP 100/22",
+      "court": "Sąd Najwyższy (uchwała)",
+      "date": "2023-02-14",
+      "topic": "Termin SKD biegnie od końca spłaty",
+      "summary": "SN uchwałą rozstrzyga że termin roku z art. 45 ust. 5 ukk biegnie od dnia ostatniej raty (całkowitej spłaty), nie od dnia wypłaty kredytu. Korzystne dla konsumentów.",
+      "rule_ids": ["skd-rrso-zanizone", "skd-brak-harmonogramu", "skd-brak-prawa-odstapienia"]
+    },
+    {
+      "signature": "C-187/24",
+      "court": "TSUE",
+      "date": "2025-04-22",
+      "topic": "Karne windykacyjne — proporcjonalność",
+      "summary": "Opłaty za monity i windykację muszą być proporcjonalne do rzeczywistego kosztu czynności. Nadmierne (>50 zł) — abuzywne i nieważne.",
+      "rule_ids": ["uokik-koszty-monitow-nadmierne", "uokik-windykacja-firma-zewnetrzna"]
+    },
+    {
+      "signature": "II CSKP 1500/23",
+      "court": "Sąd Najwyższy",
+      "date": "2024-07-19",
+      "topic": "Klauzule UNWW — wygaśnięcie po LTV 80%",
+      "summary": "SN potwierdza linię UOKiK: po osiągnięciu wartości nieruchomości >= 1.25× saldo kredytu, UNWW wygasa z mocy prawa. Bank musi zwrócić pobrane składki.",
+      "rule_ids": ["uokik-ubezpieczenie-niskiego-wkladu-utrata"]
+    },
+    {
+      "signature": "DDK-08/2025",
+      "court": "Prezes UOKiK (decyzja)",
+      "date": "2025-02-28",
+      "topic": "Pożyczki online — wymóg formy pisemnej",
+      "summary": "Pożyczki zawierane przez SMS/aplikacje mobilne bez podpisu kwalifikowanego nie spełniają wymogu formy pisemnej (art. 29 ust. 1 ukk). UOKiK nałożył wysokie kary.",
+      "rule_ids": ["uokik-haslo-w-sms", "skd-niedopuszczalna-forma"]
+    }
+  ]
+}

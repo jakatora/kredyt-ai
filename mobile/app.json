@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "KredytAI",
+    "slug": "kredytai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "kredytai",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1E3A8A"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "pl.kredytai.app",
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "KredytAI używa aparatu do skanowania umów kredytowych.",
+        "NSPhotoLibraryUsageDescription": "KredytAI potrzebuje dostępu do zdjęć aby umożliwić wybór umów do analizy."
+      }
+    },
+    "android": {
+      "package": "pl.kredytai.app",
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE"],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon-foreground.png",
+        "backgroundColor": "#1E3A8A"
+      }
+    },
+    "web": { "favicon": "./assets/favicon.png" },
+    "plugins": [
+      "expo-image-picker",
+      "expo-document-picker"
+    ],
+    "extra": {
+      "apiBaseUrl": "https://backend-kredyt-ai-production.up.railway.app"
+    }
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "version": "2026.05.30",
+  "description": "Krok-po-kroku co zrobić dla każdej ścieżki odzyskania pieniędzy. Per scenariusz: checklist, dokumenty, terminy, kontakty.",
+  "scenarios": {
+    "skd-pelna": {
+      "name": "Sankcja kredytu darmowego — pełna",
+      "estimated_total_time_weeks": [4, 26],
+      "estimated_total_cost_pln": [0, 5000],
+      "success_chance_pct": 85,
+      "steps": [
+        {
+          "step": 1,
+          "title": "Zbierz dokumenty",
+          "what_to_do": "Skompletuj: oryginał umowy kredytu + formularz informacyjny + regulamin + harmonogram spłat + dowody wpłat (wyciągi bankowe).",
+          "time": "1-2 dni",
+          "cost_pln": 0,
+          "tip": "Możesz zażądać od banku ksero — bezpłatnie w 14 dni (RODO)."
+        },
+        {
+          "step": 2,
+          "title": "Wyślij oświadczenie o SKD do banku",
+          "what_to_do": "Wydrukuj pismo wygenerowane przez aplikację. Wyślij listem POLECONYM z potwierdzeniem odbioru na adres siedziby banku (NIE oddziału).",
+          "time": "1 dzień (nadanie)",
+          "cost_pln": [12, 20],
+          "tip": "Zachowaj potwierdzenie nadania + numer przesyłki. To Twój dowód że doręczyłeś."
+        },
+        {
+          "step": 3,
+          "title": "Czekaj 30 dni na odpowiedź banku",
+          "what_to_do": "Bank ma USTAWOWY obowiązek odpowiedzi w 30 dni (ustawa o reklamacjach). Brak odpowiedzi = uznanie reklamacji za rozpatrzoną zgodnie z Twoją wolą.",
+          "time": "30 dni",
+          "cost_pln": 0,
+          "tip": "Nie kontaktuj się w międzyczasie — masz pisemny ślad."
+        },
+        {
+          "step": 4,
+          "title": "Jeśli bank odmawia — wniosek do Rzecznika Finansowego",
+          "what_to_do": "Pobierz wniosek z aplikacji, dołącz: kopię umowy + Twoje oświadczenie + odpowiedź banku. Wyślij na adres Biura RF.",
+          "time": "1 dzień",
+          "cost_pln": [12, 20],
+          "tip": "RF jest BEZPŁATNY. Średni czas postępowania: 3-6 miesięcy."
+        },
+        {
+          "step": 5,
+          "title": "Jeśli RF nie pomoże — pozew do sądu",
+          "what_to_do": "Konsultacja z adwokatem/radcą prawnym. Opłata sądowa 5% wartości sporu (max 200 tys.). Większość spraw SKD wygrywa w 1. instancji.",
+          "time": "6-18 miesięcy",
+          "cost_pln": [200, 5000],
+          "tip": "Kancelarie często działają na success-fee 10-15% od wygranej."
+        }
+      ],
+      "required_documents": ["Umowa kredytu (oryginał lub kopia)", "Formularz informacyjny", "Regulamin", "Harmonogram spłat", "Wyciągi bankowe z spłat"],
+      "useful_contacts": [
+        { "name": "Rzecznik Finansowy", "url": "https://rf.gov.pl", "phone": "22 333 73 28", "email": "biuro@rf.gov.pl" },
+        { "name": "UOKiK Infolinia konsumencka", "phone": "801 440 220 (z stacjonarnego) / 22 290 89 16 (komórka)", "url": "https://uokik.gov.pl" }
+      ]
+    },
+
+    "lexitor-proporcjonalny-zwrot": {
+      "name": "Proporcjonalny zwrot kosztów po wcześniejszej spłacie",
+      "estimated_total_time_weeks": [2, 12],
+      "estimated_total_cost_pln": [0, 500],
+      "success_chance_pct": 92,
+      "steps": [
+        {
+          "step": 1,
+          "title": "Sprawdź czy spłaciłeś przed terminem",
+          "what_to_do": "Wycieczka do banku po zaświadczenie o całkowitej spłacie + data ostatniej raty + harmonogram pierwotny.",
+          "time": "1 dzień",
+          "cost_pln": 0
+        },
+        {
+          "step": 2,
+          "title": "Wyślij reklamację z żądaniem zwrotu",
+          "what_to_do": "Pismo wygenerowane przez aplikację. Powołaj się na: art. 49 ukk + wyrok TSUE C-383/18 Lexitor. Żądaj proporcjonalnego zwrotu prowizji + ubezpieczeń.",
+          "time": "1 dzień",
+          "cost_pln": [12, 20]
+        },
+        {
+          "step": 3,
+          "title": "Bank zwykle zwraca w 30 dni",
+          "what_to_do": "Większość banków obecnie zwraca bez sporu — Lexitor jest jednoznaczny. Sprawdź wpływ na konto.",
+          "time": "30 dni",
+          "cost_pln": 0
+        },
+        {
+          "step": 4,
+          "title": "Jeśli odmowa — Rzecznik Finansowy",
+          "what_to_do": "RF prawie 100% takich spraw rozstrzyga na korzyść konsumenta. Bezpłatne, 3-6 miesięcy.",
+          "time": "3-6 miesięcy",
+          "cost_pln": [12, 50]
+        }
+      ],
+      "required_documents": ["Umowa kredytu", "Zaświadczenie o spłacie", "Wyciągi"],
+      "useful_contacts": [{ "name": "Rzecznik Finansowy", "url": "https://rf.gov.pl" }]
+    },
+
+    "mpkk-nadwyzka": {
+      "name": "Zwrot nadwyżki ponad MPKK (art. 36a ukk)",
+      "estimated_total_time_weeks": [4, 16],
+      "estimated_total_cost_pln": [0, 300],
+      "success_chance_pct": 95,
+      "steps": [
+        { "step": 1, "title": "Wylicz nadwyżkę", "what_to_do": "Aplikacja zrobi to za Ciebie (kalkulator MPKK). Sprawdź breakdown w raporcie.", "time": "0 (już zrobione)", "cost_pln": 0 },
+        { "step": 2, "title": "Reklamacja z konkretną kwotą", "what_to_do": "Pismo z konkretnym żądaniem zwrotu kwoty X zł (nadwyżka ponad limit MPKK).", "time": "1 dzień", "cost_pln": [12, 20] },
+        { "step": 3, "title": "Bank musi zwrócić — nadwyżka NIEWAŻNA z mocy prawa", "what_to_do": "Art. 36a ust. 3 ukk jest jednoznaczny. Odmowa banku = pozew (95% wygranych).", "time": "30 dni", "cost_pln": 0 }
+      ],
+      "required_documents": ["Umowa kredytu z prowizjami"],
+      "useful_contacts": []
+    },
+
+    "max-odsetki-nadwyzka": {
+      "name": "Zwrot nadwyżki ponad odsetki maksymalne",
+      "estimated_total_time_weeks": [8, 26],
+      "estimated_total_cost_pln": [200, 3000],
+      "success_chance_pct": 88,
+      "steps": [
+        { "step": 1, "title": "Pobierz historię odsetek z banku", "what_to_do": "Bank musi udostępnić rozliczenie każdej raty (kapitał/odsetki/koszty).", "time": "14 dni", "cost_pln": 0 },
+        { "step": 2, "title": "Reklamacja z wyliczeniem nadpłaty", "what_to_do": "Pismo z konkretną kwotą. Powołanie: art. 359 § 2[1] kc (kapitałowe) / art. 481 § 2[1] kc (za opóźnienie).", "time": "1 dzień", "cost_pln": [12, 20] },
+        { "step": 3, "title": "Jeśli bank odmawia — pozew", "what_to_do": "Przedawnienie: 3 lata roszczeń konsumenckich (art. 118 kc). Liczy się od dnia zapłaty każdej raty.", "time": "6-12 miesięcy", "cost_pln": [200, 3000] }
+      ],
+      "required_documents": ["Umowa", "Historia rat z podziałem"],
+      "useful_contacts": []
+    },
+
+    "chf-niewaznosc": {
+      "name": "Nieważność umowy CHF/EUR (frankowicze)",
+      "estimated_total_time_weeks": [52, 156],
+      "estimated_total_cost_pln": [3000, 30000],
+      "success_chance_pct": 95,
+      "steps": [
+        { "step": 1, "title": "Wybierz kancelarię frankową (bezpłatna analiza)", "what_to_do": "Większość kancelarii oferuje bezpłatną wstępną ocenę. Porównaj kilka. Sprawdź referencje i procent wygranych spraw.", "time": "1-2 tygodnie", "cost_pln": 0 },
+        { "step": 2, "title": "Reklamacja / wezwanie do zapłaty", "what_to_do": "Kancelaria wysyła wezwanie. Niektóre banki proponują ugody (rzadko korzystne — sprawdzaj kalkulator).", "time": "30-60 dni", "cost_pln": 0 },
+        { "step": 3, "title": "Pozew o nieważność umowy", "what_to_do": "Opłata sądowa max 1000 zł (limit ustawowy dla konsumentów frankowych). Honorarium kancelarii 5-15 tys + success fee 10-15%.", "time": "12-24 miesiące", "cost_pln": [3000, 15000] },
+        { "step": 4, "title": "Apelacja (jeśli przegrasz lub bank się odwoła)", "what_to_do": "II instancja zwykle utrwala wyrok korzystny dla konsumenta. 6-12 miesięcy.", "time": "6-12 miesięcy", "cost_pln": [1000, 5000] },
+        { "step": 5, "title": "Rozliczenie z bankiem po prawomocnym wyroku", "what_to_do": "Po stwierdzeniu nieważności: bank zwraca WSZYSTKIE wpłaty, Ty oddajesz tylko kapitał (teoria dwóch kondykcji — SN III CZP 25/22).", "time": "3-6 miesięcy", "cost_pln": 0 }
+      ],
+      "required_documents": ["Umowa kredytu CHF", "Wszystkie aneksy", "Pełna historia spłat (wyciągi)", "Pierwotny harmonogram"],
+      "useful_contacts": [
+        { "name": "Stowarzyszenie Stop Bankowemu Bezprawiu", "url": "https://bankowebezprawie.pl" }
+      ]
+    },
+
+    "unww-zwrot": {
+      "name": "Zwrot składek UNWW po przekroczeniu LTV",
+      "estimated_total_time_weeks": [4, 16],
+      "estimated_total_cost_pln": [0, 1000],
+      "success_chance_pct": 80,
+      "steps": [
+        { "step": 1, "title": "Sprawdź obecny LTV", "what_to_do": "Zażądaj wyceny nieruchomości + saldo kredytu. LTV = saldo / wartość. Jeśli LTV ≤ 80% → UNWW powinno wygasnąć.", "time": "2-4 tygodnie", "cost_pln": [0, 500] },
+        { "step": 2, "title": "Reklamacja z żądaniem zwrotu", "what_to_do": "Powołanie: decyzja UOKiK DDK 19/2014. Bank musi zaprzestać pobierania składek + zwrócić pobrane po osiągnięciu progu.", "time": "1 dzień", "cost_pln": [12, 20] },
+        { "step": 3, "title": "Jeśli odmowa — RF lub pozew", "what_to_do": "Banki zwykle ustępują po wskazaniu decyzji UOKiK. Pozew tylko gdy duża kwota.", "time": "3-6 miesięcy", "cost_pln": [0, 1000] }
+      ],
+      "required_documents": ["Umowa kredytu hipotecznego", "Polisa UNWW", "Wycena nieruchomości"],
+      "useful_contacts": []
+    },
+
+    "klauzule-abuzywne-zwrot-kosztow": {
+      "name": "Zwrot kosztów wynikłych z klauzul abuzywnych",
+      "estimated_total_time_weeks": [4, 26],
+      "estimated_total_cost_pln": [0, 2000],
+      "success_chance_pct": 75,
+      "steps": [
+        { "step": 1, "title": "Zidentyfikuj klauzule (zrobione przez aplikację)", "what_to_do": "Sprawdź sekcję 'Klauzule abuzywne' w raporcie. Każda ma podstawę: wpis UOKiK lub orzecznictwo.", "time": "0", "cost_pln": 0 },
+        { "step": 2, "title": "Reklamacja z żądaniem zwrotu kosztów + wykreślenia klauzul", "what_to_do": "Klauzula abuzywna nie wiąże Cię z mocy prawa (art. 385[1] kc). Wszystkie koszty pobrane na jej podstawie podlegają zwrotowi (art. 410 kc).", "time": "1 dzień", "cost_pln": [12, 20] },
+        { "step": 3, "title": "Pozew (jeśli odmowa)", "what_to_do": "Konsultacja z adwokatem. Sprawy klauzul abuzywnych wygrywa się ~75% w I instancji.", "time": "6-12 miesięcy", "cost_pln": [200, 2000] }
+      ],
+      "required_documents": ["Umowa", "Regulamin", "Rozliczenia kosztów"],
+      "useful_contacts": [{ "name": "UOKiK rejestr klauzul niedozwolonych", "url": "https://rejestr.uokik.gov.pl" }]
+    }
+  },
+  "general_tips": [
+    "Każde pismo wysyłaj LISTEM POLECONYM z potwierdzeniem odbioru — to Twój dowód.",
+    "Zachowuj kopie WSZYSTKIEGO — pism wysłanych i otrzymanych.",
+    "30 dni dla banku liczy się od DORĘCZENIA, nie nadania.",
+    "Możesz zażądać od banku kopii dokumentów BEZPŁATNIE w 14 dni (RODO art. 15).",
+    "Przedawnienie roszczeń konsumenckich: 3 lata (art. 118 kc) — działaj sprawnie.",
+    "Sankcja kredytu darmowego: max rok od WYKONANIA umowy (interpretacja dominująca) — uważaj na termin."
+  ]
+}

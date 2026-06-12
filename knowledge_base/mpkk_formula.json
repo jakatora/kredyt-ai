@@ -1,0 +1,35 @@
+{
+  "version": "2026.05.28",
+  "source": "Art. 36a ustawy o kredycie konsumenckim — zmiana wprowadzona nowelizacją antylichwiarską (Dz.U. 2022 poz. 2339)",
+  "formula": {
+    "main": "MPKK = K * (10% + 10% * n_years)",
+    "K": "całkowita kwota kredytu (kapitał, bez kosztów)",
+    "n_years": "okres spłaty kredytu w latach (z ułamkiem; np. 18 miesięcy = 1.5)",
+    "absolute_cap_pct_of_principal": 45,
+    "absolute_cap_note": "Pozaodsetkowe koszty kredytu w całym okresie spłaty NIE MOGĄ przekroczyć 45% całkowitej kwoty kredytu — niezależnie od długości okresu",
+    "short_term_formula": "Dla kredytów ≤ 30 dni: MPKK = K * 5%"
+  },
+  "examples": [
+    { "principal_pln": 10000, "period_years": 1, "mpkk_pln": 2000, "explanation": "10000 * (0.10 + 0.10*1) = 2000" },
+    { "principal_pln": 10000, "period_years": 2, "mpkk_pln": 3000, "explanation": "10000 * (0.10 + 0.10*2) = 3000" },
+    { "principal_pln": 10000, "period_years": 5, "mpkk_pln": 4500, "explanation": "10000 * (0.10 + 0.10*5) = 6000, ale cap 45% = 4500" },
+    { "principal_pln": 1000, "period_days": 14, "mpkk_pln": 50, "explanation": "kredyt 14 dni → 1000 * 5% = 50" }
+  ],
+  "what_counts_as_mpkk": [
+    "Prowizja za udzielenie kredytu",
+    "Opłata przygotowawcza",
+    "Opłaty notarialne związane z umową",
+    "Składki ubezpieczeń kredytu (gdy obowiązkowe)",
+    "Opłaty za karty wydane do kredytu odnawialnego",
+    "Wszelkie inne opłaty i prowizje związane z udzieleniem i obsługą kredytu"
+  ],
+  "what_does_not_count": [
+    "Odsetki kapitałowe (umowne)",
+    "Odsetki za opóźnienie w spłacie",
+    "Koszty notarialne pozaumowne (np. zabezpieczenie hipoteczne — debatable)"
+  ],
+  "consequence_of_breach": {
+    "legal_ref": "art. 36a ust. 3 ukk",
+    "description": "Postanowienia umowne nakładające na konsumenta koszty wyższe niż MPKK są nieważne w zakresie nadwyżki. Konsument zwraca tylko do limitu."
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "version": "2026.05.29",
+  "description": "Few-shot examples dla Claude extractora. 3 anonimowane umowy + ground truth JSON. Każda demonstruje inny typ.",
+  "examples": [
+    {
+      "label": "Kredyt konsumencki, idealna umowa (Bank Pekao)",
+      "input_snippet": "UMOWA KREDYTU KONSUMENCKIEGO Nr 12345/2025\n\n§ 1. Dane Stron\nKredytodawca: Bank Pekao S.A., ul. Grzybowska 53/57, 00-950 Warszawa, NIP: 526-00-06-841\nKonsument: Jan Kowalski, ul. Marszałkowska 1, 00-001 Warszawa, PESEL: 80010100000\n\n§ 2. Kwota i wypłata kredytu\nCałkowita kwota kredytu: 20 000,00 zł (słownie: dwadzieścia tysięcy złotych).\nKwota do wypłaty: 19 500,00 zł (po potrąceniu prowizji 500,00 zł).\n\n§ 3. Oprocentowanie\nOprocentowanie kredytu: 10,99% w skali roku, stałe.\nOdsetki za opóźnienie: 14,00% w skali roku.\n\n§ 4. RRSO i całkowita kwota do zapłaty\nRRSO: 12,55%\nCałkowita kwota do zapłaty: 22 460,00 zł\nProwizja: 500,00 zł (potrącona z wypłaty)\n\n§ 5. Harmonogram spłat (24 raty miesięczne)\nPierwsza rata: 2025-08-01, kwota 935,83 zł\n[... pełna tabela 24 rat ...]\n\n§ 6. Prawo odstąpienia\nKonsumentowi przysługuje prawo odstąpienia od umowy w terminie 14 dni bez podania przyczyny. Wzór formularza stanowi załącznik nr 1.\n\n§ 7. Wcześniejsza spłata\nKonsument może w każdej chwili spłacić kredyt wcześniej. W przypadku wcześniejszej spłaty bank dokona proporcjonalnego zwrotu kosztów (prowizji, ubezpieczeń) zgodnie z art. 49 ukk i wyrokiem TSUE C-383/18.",
+      "expected_json": {
+        "loan_type": "konsumencki",
+        "lender": { "name": "Bank Pekao S.A.", "address": "ul. Grzybowska 53/57, 00-950 Warszawa", "nip": "526-00-06-841" },
+        "borrower": { "name": "Jan Kowalski", "pesel_masked": "80010100***", "address": "ul. Marszałkowska 1, 00-001 Warszawa" },
+        "contract_number": "12345/2025",
+        "principal_pln": 20000,
+        "currency": "PLN",
+        "interest_rate_annual_pct": 10.99,
+        "interest_type": "stała",
+        "late_interest_rate_annual_pct": 14,
+        "declared_rrso_pct": 12.55,
+        "total_amount_to_pay_pln": 22460,
+        "total_fees_pln": 500,
+        "fees_breakdown": [{ "name": "prowizja", "amount": 500 }],
+        "repayment_months": 24,
+        "first_installment_date": "2025-08-01",
+        "early_repayment_info": "Konsument może w każdej chwili spłacić wcześniej z proporcjonalnym zwrotem kosztów (art. 49 ukk + TSUE Lexitor C-383/18)",
+        "withdrawal_right_info": "14 dni, formularz w załączniku 1",
+        "withdrawal_form_attached": true,
+        "clauses_potentially_abusive": [],
+        "obligations_present": [
+          "ukk-30-1-1","ukk-30-1-2","ukk-30-1-3","ukk-30-1-5","ukk-30-1-7","ukk-30-1-8","ukk-30-1-9","ukk-30-1-10","ukk-30-1-11","ukk-30-1-12","ukk-30-1-15","ukk-30-1-16"
+        ],
+        "missing": ["ukk-30-1-4","ukk-30-1-6","ukk-30-1-13","ukk-30-1-14","ukk-30-1-17","ukk-30-1-18","ukk-30-1-19","ukk-30-1-20","ukk-30-1-21"]
+      }
+    },
+    {
+      "label": "Pożyczka chwilowa z przekroczonym MPKK (parabank)",
+      "input_snippet": "Umowa pożyczki nr P/2024/000789\nPożyczkodawca: QuickLoan Sp. z o.o.\nPożyczkobiorca: Anna Nowak\n\nKwota pożyczki: 3 000 zł\nCzas spłaty: 12 miesięcy (1 rata po 365 dniach)\nProwizja jednorazowa: 1 800 zł\nUbezpieczenie obowiązkowe: 200 zł\nOprocentowanie: 0% (TANIA POŻYCZKA!)\n\nDo spłaty łącznie: 5 000 zł.\n\nRRSO: 67% (zgodnie z wytycznymi)\n\nKonsument nie ma prawa wcześniejszej spłaty bez prowizji w wysokości 10% pozostałej kwoty.",
+      "expected_json": {
+        "loan_type": "pożyczka",
+        "lender": { "name": "QuickLoan Sp. z o.o." },
+        "borrower": { "name": "Anna Nowak" },
+        "contract_number": "P/2024/000789",
+        "principal_pln": 3000,
+        "currency": "PLN",
+        "interest_rate_annual_pct": 0,
+        "declared_rrso_pct": 67,
+        "total_amount_to_pay_pln": 5000,
+        "total_fees_pln": 2000,
+        "fees_breakdown": [{ "name": "prowizja", "amount": 1800 }, { "name": "ubezpieczenie", "amount": 200 }],
+        "repayment_months": 12,
+        "early_repayment_info": "Zastrzeżona prowizja 10% pozostałej kwoty — POTENCJALNIE SPRZECZNE z art. 49 ukk",
+        "withdrawal_right_info": null,
+        "clauses_potentially_abusive": [
+          { "text": "Konsument nie ma prawa wcześniejszej spłaty bez prowizji w wysokości 10% pozostałej kwoty.", "concern": "prowizja_wcześniejsza_spłata_pełna" }
+        ],
+        "obligations_present": ["ukk-30-1-1","ukk-30-1-2","ukk-30-1-5","ukk-30-1-7","ukk-30-1-8","ukk-30-1-9","ukk-30-1-11"],
+        "missing": ["ukk-30-1-10", "ukk-30-1-15", "ukk-30-1-16"]
+      }
+    },
+    {
+      "label": "Kredyt hipoteczny z klauzulą indeksacyjną CHF",
+      "input_snippet": "UMOWA KREDYTU HIPOTECZNEGO INDEKSOWANEGO DO CHF Nr HK/2008/0042\nKredytobiorca: Małżonkowie Kowalscy\nBank: Bank Hipoteczny S.A.\n\nKwota kredytu: 200 000 PLN, indeksowana do CHF wg kursu kupna z dnia uruchomienia.\nOkres spłaty: 360 miesięcy\nOprocentowanie: zmienne, oparte o LIBOR CHF 3M + marża 1,5%\n\n§ 7 Spłata\nSpłata rat następuje w PLN po kursie sprzedaży CHF z tabeli kursów walut Banku obowiązującej w dniu wymagalności raty.\n\n§ 12 Przewalutowanie\nBank zastrzega sobie prawo przewalutowania kredytu po kursie ustalanym według własnej tabeli.\n\nRRSO: 4,21%",
+      "expected_json": {
+        "loan_type": "hipoteczny",
+        "lender": { "name": "Bank Hipoteczny S.A." },
+        "borrower": { "name": "Małżonkowie Kowalscy" },
+        "contract_number": "HK/2008/0042",
+        "principal_pln": 200000,
+        "currency": "PLN",
+        "interest_rate_annual_pct": null,
+        "interest_type": "zmienna",
+        "interest_reference": "LIBOR CHF 3M + 1.5pp",
+        "declared_rrso_pct": 4.21,
+        "repayment_months": 360,
+        "clauses_potentially_abusive": [
+          { "text": "Spłata rat następuje w PLN po kursie sprzedaży CHF z tabeli kursów walut Banku obowiązującej w dniu wymagalności raty.", "page": null, "concern": "indeksacja" },
+          { "text": "Bank zastrzega sobie prawo przewalutowania kredytu po kursie ustalanym według własnej tabeli.", "page": null, "concern": "indeksacja" }
+        ],
+        "obligations_present": ["ukk-30-1-1","ukk-30-1-2","ukk-30-1-3","ukk-30-1-4","ukk-30-1-5","ukk-30-1-7","ukk-30-1-8","ukk-30-1-9"],
+        "missing": ["ukk-30-1-10","ukk-30-1-11","ukk-30-1-15","ukk-30-1-16"]
+      }
+    }
+  ]
+}

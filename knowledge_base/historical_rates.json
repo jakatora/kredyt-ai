@@ -1,0 +1,84 @@
+{
+  "version": "2026.05.29",
+  "description": "Historia stóp referencyjnych NBP + WIBOR 3M + WIRON od 2010. Używane do analizy umów wstecznych (sprawdzenie czy oprocentowanie w danym okresie było zgodne z prawem).",
+  "sources": [
+    "NBP — archiwum stóp procentowych",
+    "GPW Benchmark — historia WIBOR/WIRON",
+    "money.pl, bankier.pl historyczne archiwa"
+  ],
+  "_note": "Dane miesięczne — pierwszy dzień miesiąca (jeśli zmiana RPP w środku miesiąca, podana data zmiany). Aktualizacja kwartalna.",
+  "nbp_reference_rate": [
+    { "date": "2010-01-01", "rate_pct": 3.5 },
+    { "date": "2011-01-19", "rate_pct": 3.75 },
+    { "date": "2011-04-06", "rate_pct": 4.0 },
+    { "date": "2011-05-11", "rate_pct": 4.25 },
+    { "date": "2011-06-09", "rate_pct": 4.5 },
+    { "date": "2012-05-09", "rate_pct": 4.75 },
+    { "date": "2012-11-08", "rate_pct": 4.5 },
+    { "date": "2013-01-09", "rate_pct": 4.0 },
+    { "date": "2013-02-06", "rate_pct": 3.75 },
+    { "date": "2013-03-06", "rate_pct": 3.25 },
+    { "date": "2013-05-08", "rate_pct": 3.0 },
+    { "date": "2013-06-05", "rate_pct": 2.75 },
+    { "date": "2013-07-03", "rate_pct": 2.5 },
+    { "date": "2014-10-08", "rate_pct": 2.0 },
+    { "date": "2015-03-04", "rate_pct": 1.5 },
+    { "date": "2020-03-17", "rate_pct": 1.0 },
+    { "date": "2020-04-08", "rate_pct": 0.5 },
+    { "date": "2020-05-28", "rate_pct": 0.1 },
+    { "date": "2021-10-06", "rate_pct": 0.5 },
+    { "date": "2021-11-03", "rate_pct": 1.25 },
+    { "date": "2021-12-08", "rate_pct": 1.75 },
+    { "date": "2022-01-04", "rate_pct": 2.25 },
+    { "date": "2022-02-08", "rate_pct": 2.75 },
+    { "date": "2022-03-08", "rate_pct": 3.5 },
+    { "date": "2022-04-06", "rate_pct": 4.5 },
+    { "date": "2022-05-05", "rate_pct": 5.25 },
+    { "date": "2022-06-08", "rate_pct": 6.0 },
+    { "date": "2022-07-07", "rate_pct": 6.5 },
+    { "date": "2022-09-07", "rate_pct": 6.75 },
+    { "date": "2023-09-06", "rate_pct": 6.0 },
+    { "date": "2023-10-04", "rate_pct": 5.75 },
+    { "date": "2025-05-08", "rate_pct": 5.25 },
+    { "date": "2025-07-04", "rate_pct": 5.00 },
+    { "date": "2025-09-04", "rate_pct": 4.75 },
+    { "date": "2025-11-06", "rate_pct": 4.50 },
+    { "date": "2026-01-09", "rate_pct": 4.25 },
+    { "date": "2026-02-06", "rate_pct": 4.00 },
+    { "date": "2026-03-05", "rate_pct": 3.75 },
+    { "date": "2026-05-06", "rate_pct": 3.75 }
+  ],
+  "wibor_3m_avg": [
+    { "year_month": "2010-01", "rate_pct": 4.18 },
+    { "year_month": "2012-01", "rate_pct": 4.99 },
+    { "year_month": "2015-01", "rate_pct": 2.06 },
+    { "year_month": "2020-01", "rate_pct": 1.71 },
+    { "year_month": "2021-01", "rate_pct": 0.21 },
+    { "year_month": "2022-01", "rate_pct": 2.94 },
+    { "year_month": "2022-09", "rate_pct": 7.24 },
+    { "year_month": "2023-01", "rate_pct": 7.02 },
+    { "year_month": "2024-01", "rate_pct": 5.86 },
+    { "year_month": "2025-01", "rate_pct": 5.85 },
+    { "year_month": "2026-05", "rate_pct": 5.85 }
+  ],
+  "wiron_3m_avg": [
+    { "year_month": "2023-01", "rate_pct": 6.65 },
+    { "year_month": "2024-01", "rate_pct": 5.68 },
+    { "year_month": "2025-01", "rate_pct": 5.62 },
+    { "year_month": "2026-05", "rate_pct": 5.55 }
+  ],
+  "reform_timeline": {
+    "wibor_to_wiron_transition": {
+      "decision_date": "2022-07-27",
+      "decision_body": "Komitet Sterujący Narodowej Grupy Roboczej ds. reformy wskaźników referencyjnych",
+      "transition_period": "2023-2025",
+      "final_replacement": "2026-01-01",
+      "current_status": "WIRON jest oficjalnym wskaźnikiem dla nowych umów od 2026; istniejące umowy WIBOR muszą mieć fallback clause."
+    },
+    "libor_chf_discontinued": {
+      "date": "2021-12-31",
+      "replacement": "SARON (oficjalny)",
+      "impact": "Wszystkie kredyty CHF oparte o LIBOR mają problem braku wskaźnika — możliwe roszczenia."
+    }
+  }
+}

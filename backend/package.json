@@ -1,0 +1,37 @@
+{
+  "name": "kredytai-backend",
+  "version": "0.1.0",
+  "description": "KredytAI — backend module (Node.js Express) — mountable as /api/kredytai/* in PrzetargAI Railway app, also runs standalone for local dev.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test test/*.test.js",
+    "migrate": "node src/db/migrate.js",
+    "fetch-fonts": "node scripts/fetch-fonts.js",
+    "postinstall": "node scripts/fetch-fonts.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "@google-cloud/vision": "^4.0.0",
+    "better-sqlite3": "^11.0.0",
+    "express": "^4.19.0",
+    "multer": "^1.4.5-lts.1",
+    "pdfkit": "^0.15.0",
+    "pdf-parse": "^1.1.1",
+    "nanoid": "^5.0.0",
+    "zod": "^3.23.0",
+    "pino": "^9.0.0",
+    "pino-http": "^10.0.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.4.0",
+    "stripe": "^17.0.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
