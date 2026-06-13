@@ -10,6 +10,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { colors, spacing, fontSizes, radii } from "../theme";
 import { recognizeText, ocrAvailable } from "../services/ocr";
 import { createAnalysisFromPhoto, createAnalysisFromPdf, createAnalysisFromPaste, CreateAnalysisResponse } from "../lib/api";
+import { Platform } from "react-native";
+import { purchaseSingleCheck, isIapSupported } from "../services/iap";
 
 type PendingSource =
   | { kind: "photo"; uri: string; ocrText: string; confidence: number }
@@ -92,22 +94,40 @@ export function UploadScreen() {
   const payAndAnalyze = async () => {
     if (!user || !pending) return;
     setBusy(true);
+    // iOS: Apple In-App Purchase (StoreKit). Android: Stripe Checkout (web browser).
+    const usingIap = Platform.OS === "ios" && isIapSupported();
+    const paymentProvider = usingIap ? "apple_iap" : undefined;
     try {
       let resp: CreateAnalysisResponse;
       if (pending.kind === "photo") {
-        resp = await createAnalysisFromPhoto(pending.ocrText, pending.confidence, user.uid, user.email);
+        resp = await createAnalysisFromPhoto(pending.ocrText, pending.confidence, user.uid, user.email, paymentProvider);
       } else if (pending.kind === "pdf") {
-        resp = await createAnalysisFromPdf(pending.uri, user.uid, user.email);
+        resp = await createAnalysisFromPdf(pending.uri, user.uid, user.email, paymentProvider);
       } else {
-        resp = await createAnalysisFromPaste(pending.text, user.uid, user.email);
+        resp = await createAnalysisFromPaste(pending.text, user.uid, user.email, paymentProvider);
       }
-      // Otwórz Stripe checkout w przeglądarce systemowej
-      // Po powrocie deep link kredytai://stripe-success?analysis_id=X → App.tsx kieruje na Processing
-      await WebBrowser.openBrowserAsync(resp.checkout_url);
-      // Niezależnie czy user faktycznie zapłacił, dajemy mu opcję sprawdzenia statusu
-      nav.replace("Processing", { analysisId: resp.analysis_id });
+
+      if (usingIap) {
+        // iOS: trigger Apple purchase sheet. Listener w iap.ts handluje completion + backend verify
+        // + finishTransaction. My przechodzimy na Processing screen — listener doprowadzi analizę do końca.
+        await purchaseSingleCheck({ analysisId: resp.analysis_id, userId: user.uid });
+        nav.replace("Processing", { analysisId: resp.analysis_id });
+      } else {
+        // Android: open Stripe checkout w systemowej przeglądarce.
+        // Po powrocie deep link kredytai://stripe-success?analysis_id=X → App.tsx kieruje na Processing
+        if (!resp.checkout_url) {
+          throw new Error("Brak checkout_url w odpowiedzi backendu.");
+        }
+        await WebBrowser.openBrowserAsync(resp.checkout_url);
+        nav.replace("Processing", { analysisId: resp.analysis_id });
+      }
     } catch (e: any) {
-      Alert.alert(t("common.error"), e.response?.data?.message || e.message);
+      // iOS userCancelled = E_USER_CANCELLED → cichy fallback do screen wyboru.
+      if (e?.code === "E_USER_CANCELLED") {
+        // user kliknął cancel na Apple sheet — nic nie pokazujemy, zostawiamy w confirm screen.
+      } else {
+        Alert.alert(t("common.error"), e.response?.data?.message || e.message);
+      }
     } finally {
       setBusy(false);
     }
@@ -142,7 +162,11 @@ export function UploadScreen() {
           </View>
 
           <Pressable style={s.payBtn} onPress={payAndAnalyze} disabled={busy}>
-            {busy ? <ActivityIndicator color="#fff" /> : <Text style={s.payBtnText}>Zapłać 49 zł i sprawdź umowę</Text>}
+            {busy ? <ActivityIndicator color="#fff" /> : (
+              <Text style={s.payBtnText}>
+                {Platform.OS === "ios" ? "Kup za 49 zł i sprawdź umowę" : "Zapłać 49 zł i sprawdź umowę"}
+              </Text>
+            )}
           </Pressable>
 
           <Pressable style={s.cancelBtn} onPress={() => setPending(null)} disabled={busy}>
@@ -150,8 +174,10 @@ export function UploadScreen() {
           </Pressable>
 
           <Text style={s.legalNote}>
-            Cena 49 zł brutto (VAT 23%). Płatność przez Stripe. Faktura w profilu po opłacie.
-            Prawo odstąpienia w 14 dni gaśnie z chwilą uruchomienia analizy (art. 38 pkt 13 ustawy o prawach konsumenta).
+            {Platform.OS === "ios"
+              ? "Cena 49 zł brutto (VAT 23%). Zakup w App Store. Faktura w profilu po opłacie."
+              : "Cena 49 zł brutto (VAT 23%). Faktura w profilu po opłacie."}
+            {" "}Prawo odstąpienia w 14 dni gaśnie z chwilą uruchomienia analizy (art. 38 pkt 13 ustawy o prawach konsumenta).
           </Text>
           <Text style={s.disclaimer}>{t("disclaimer.full")}</Text>
         </View>

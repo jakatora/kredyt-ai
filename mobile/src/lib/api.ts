@@ -80,39 +80,73 @@ export type Violation = {
   caseLawRefs?: Array<{ signature: string; court: string; date: string; topic: string; link?: string }>;
 };
 
+export type PaymentProvider = "stripe" | "apple_iap";
+
 export type CreateAnalysisResponse = {
   analysis_id: string;
-  checkout_url: string;
-  checkout_session_id: string;
+  // Stripe path
+  checkout_url?: string;
+  checkout_session_id?: string;
+  // Apple IAP path
+  payment_provider?: PaymentProvider;
+  product_id?: string;
+  // Common
   status: "pending_payment";
   price_pln: number;
   legal_note: string;
 };
 
-export async function createAnalysisFromPaste(text: string, userId: string, email?: string): Promise<CreateAnalysisResponse> {
-  const { data } = await api.post("/analyses", { source_type: "paste", ocr_text: text, user_id: userId, email });
+export async function createAnalysisFromPaste(text: string, userId: string, email?: string, paymentProvider?: PaymentProvider): Promise<CreateAnalysisResponse> {
+  const { data } = await api.post("/analyses", { source_type: "paste", ocr_text: text, user_id: userId, email, payment_provider: paymentProvider });
   return data;
 }
 
-export async function createAnalysisFromPhoto(text: string, confidence: number, userId: string, email?: string): Promise<CreateAnalysisResponse> {
+export async function createAnalysisFromPhoto(text: string, confidence: number, userId: string, email?: string, paymentProvider?: PaymentProvider): Promise<CreateAnalysisResponse> {
   const { data } = await api.post("/analyses", {
     source_type: "photo",
     ocr_text: text,
     ocr_confidence: confidence,
     user_id: userId,
     email,
+    payment_provider: paymentProvider,
   });
   return data;
 }
 
-export async function createAnalysisFromPdf(fileUri: string, userId: string, email?: string): Promise<CreateAnalysisResponse> {
+export async function createAnalysisFromPdf(fileUri: string, userId: string, email?: string, paymentProvider?: PaymentProvider): Promise<CreateAnalysisResponse> {
   const form = new FormData();
   // @ts-ignore react-native FormData
   form.append("files", { uri: fileUri, name: "umowa.pdf", type: "application/pdf" });
   form.append("doc_labels", "umowa");
   form.append("user_id", userId);
   if (email) form.append("email", email);
+  if (paymentProvider) form.append("payment_provider", paymentProvider);
   const { data } = await api.post("/analyses", form, { headers: { "Content-Type": "multipart/form-data" } });
+  return data;
+}
+
+// === Apple IAP verify (iOS v1.1+) ===
+export type VerifyAppleReceiptArgs = {
+  user_id: string;
+  analysis_id?: string;
+  transaction_id: string;
+  original_transaction_id?: string;
+  product_id: string;
+  app_account_token?: string;
+};
+
+export type VerifyAppleReceiptResponse = {
+  ok: boolean;
+  analysis_id?: string;
+  status?: "paid" | "queued";
+  environment?: "PRODUCTION" | "SANDBOX";
+  pipeline_started?: boolean;
+  replay?: boolean;
+  error?: string;
+};
+
+export async function verifyAppleReceipt(args: VerifyAppleReceiptArgs): Promise<VerifyAppleReceiptResponse> {
+  const { data } = await api.post("/iap/verify-receipt", args);
   return data;
 }
 

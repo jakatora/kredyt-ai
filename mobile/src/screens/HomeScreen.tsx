@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useI18n } from "../i18n";
 import { colors, spacing, fontSizes, radii } from "../theme";
@@ -38,7 +38,9 @@ export function HomeScreen() {
       <View style={s.howCard}>
         <Text style={s.howTitle}>Jak to działa</Text>
         <Text style={s.howStep}>1. Wgraj zdjęcia / PDF umowy kredytowej</Text>
-        <Text style={s.howStep}>2. Zapłać 49 zł przez Stripe</Text>
+        <Text style={s.howStep}>
+          {Platform.OS === "ios" ? "2. Kup analizę w App Store (49 zł)" : "2. Zapłać 49 zł"}
+        </Text>
         <Text style={s.howStep}>3. AI sprawdza umowę (~30 sekund)</Text>
         <Text style={s.howStep}>4. Zobacz raport + wygeneruj pisma</Text>
       </View>

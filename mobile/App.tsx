@@ -12,6 +12,7 @@ import { AuthProvider } from "./src/contexts/AuthContext";
 import { I18nProvider } from "./src/i18n";
 import { OnboardingScreen } from "./src/screens/OnboardingScreen";
 import { colors } from "./src/theme";
+import { initIAP, shutdownIAP } from "./src/services/iap";
 
 const linking: LinkingOptions<any> = {
   prefixes: ["kredytai://", "https://kredytai.pl"],
@@ -47,6 +48,15 @@ export default function App() {
 
   useEffect(() => {
     AsyncStorage.getItem("kredytai:onboarded").then((v) => setOnboarded(v === "1"));
+  }, []);
+
+  // === Apple IAP (iOS): init listener na startup, cleanup na unmount. ===
+  // Listener handluje purchase events również po crash mid-flow (recovery z AsyncStorage).
+  useEffect(() => {
+    initIAP().catch((e) => console.warn("[App] initIAP failed:", e));
+    return () => {
+      shutdownIAP().catch(() => {});
+    };
   }, []);
 
   if (onboarded === null) {
