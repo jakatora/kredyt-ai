@@ -54,7 +54,7 @@ function createAnalysis({ id, userId, sourceType, sourceUrl, rawOcrText, ocrConf
 }
 
 function updateAnalysis(id, fields) {
-  const allowed = ["extracted_json", "validation_json", "reasoning_json", "risk_score", "skd_eligible", "status", "error", "cost_cents", "raw_ocr_text", "ocr_confidence", "source_url"];
+  const allowed = ["extracted_json", "validation_json", "reasoning_json", "risk_score", "skd_eligible", "status", "error", "cost_cents", "raw_ocr_text", "ocr_confidence", "source_url", "payment_provider", "iap_transaction_id", "iap_original_transaction_id"];
   const sets = [];
   const values = [];
   for (const k of Object.keys(fields)) {
@@ -201,6 +201,75 @@ function logAudit({ userId, action, entityType, entityId, metadata, ip }) {
     .run(userId, action, entityType, entityId, JSON.stringify(metadata || {}), ip, Date.now());
 }
 
+// ===== Apple IAP — idempotency receipts =====
+
+function getIapReceipt(transactionId) {
+  return getDb().prepare("SELECT * FROM kredytai_iap_receipts WHERE transaction_id = ?").get(transactionId);
+}
+
+/**
+ * Atomicznie insert IAP receipt. Zwraca:
+ *   - { inserted: true, row }                — nowy receipt zapisany
+ *   - { inserted: false, existing }          — transaction_id już zapisany (replay-protection trigger)
+ */
+function insertIapReceiptIfNew({ transactionId, originalTransactionId, userId, analysisId, productId, bundleId, environment, purchaseDateMs, signedPayloadJws, appAccountToken }) {
+  const now = Date.now();
+  try {
+    getDb()
+      .prepare(`INSERT INTO kredytai_iap_receipts
+        (transaction_id, original_transaction_id, user_id, analysis_id, product_id, bundle_id, environment, purchase_date_ms, signed_payload_jws, app_account_token, status, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'verified', ?, ?)`)
+      .run(transactionId, originalTransactionId, userId, analysisId || null, productId, bundleId, environment, purchaseDateMs, signedPayloadJws || null, appAccountToken || null, now, now);
+    return { inserted: true, row: getIapReceipt(transactionId) };
+  } catch (e) {
+    // SQLite UNIQUE constraint violation → już istnieje
+    if (/UNIQUE constraint failed|PRIMARY KEY/i.test(String(e.message))) {
+      return { inserted: false, existing: getIapReceipt(transactionId) };
+    }
+    throw e;
+  }
+}
+
+function updateIapReceiptStatus(transactionId, status, extra = {}) {
+  const now = Date.now();
+  const fields = ["status = ?", "updated_at = ?"];
+  const values = [status, now];
+  if (extra.refund_date_ms != null) {
+    fields.push("refund_date_ms = ?");
+    values.push(extra.refund_date_ms);
+  }
+  if (extra.analysis_id) {
+    fields.push("analysis_id = ?");
+    values.push(extra.analysis_id);
+  }
+  values.push(transactionId);
+  getDb().prepare(`UPDATE kredytai_iap_receipts SET ${fields.join(", ")} WHERE transaction_id = ?`).run(...values);
+  return getIapReceipt(transactionId);
+}
+
+function findIapReceiptByOriginal(originalTransactionId) {
+  return getDb()
+    .prepare("SELECT * FROM kredytai_iap_receipts WHERE original_transaction_id = ? ORDER BY purchase_date_ms DESC")
+    .all(originalTransactionId);
+}
+
+/**
+ * Mark analysis paid przez IAP (analog markAnalysisPaid dla Stripe).
+ * Atomic: tylko jeśli analysis jest w status pending_payment.
+ */
+function markAnalysisPaidByIap(analysisId, { iapTransactionId, iapOriginalTransactionId, amountPaidPln }) {
+  const now = Date.now();
+  const r = getDb()
+    .prepare(`UPDATE kredytai_analyses
+              SET status = 'paid', paid_at = ?, updated_at = ?,
+                  payment_provider = 'apple_iap',
+                  iap_transaction_id = ?, iap_original_transaction_id = ?,
+                  amount_paid_pln = ?
+              WHERE id = ? AND status = 'pending_payment'`)
+    .run(now, now, iapTransactionId, iapOriginalTransactionId, amountPaidPln, analysisId);
+  return r.changes > 0;
+}
+
 function nextMonthTs(fromTs) {
   const d = new Date(fromTs);
   d.setMonth(d.getMonth() + 1);
@@ -226,6 +295,12 @@ module.exports = {
   markAnalysisPaid,
   setStripeSession,
   findAnalysisByStripeSession,
+  // IAP idempotency
+  getIapReceipt,
+  insertIapReceiptIfNew,
+  updateIapReceiptStatus,
+  findIapReceiptByOriginal,
+  markAnalysisPaidByIap,
   saveLetter,
   getLetter,
   // quota helpers — deprecated po single_check; eksport zachowany dla testów

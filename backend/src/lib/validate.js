@@ -8,6 +8,8 @@ const schemas = {
     source_type: z.enum(["paste", "photo", "pdf"]).optional(),
     ocr_text: z.string().min(50).max(200_000).optional(),
     ocr_confidence: z.coerce.number().min(0).max(1).optional(),
+    payment_provider: z.enum(["stripe", "apple_iap"]).optional(),
+    email: z.string().email().optional(),
   }),
   generateLetter: z.object({
     analysis_id: z.string().min(5).max(40),
@@ -55,6 +57,14 @@ const schemas = {
   }),
   chatQuestion: z.object({
     question: z.string().min(3).max(500),
+  }),
+  iapVerifyReceipt: z.object({
+    user_id: userIdSchema,
+    analysis_id: z.string().min(5).max(40).optional(),
+    transaction_id: z.string().min(1).max(100),
+    original_transaction_id: z.string().min(1).max(100).optional(),
+    product_id: z.string().min(3).max(200),
+    app_account_token: z.string().uuid().optional(),
   }),
 };
 

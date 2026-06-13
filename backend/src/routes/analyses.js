@@ -105,9 +105,25 @@ router.post("/", upload.array("files", 10), validateBody("createAnalysis"), asyn
     });
     // Status nadpisany na pending_payment
     db.updateAnalysis(id, { status: "pending_payment" });
-    db.logAudit({ userId, action: "analysis_pending_payment", entityType: "analysis", entityId: id });
+    db.logAudit({ userId, action: "analysis_pending_payment", entityType: "analysis", entityId: id, metadata: { payment_provider: req.body.payment_provider || "stripe" } });
 
-    // === Stripe checkout session ===
+    // === Apple IAP path (iOS v1.1+) — pomijamy Stripe całkowicie ===
+    // Mobile wysyła payment_provider='apple_iap' przy createAnalysis na iOS.
+    // Backend: tworzy pending_payment, ZWRACA analysis_id, mobile robi requestPurchase, potem POST /iap/verify-receipt.
+    if (req.body.payment_provider === "apple_iap") {
+      db.updateAnalysis(id, { payment_provider: "apple_iap" });
+      logger.info({ analysisId: id, userId }, "analysis_pending_iap_payment");
+      return res.status(202).json({
+        analysis_id: id,
+        payment_provider: "apple_iap",
+        product_id: "pl.kredytai.app.single_check",
+        status: "pending_payment",
+        price_pln: SINGLE_CHECK_PRICE_PLN,
+        legal_note: legalNote,
+      });
+    }
+
+    // === Stripe checkout session (Android + iOS pre-v1.1 + web) ===
     // Demo mode (Apple App Review) — emaile *@kredytai.app dostają Stripe TEST z inline price.
     // Zwykli userzy idą przez LIVE z pre-defined price ID.
     const demoMode = isDemoEmail(req.body.email);

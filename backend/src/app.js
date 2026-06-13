@@ -34,8 +34,9 @@ function createApp({ authMiddleware = null, parentMounted = false } = {}) {
     app.use(pinoHttp({ logger, customLogLevel: (req, res, err) => (err || res.statusCode >= 500 ? "error" : res.statusCode >= 400 ? "warn" : "info") }));
   }
 
-  // === Stripe webhook (raw body) — MUSI być przed JSON parserem ===
+  // === Stripe webhook + Apple IAP notifications (raw body) — MUSZĄ być przed JSON parserem ===
   app.use("/stripe/webhook", express.raw({ type: "application/json" }));
+  app.use("/iap/notifications", express.raw({ type: "application/json" }));
 
   // === Body parsers dla reszty ===
   app.use(express.json({ limit: "10mb" }));
@@ -70,6 +71,12 @@ function createApp({ authMiddleware = null, parentMounted = false } = {}) {
 
   app.use(["/analyses", "/letters"], (req, res, next) => {
     if (req.method === "GET") return readLimiter(req, res, next);
+    return writeLimiter(req, res, next);
+  });
+  // IAP verify-receipt — write limiter (mobile retry-safe, idempotent ale ratelimit żeby uniknąć abuse)
+  // Notifications webhook idzie z Apple → wyłączamy limit (sygnaturalnie chronione i tak)
+  app.use("/iap", (req, res, next) => {
+    if (req.path === "/notifications") return next();
     return writeLimiter(req, res, next);
   });
   // Chat — bardziej restrykcyjny (Claude API call costuje); explain/glossary/steps — read limit
@@ -123,8 +130,15 @@ function createApp({ authMiddleware = null, parentMounted = false } = {}) {
         db: dbOk,
         kb: kbOk,
         stripe_configured: Boolean(process.env.STRIPE_PRICE_KREDYTAI_SINGLE && process.env.STRIPE_SECRET_KEY),
+        stripe_test_configured: Boolean(process.env.STRIPE_SECRET_KEY_TEST),
         anthropic_configured: Boolean(process.env.ANTHROPIC_API_KEY),
         webhook_secret_configured: Boolean(process.env.STRIPE_WEBHOOK_SECRET_KREDYTAI),
+        apple_iap_configured: Boolean(
+          process.env.APPLE_IAP_KEY_ID &&
+          process.env.APPLE_IAP_ISSUER_ID &&
+          process.env.APPLE_IAP_PRIVATE_KEY_P8 &&
+          process.env.APPLE_APP_APPLE_ID
+        ),
       },
     });
   };
@@ -155,6 +169,7 @@ function createApp({ authMiddleware = null, parentMounted = false } = {}) {
   app.use("/admin", require("./routes/admin"));
   app.use("/", require("./routes/explain"));  // /explain /glossary /steps /market-compare /chat
   app.use("/stripe", require("./routes/stripe"));
+  app.use("/iap", require("./routes/iap"));
 
   // === Error handler ===
   app.use((err, req, res, next) => {
