@@ -114,10 +114,57 @@ router.post("/webhook", express.raw({ type: "application/json" }), async (req, r
 });
 
 // GET success/cancel — proste HTML + deep link do mobile
-router.get("/success", (req, res) => {
+router.get("/success", async (req, res) => {
   const sessionId = req.query.session_id;
+  const isDemoFlow = req.query.demo === "1";
   const analysis = sessionId ? db.findAnalysisByStripeSession(sessionId) : null;
   const analysisId = analysis?.id || "";
+
+  // Demo path (Apple App Review): nie używamy webhook, weryfikujemy + uruchamiamy pipeline tu.
+  // Webhook dla LIVE działa nadal, ten branch jest tylko dla *@kredytai.app demo.
+  if (isDemoFlow && analysis && analysis.status === "pending_payment" && sessionId) {
+    try {
+      const testKey = process.env.STRIPE_SECRET_KEY_TEST;
+      if (testKey) {
+        const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${sessionId}`, {
+          headers: { Authorization: `Basic ${Buffer.from(testKey + ":").toString("base64")}` },
+        });
+        const s = await r.json();
+        if (s && s.payment_status === "paid") {
+          const changed = db.markAnalysisPaid(analysisId, {
+            stripeSessionId: sessionId,
+            stripePaymentIntent: s.payment_intent,
+            amountPaidPln: SINGLE_CHECK_PRICE_PLN,
+          });
+          if (changed) {
+            db.logAudit({
+              userId: analysis.user_id,
+              action: "demo_payment_confirmed",
+              entityType: "analysis",
+              entityId: analysisId,
+              metadata: { session_id: sessionId, demo: true },
+            });
+            const analysesRouter = require("./analyses");
+            setImmediate(() => {
+              analysesRouter.runAnalysisPipeline(analysisId, analysis.raw_ocr_text, analysis.ocr_confidence)
+                .then(() => logger.info({ analysisId }, "demo_pipeline_complete"))
+                .catch((e) => {
+                  logger.error({ analysisId, err: e.message }, "demo_pipeline_failed");
+                  db.updateAnalysis(analysisId, { status: "failed", error: e.message });
+                });
+            });
+            logger.info({ analysisId }, "demo_payment_pipeline_triggered");
+          }
+        } else {
+          logger.warn({ analysisId, payment_status: s?.payment_status }, "demo_session_not_paid");
+        }
+      } else {
+        logger.error({ analysisId }, "demo_flow_no_test_key");
+      }
+    } catch (e) {
+      logger.error({ analysisId, err: e.message }, "demo_success_verify_failed");
+    }
+  }
   res.send(`<!doctype html><html lang="pl"><meta charset="utf-8"><title>Dziękujemy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <body style="font-family:sans-serif;padding:40px;text-align:center;background:#1E3A8A;color:white;min-height:100vh;margin:0">

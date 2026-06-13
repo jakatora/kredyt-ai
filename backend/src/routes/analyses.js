@@ -25,13 +25,22 @@ const upload = multer({
 
 const BASE_URL = process.env.PUBLIC_BASE_URL || "https://backend-production-a43e3.up.railway.app";
 
-let stripeClient = null;
-function getStripe() {
-  if (!stripeClient) {
+const stripeClients = { live: null, test: null };
+function getStripe(testMode = false) {
+  const key = testMode ? "test" : "live";
+  if (!stripeClients[key]) {
     const Stripe = require("stripe");
-    stripeClient = Stripe(process.env.STRIPE_SECRET_KEY);
+    const secret = testMode ? process.env.STRIPE_SECRET_KEY_TEST : process.env.STRIPE_SECRET_KEY;
+    if (!secret) return null;
+    stripeClients[key] = Stripe(secret);
   }
-  return stripeClient;
+  return stripeClients[key];
+}
+
+// Demo mode dla Apple App Review — emaile *@kredytai.app dostają Stripe TEST
+// (karta 4242 4242 4242 4242). Real LIVE flow bez zmian dla wszystkich innych.
+function isDemoEmail(email) {
+  return typeof email === "string" && /@kredytai\.app$/i.test(email.trim());
 }
 
 /**
@@ -99,28 +108,61 @@ router.post("/", upload.array("files", 10), validateBody("createAnalysis"), asyn
     db.logAudit({ userId, action: "analysis_pending_payment", entityType: "analysis", entityId: id });
 
     // === Stripe checkout session ===
-    const priceId = getStripePriceId();
-    if (!priceId) {
+    // Demo mode (Apple App Review) — emaile *@kredytai.app dostają Stripe TEST z inline price.
+    // Zwykli userzy idą przez LIVE z pre-defined price ID.
+    const demoMode = isDemoEmail(req.body.email);
+    const stripe = getStripe(demoMode);
+    if (!stripe) {
       return res.status(503).json({
         error: "stripe_not_configured",
-        message: `Brak env STRIPE_PRICE_KREDYTAI_SINGLE — skonfiguruj w Railway.`,
+        message: demoMode
+          ? `Brak env STRIPE_SECRET_KEY_TEST — Apple Review demo nie zadziała.`
+          : `Brak env STRIPE_SECRET_KEY — LIVE Stripe nie skonfigurowany.`,
       });
     }
 
-    const session = await getStripe().checkout.sessions.create({
+    let lineItems;
+    if (demoMode) {
+      // TEST mode: inline price_data — nie wymaga pre-defined product w Stripe TEST
+      lineItems = [{
+        price_data: {
+          currency: "pln",
+          product_data: {
+            name: "KredytAI — Apple Review Demo (TEST mode)",
+            description: "Test mode for App Review. Use card 4242 4242 4242 4242 with any future expiry, any CVV.",
+          },
+          unit_amount: SINGLE_CHECK_PRICE_PLN * 100,
+        },
+        quantity: 1,
+      }];
+    } else {
+      const priceId = getStripePriceId();
+      if (!priceId) {
+        return res.status(503).json({
+          error: "stripe_not_configured",
+          message: `Brak env STRIPE_PRICE_KREDYTAI_SINGLE — skonfiguruj w Railway.`,
+        });
+      }
+      lineItems = [{ price: priceId, quantity: 1 }];
+    }
+
+    const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: lineItems,
       customer_email: req.body.email || undefined,
       client_reference_id: userId,
       // URL prefix uwzględnia zarówno standalone (/) jak i mount w PrzetargAI (/api/kredytai)
-      success_url: `${BASE_URL}${process.env.URL_PREFIX || ""}/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${BASE_URL}${process.env.URL_PREFIX || ""}/stripe/success?session_id={CHECKOUT_SESSION_ID}${demoMode ? "&demo=1" : ""}`,
       cancel_url: `${BASE_URL}${process.env.URL_PREFIX || ""}/stripe/cancel?analysis_id=${id}`,
-      metadata: { analysis_id: id, user_id: userId, amount_pln: String(SINGLE_CHECK_PRICE_PLN) },
+      metadata: { analysis_id: id, user_id: userId, amount_pln: String(SINGLE_CHECK_PRICE_PLN), demo: demoMode ? "1" : "0" },
       payment_intent_data: {
-        metadata: { analysis_id: id, user_id: userId },
-        description: `KredytAI — sprawdzenie umowy kredytowej (analiza ${id})`,
+        metadata: { analysis_id: id, user_id: userId, demo: demoMode ? "1" : "0" },
+        description: `KredytAI — sprawdzenie umowy kredytowej (analiza ${id})${demoMode ? " [DEMO]" : ""}`,
       },
     });
+    if (demoMode) {
+      logger.info({ analysisId: id, email: req.body.email }, "demo_stripe_checkout_created");
+    }
 
     db.setStripeSession(id, session.id);
     db.logAudit({ userId, action: "stripe_checkout_created", entityType: "checkout_session", entityId: session.id, metadata: { analysis_id: id, amount_pln: SINGLE_CHECK_PRICE_PLN } });
