@@ -10,13 +10,31 @@ export function ProfileScreen() {
   const { user, signOut } = useAuth();
   const nav = useNavigation<any>();
 
+  // KredytAI v1.1.1 — aplikacja jest fully anonymous (auto-generated UID per device),
+  // brak konta do logowania/rejestracji. Apple App Review 2.1(a) odrzuciło logout bez login —
+  // dlatego button "Wyloguj" usunięty. Pozostaje "Wyczyść dane lokalne" (data hygiene, NIE auth).
+  // signOut() regeneruje nowy anonimowy UID przy następnym launchu.
+  const handleClearLocalData = () => {
+    Alert.alert(
+      "Wyczyścić dane lokalne?",
+      "Twój anonimowy identyfikator zostanie usunięty z tego urządzenia. Po następnym uruchomieniu aplikacja wygeneruje nowy. Twoje analizy pozostaną na serwerze 30 dni zgodnie z polityką prywatności.",
+      [
+        { text: "Anuluj", style: "cancel" },
+        { text: "Wyczyść", style: "destructive", onPress: signOut },
+      ],
+    );
+  };
+
   return (
     <ScrollView contentContainerStyle={s.container}>
       <Text style={s.section}>Konto</Text>
       <View style={s.card}>
-        <Text style={s.label}>Identyfikator</Text>
+        <Text style={s.label}>Identyfikator (anonimowy)</Text>
         <Text style={s.value}>{user?.uid || "—"}</Text>
         {user?.email && <Text style={s.value}>{user.email}</Text>}
+        <Text style={s.label}>
+          KredytAI nie wymaga rejestracji ani logowania. Twój identyfikator jest generowany lokalnie przy pierwszym uruchomieniu i służy wyłącznie do powiązania zakupionych analiz z tym urządzeniem.
+        </Text>
       </View>
 
       <Text style={s.section}>Cena</Text>
@@ -41,17 +59,15 @@ export function ProfileScreen() {
         </View>
       </View>
 
-      <Pressable
-        style={[s.btn, s.btnDanger]}
-        onPress={() =>
-          Alert.alert("Wyloguj?", "", [
-            { text: "Anuluj", style: "cancel" },
-            { text: "Tak", onPress: signOut },
-          ])
-        }
-      >
-        <Text style={s.btnText}>{t("auth.logout")}</Text>
-      </Pressable>
+      <Text style={s.section}>Dane lokalne</Text>
+      <View style={s.card}>
+        <Text style={s.label}>
+          Możesz wyczyścić dane zapisane w aplikacji na tym urządzeniu (anonimowy identyfikator + cache).
+        </Text>
+        <Pressable style={[s.btn, s.btnDanger]} onPress={handleClearLocalData}>
+          <Text style={s.btnText}>Wyczyść dane lokalne</Text>
+        </Pressable>
+      </View>
 
       <Text style={s.disclaimer}>{t("disclaimer.full")}</Text>
     </ScrollView>
