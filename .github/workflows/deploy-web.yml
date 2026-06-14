@@ -38,11 +38,12 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
-      - name: Build (GitHub Pages with /kredyt-ai/web/ base)
+      - name: Build (GitHub Pages — root = repo name)
         env:
-          # Repo: jakatora/kredyt-ai → URL: https://jakatora.github.io/kredyt-ai/web/
-          # SPA mieszka pod /kredyt-ai/web/. Vite musi znać base path żeby asset paths były correct.
-          VITE_BASE_PATH: /kredyt-ai/web/
+          # GitHub Pages dla user.github.io/REPO/ deployuje artifact pod /REPO/, niezależnie
+          # od źródłowego folderu w repo. Vite base path = /kredyt-ai/ (a NIE /kredyt-ai/web/).
+          # Live URL: https://jakatora.github.io/kredyt-ai/
+          VITE_BASE_PATH: /kredyt-ai/
           VITE_API_BASE_URL: https://backend-kredyt-ai-production.up.railway.app
         run: npm run build
 
