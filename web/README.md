@@ -80,7 +80,7 @@ Backend whitelist'uje `client_origin` (env `ALLOWED_CLIENT_ORIGIN_HOSTS` comma-s
 
 `.github/workflows/deploy-web.yml` deploy'uje przy każdym push do `main` zmieniającym `web/**`.
 
-URL: `https://jakatora.github.io/kredyt-ai/web/`
+URL: `https://jakatora.github.io/kredyt-ai/`
 
 W env build'a:
 - `VITE_BASE_PATH=/kredyt-ai/web/` (path prefix dla GH Pages)
