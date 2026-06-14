@@ -162,14 +162,42 @@ router.post("/", upload.array("files", 10), validateBody("createAnalysis"), asyn
       lineItems = [{ price: priceId, quantity: 1 }];
     }
 
+    // Web flow: jeśli client podał client_origin (np. https://kredytai.pl) — Stripe wraca na ich domenę,
+    // nie na backend. Backend success/cancel zostają dla mobile (deep-link do app). Whitelist + URL parse
+    // chronią przed open-redirect.
+    const allowedOriginHosts = (process.env.ALLOWED_CLIENT_ORIGIN_HOSTS || "")
+      .split(",").map((s) => s.trim()).filter(Boolean);
+    let clientOrigin = null;
+    const rawOrigin = req.body.client_origin || req.body.clientOrigin;
+    if (rawOrigin) {
+      try {
+        const u = new URL(rawOrigin);
+        const isHttps = u.protocol === "https:";
+        const isLocalhost = u.hostname === "localhost" || u.hostname === "127.0.0.1";
+        const inAllowList = allowedOriginHosts.length === 0 || allowedOriginHosts.includes(u.hostname);
+        if ((isHttps || isLocalhost) && inAllowList) {
+          clientOrigin = u.origin; // bez trailing slash, bez path
+        } else {
+          logger.warn({ rawOrigin, host: u.hostname }, "client_origin_rejected");
+        }
+      } catch {
+        logger.warn({ rawOrigin }, "client_origin_invalid_url");
+      }
+    }
+    const successBase = clientOrigin
+      ? `${clientOrigin}/stripe/success`
+      : `${BASE_URL}${process.env.URL_PREFIX || ""}/stripe/success`;
+    const cancelBase = clientOrigin
+      ? `${clientOrigin}/stripe/cancel`
+      : `${BASE_URL}${process.env.URL_PREFIX || ""}/stripe/cancel`;
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
       customer_email: req.body.email || undefined,
       client_reference_id: userId,
-      // URL prefix uwzględnia zarówno standalone (/) jak i mount w PrzetargAI (/api/kredytai)
-      success_url: `${BASE_URL}${process.env.URL_PREFIX || ""}/stripe/success?session_id={CHECKOUT_SESSION_ID}${demoMode ? "&demo=1" : ""}`,
-      cancel_url: `${BASE_URL}${process.env.URL_PREFIX || ""}/stripe/cancel?analysis_id=${id}`,
+      success_url: `${successBase}?session_id={CHECKOUT_SESSION_ID}&analysis_id=${id}${demoMode ? "&demo=1" : ""}`,
+      cancel_url: `${cancelBase}?analysis_id=${id}`,
       metadata: { analysis_id: id, user_id: userId, amount_pln: String(SINGLE_CHECK_PRICE_PLN), demo: demoMode ? "1" : "0" },
       payment_intent_data: {
         metadata: { analysis_id: id, user_id: userId, demo: demoMode ? "1" : "0" },

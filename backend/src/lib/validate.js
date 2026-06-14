@@ -10,6 +10,7 @@ const schemas = {
     ocr_confidence: z.coerce.number().min(0).max(1).optional(),
     payment_provider: z.enum(["stripe", "apple_iap"]).optional(),
     email: z.string().email().optional(),
+    client_origin: z.string().url().max(200).optional(), // web flow: Stripe wraca na frontend origin
   }),
   generateLetter: z.object({
     analysis_id: z.string().min(5).max(40),
