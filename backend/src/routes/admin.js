@@ -72,4 +72,33 @@ router.post("/manual-paid/:analysisId", async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
+// POST /admin/rerun-pipeline/:analysisId — gdy webhook doszedł i markAnalysisPaid OK,
+// ale runAnalysisPipeline (setImmediate) padło przed startem (np. backend crash).
+// Akceptuje status 'paid' i 'queued'. Re-trigger pipeline jako fire-and-forget.
+router.post("/rerun-pipeline/:analysisId", async (req, res, next) => {
+  try {
+    const analysisId = req.params.analysisId;
+    const a = db.getAnalysis(analysisId);
+    if (!a) return res.status(404).json({ error: "not_found" });
+    if (!["paid", "queued"].includes(a.status)) {
+      return res.status(400).json({ error: "wrong_status", status: a.status, expected: ["paid", "queued"] });
+    }
+    if (!a.raw_ocr_text || a.raw_ocr_text.length < 50) {
+      return res.status(400).json({ error: "no_raw_text", message: "Analysis brak raw_ocr_text" });
+    }
+    db.logAudit({ userId: a.user_id, action: "pipeline_rerun_admin", entityType: "analysis", entityId: analysisId, metadata: { previousStatus: a.status } });
+    logger.info({ analysisId, previousStatus: a.status }, "admin_rerun_pipeline");
+
+    const analysesRouter = require("./analyses");
+    analysesRouter.runAnalysisPipeline(analysisId, a.raw_ocr_text, a.ocr_confidence)
+      .then(() => logger.info({ analysisId }, "admin_rerun_complete"))
+      .catch((e) => {
+        logger.error({ analysisId, err: e.message }, "admin_rerun_failed");
+        db.updateAnalysis(analysisId, { status: "failed", error: e.message });
+      });
+
+    res.json({ ok: true, analysis_id: analysisId, pipeline_started: true, previous_status: a.status });
+  } catch (e) { next(e); }
+});
+
 module.exports = router;
