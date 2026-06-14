@@ -12,7 +12,13 @@
  * - 30 dni dostępu do raportu i pism
  */
 
-const SINGLE_CHECK_PRICE_PLN = 49;
+// Env override pozwala obniżyć cenę bez nowego buildu (testowanie LIVE flow taniej).
+// Set SINGLE_CHECK_PRICE_PLN_OVERRIDE=1 na Railway → 1 zł zamiast 49. Usuń → wraca do 49.
+// Gdy override aktywny, backend nadpisze checkout również na inline price_data
+// (omijając pre-defined STRIPE_PRICE_KREDYTAI_SINGLE — to było zafiksowane na 49 zł).
+const PRICE_OVERRIDE = parseInt(process.env.SINGLE_CHECK_PRICE_PLN_OVERRIDE || "", 10);
+const SINGLE_CHECK_PRICE_PLN = Number.isFinite(PRICE_OVERRIDE) && PRICE_OVERRIDE > 0 ? PRICE_OVERRIDE : 49;
+const IS_PRICE_OVERRIDDEN = Number.isFinite(PRICE_OVERRIDE) && PRICE_OVERRIDE > 0;
 const HISTORY_DAYS = 30;
 const LETTERS_INCLUDED = 4;
 
@@ -51,11 +57,11 @@ function getSingleCheckPlan() {
 module.exports = {
   PLANS,
   SINGLE_CHECK_PRICE_PLN,
+  IS_PRICE_OVERRIDDEN,
   HISTORY_DAYS,
   LETTERS_INCLUDED,
   getStripePriceId,
   getSingleCheckPlan,
   formatPln: (pln) => `${pln} zł`,
-  legalNote:
-    "Cena 49 zł brutto (zawiera VAT 23%). Faktura VAT dostępna w profilu po opłaceniu. Prawo odstąpienia w 14 dni gaśnie z chwilą uruchomienia analizy (zgodnie z art. 38 pkt 13 ustawy o prawach konsumenta — informujemy przed zakupem).",
+  legalNote: `Cena ${SINGLE_CHECK_PRICE_PLN} zł brutto (zawiera VAT 23%). Faktura VAT dostępna w profilu po opłaceniu. Prawo odstąpienia w 14 dni gaśnie z chwilą uruchomienia analizy (zgodnie z art. 38 pkt 13 ustawy o prawach konsumenta — informujemy przed zakupem).`,
 };

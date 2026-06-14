@@ -11,7 +11,7 @@ const { extractLoanData, legalReasoning, sanityCheck } = require("../services/ai
 const { validateLoan, KB } = require("../services/validator");
 const { ocrPdf } = require("../services/ocr");
 const { checkReasoning, sanitizeReasoning } = require("../services/hallucinationGuard");
-const { SINGLE_CHECK_PRICE_PLN, getStripePriceId, legalNote } = require("../config/pricing");
+const { SINGLE_CHECK_PRICE_PLN, IS_PRICE_OVERRIDDEN, getStripePriceId, legalNote } = require("../config/pricing");
 
 const router = express.Router();
 const upload = multer({
@@ -137,15 +137,31 @@ router.post("/", upload.array("files", 10), validateBody("createAnalysis"), asyn
       });
     }
 
+    // Trzy ścieżki dla Stripe line_items:
+    //  1. demoMode → TEST keys + inline price_data (sandbox)
+    //  2. LIVE z env override price (testing tańsza) → inline price_data LIVE
+    //  3. LIVE normalny → pre-defined STRIPE_PRICE_KREDYTAI_SINGLE (49 zł)
     let lineItems;
     if (demoMode) {
-      // TEST mode: inline price_data — nie wymaga pre-defined product w Stripe TEST
       lineItems = [{
         price_data: {
           currency: "pln",
           product_data: {
             name: "KredytAI — Apple Review Demo (TEST mode)",
             description: "Test mode for App Review. Use card 4242 4242 4242 4242 with any future expiry, any CVV.",
+          },
+          unit_amount: SINGLE_CHECK_PRICE_PLN * 100,
+        },
+        quantity: 1,
+      }];
+    } else if (IS_PRICE_OVERRIDDEN) {
+      // LIVE z env override SINGLE_CHECK_PRICE_PLN_OVERRIDE — inline LIVE price_data
+      lineItems = [{
+        price_data: {
+          currency: "pln",
+          product_data: {
+            name: `KredytAI — Sprawdzenie umowy (${SINGLE_CHECK_PRICE_PLN} zł, override)`,
+            description: "Cena obniżona przez SINGLE_CHECK_PRICE_PLN_OVERRIDE env var (testing LIVE flow).",
           },
           unit_amount: SINGLE_CHECK_PRICE_PLN * 100,
         },
