@@ -1,8 +1,11 @@
 import axios from "axios";
 import Constants from "expo-constants";
 
-const baseURL = (Constants.expoConfig?.extra as any)?.apiBaseUrl ||
-  "https://backend-production-a43e3.up.railway.app/api/kredytai";
+const configuredBaseUrl = (Constants.expoConfig?.extra as any)?.apiBaseUrl;
+if (!configuredBaseUrl && __DEV__) {
+  console.warn("[api] Constants.expoConfig.extra.apiBaseUrl missing — używam dedykowanego backend-kredyt-ai");
+}
+const baseURL = configuredBaseUrl || "https://backend-kredyt-ai-production.up.railway.app";
 
 export const api = axios.create({
   baseURL,

@@ -180,24 +180,36 @@ router.post("/", upload.array("files", 10), validateBody("createAnalysis"), asyn
 
     // Web flow: client_origin (np. https://jakatora.github.io/kredyt-ai) — Stripe wraca na ich domenę
     // z zachowanym subpath. Backend success/cancel zostają dla mobile (deep-link do app).
-    // Whitelist + URL parse chronią przed open-redirect. (force-deploy marker eb24da0+)
-    const allowedOriginHosts = (process.env.ALLOWED_CLIENT_ORIGIN_HOSTS || "")
+    // Fail-CLOSED whitelist + reject path-traversal + reject userinfo (https://x@evil.com bypass).
+    const DEFAULT_ALLOWED_ORIGIN_HOSTS = ["jakatora.github.io", "kredytai.pl", "www.kredytai.pl", "localhost", "127.0.0.1"];
+    const envAllowed = (process.env.ALLOWED_CLIENT_ORIGIN_HOSTS || "")
       .split(",").map((s) => s.trim()).filter(Boolean);
+    const allowedOriginHosts = envAllowed.length > 0 ? envAllowed : DEFAULT_ALLOWED_ORIGIN_HOSTS;
     let clientOrigin = null;
     const rawOrigin = req.body.client_origin || req.body.clientOrigin;
     if (rawOrigin) {
       try {
-        const u = new URL(rawOrigin);
-        const isHttps = u.protocol === "https:";
-        const isLocalhost = u.hostname === "localhost" || u.hostname === "127.0.0.1";
-        const inAllowList = allowedOriginHosts.length === 0 || allowedOriginHosts.includes(u.hostname);
-        if ((isHttps || isLocalhost) && inAllowList) {
-          // U.origin to TYLKO protocol+host (BEZ path) — musimy ręcznie dokleić path żeby zachować
-          // subpath GH Pages (np. "/kredyt-ai"). Bez tego Stripe wraca na host root → 404.
-          const path = (u.pathname || "/").replace(/\/+$/, ""); // trim trailing slashes; "/" → ""
-          clientOrigin = u.origin + path;
+        // Pre-URL reject: path traversal + URL-encoded traversal + userinfo bypass + null bytes
+        const lowered = String(rawOrigin).toLowerCase();
+        const hasTraversal = lowered.includes("..") || lowered.includes("%2e%2e") || lowered.includes("\0") || lowered.includes("%00");
+        const hasUserinfo = String(rawOrigin).slice("https://".length).split("/")[0]?.includes("@");
+        if (hasTraversal || hasUserinfo) {
+          logger.warn({ rawOrigin, hasTraversal, hasUserinfo }, "client_origin_rejected_unsafe");
         } else {
-          logger.warn({ rawOrigin, host: u.hostname }, "client_origin_rejected");
+          const u = new URL(rawOrigin);
+          const isHttps = u.protocol === "https:";
+          const isLocalhost = u.hostname === "localhost" || u.hostname === "127.0.0.1";
+          const inAllowList = allowedOriginHosts.includes(u.hostname); // fail-CLOSED
+          // Defensywnie: reject jeśli URL parser wstawił userinfo / niezerowy port łamie host
+          const hasParsedUserinfo = (u.username || u.password) !== "";
+          if ((isHttps || isLocalhost) && inAllowList && !hasParsedUserinfo) {
+            // U.origin to TYLKO protocol+host (BEZ path) — musimy ręcznie dokleić path żeby zachować
+            // subpath GH Pages (np. "/kredyt-ai"). Bez tego Stripe wraca na host root → 404.
+            const path = (u.pathname || "/").replace(/\/+$/, ""); // trim trailing slashes; "/" → ""
+            clientOrigin = u.origin + path;
+          } else {
+            logger.warn({ rawOrigin, host: u.hostname, hasParsedUserinfo }, "client_origin_rejected");
+          }
         }
       } catch {
         logger.warn({ rawOrigin }, "client_origin_invalid_url");
