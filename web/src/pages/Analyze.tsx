@@ -49,7 +49,7 @@ export function Analyze() {
     <div className="container-narrow py-10">
       <h1 className="text-3xl font-bold text-text">Sprawdź umowę kredytową</h1>
       <p className="mt-2 text-textMuted">
-        Wklej tekst umowy albo prześlij PDF. Po opłacie 1 zł AI analizuje umowę i pokazuje pełen raport.
+        Wklej tekst umowy albo prześlij PDF. Po opłacie 2 zł AI analizuje umowę i pokazuje pełen raport.
       </p>
 
       {/* Mode tabs */}
@@ -126,7 +126,7 @@ export function Analyze() {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <div className="text-xs text-primary-100 uppercase tracking-wide">Cena</div>
-            <div className="text-4xl font-extrabold leading-none mt-1">1 zł</div>
+            <div className="text-4xl font-extrabold leading-none mt-1">2 zł</div>
             <div className="text-xs text-primary-100 mt-1">jednorazowo, faktura w 24h</div>
           </div>
           <button
@@ -134,7 +134,7 @@ export function Analyze() {
             onClick={handlePay}
             disabled={busy}
           >
-            {busy ? "Przekierowywanie do Stripe..." : "Zapłać 1 zł i sprawdź umowę"}
+            {busy ? "Przekierowywanie do Stripe..." : "Zapłać 2 zł i sprawdź umowę"}
           </button>
         </div>
       </div>
