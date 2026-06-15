@@ -19,6 +19,16 @@ export function getOrCreateUserId(): string {
   return uid;
 }
 
+/**
+ * Origin który backend wpisze do Stripe success_url. MUSI zawierać Vite BASE_URL subpath
+ * (np. https://jakatora.github.io/kredyt-ai) — inaczej Stripe wróci na hostname bez ścieżki
+ * SPA i GH Pages odda 404.
+ */
+export function getClientOrigin(): string {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, ""); // "/kredyt-ai" lub ""
+  return `${window.location.origin}${base}`;
+}
+
 export function clearLocalData(): void {
   localStorage.removeItem(UID_KEY);
   localStorage.removeItem("kredytai:web:pending_analysis");
@@ -111,7 +121,7 @@ export async function createAnalysisFromPaste(
     email,
     // Backend skonstruuje success_url z client_origin, dzięki czemu Stripe wraca na nasz web,
     // nie na backend (który normalnie pokazuje deep link do mobile).
-    client_origin: window.location.origin,
+    client_origin: getClientOrigin(),
   });
   return data;
 }
@@ -124,7 +134,7 @@ export async function createAnalysisFromPdf(
   form.append("files", file, file.name);
   form.append("doc_labels", "umowa");
   form.append("user_id", getOrCreateUserId());
-  form.append("client_origin", window.location.origin);
+  form.append("client_origin", getClientOrigin());
   if (email) form.append("email", email);
   const { data } = await api.post("/analyses", form, {
     headers: { "Content-Type": "multipart/form-data" },
