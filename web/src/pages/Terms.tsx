@@ -17,7 +17,7 @@ export function Terms() {
       <h2 className="mt-8 text-xl font-bold text-text">Najważniejsze postanowienia</h2>
       <ul className="mt-3 list-disc list-inside text-text space-y-2 text-sm">
         <li>
-          <strong>Cena.</strong> 2 zł brutto (VAT 23%) za jednorazową analizę umowy kredytowej. Faktura
+          <strong>Cena.</strong> 49 zł brutto (VAT 23%) za jednorazową analizę umowy kredytowej. Faktura
           dostępna w mailu po opłacie.
         </li>
         <li>

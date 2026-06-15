@@ -54,7 +54,7 @@ export function Home() {
           <div className="mt-10 inline-flex flex-col md:flex-row gap-3 md:gap-4 items-center bg-white/10 backdrop-blur rounded-2xl px-6 py-5 border border-white/20">
             <div className="text-left md:pr-6 md:border-r md:border-white/20">
               <div className="text-xs uppercase tracking-wide text-primary-100">Cena za sprawdzenie</div>
-              <div className="text-4xl font-extrabold leading-none mt-1">2 zł</div>
+              <div className="text-4xl font-extrabold leading-none mt-1">49 zł</div>
               <div className="text-xs text-primary-100 mt-1">jednorazowo, bez subskrypcji</div>
             </div>
             <Link to="/analyze" className="btn-accent text-base px-6 py-3.5">
@@ -116,7 +116,7 @@ export function Home() {
         <ol className="mt-8 space-y-4">
           {[
             { n: 1, title: "Wgraj umowę", body: "PDF, zdjęcia stron albo po prostu wklej tekst — w jednym kroku." },
-            { n: 2, title: "Zapłać 2 zł", body: "Bezpieczna płatność przez Stripe (karta lub BLIK)." },
+            { n: 2, title: "Zapłać 49 zł", body: "Bezpieczna płatność przez Stripe (karta lub BLIK)." },
             { n: 3, title: "AI sprawdza w 30 sek", body: "Anthropic Claude + nasza baza wiedzy prawa kredytowego." },
             { n: 4, title: "Pobierz raport + pisma", body: "Recovery plan z konkretnymi kwotami + 4 gotowe wzory pism." },
           ].map((step) => (
@@ -134,7 +134,7 @@ export function Home() {
 
         <div className="mt-10 flex flex-col sm:flex-row gap-3 items-center justify-center">
           <Link to="/analyze" className="btn-accent text-base px-7 py-3.5">
-            Sprawdź umowę za 2 zł
+            Sprawdź umowę za 49 zł
           </Link>
           <Link to="/history" className="btn-ghost text-sm">
             Zobacz swoje analizy
