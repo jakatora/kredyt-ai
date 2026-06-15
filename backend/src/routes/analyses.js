@@ -178,9 +178,9 @@ router.post("/", upload.array("files", 10), validateBody("createAnalysis"), asyn
       lineItems = [{ price: priceId, quantity: 1 }];
     }
 
-    // Web flow: jeśli client podał client_origin (np. https://kredytai.pl) — Stripe wraca na ich domenę,
-    // nie na backend. Backend success/cancel zostają dla mobile (deep-link do app). Whitelist + URL parse
-    // chronią przed open-redirect.
+    // Web flow: client_origin (np. https://jakatora.github.io/kredyt-ai) — Stripe wraca na ich domenę
+    // z zachowanym subpath. Backend success/cancel zostają dla mobile (deep-link do app).
+    // Whitelist + URL parse chronią przed open-redirect. (force-deploy marker eb24da0+)
     const allowedOriginHosts = (process.env.ALLOWED_CLIENT_ORIGIN_HOSTS || "")
       .split(",").map((s) => s.trim()).filter(Boolean);
     let clientOrigin = null;
