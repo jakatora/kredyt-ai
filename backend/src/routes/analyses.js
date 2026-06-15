@@ -192,7 +192,10 @@ router.post("/", upload.array("files", 10), validateBody("createAnalysis"), asyn
         const isLocalhost = u.hostname === "localhost" || u.hostname === "127.0.0.1";
         const inAllowList = allowedOriginHosts.length === 0 || allowedOriginHosts.includes(u.hostname);
         if ((isHttps || isLocalhost) && inAllowList) {
-          clientOrigin = u.origin; // bez trailing slash, bez path
+          // U.origin to TYLKO protocol+host (BEZ path) — musimy ręcznie dokleić path żeby zachować
+          // subpath GH Pages (np. "/kredyt-ai"). Bez tego Stripe wraca na host root → 404.
+          const path = (u.pathname || "/").replace(/\/+$/, ""); // trim trailing slashes; "/" → ""
+          clientOrigin = u.origin + path;
         } else {
           logger.warn({ rawOrigin, host: u.hostname }, "client_origin_rejected");
         }
